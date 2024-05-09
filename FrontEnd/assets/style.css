@@ -82,7 +82,13 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
+}
+h3{
+	font-family: 'Syne';
+	font-weight: 600;
+	font-size: 30px;
+	color: #1D6154;
 }
 nav ul {
 	display: flex;
@@ -121,22 +127,59 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+#portfolio {
+	width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 30px;
+    box-sizing: border-box;
+}
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
+.categorie {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	column-gap: 30px;
+	row-gap: 30px;
+}
+.categorie h3 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	border: solid 1px #1D6154;
+	border-radius: 20px;
+}
 .gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	/* width: 100%; */
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 1.33%;
+	row-gap: 20px;
+	/* justify-content: center; */
+	/* flex-wrap: wrap; */
+	box-sizing: border-box;
 }
-
-.gallery img {
-	width: 100%;
-
+.gallery figure {
+	width: 32%;
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
 }
+/* figure > img {
+	width: 100%;
+} */
+/* figure > figcaption {
+	text-align: left;
+} */
+/* .gallery img {
+	width: 100%;
+} */
 #contact {
 	width: 50%;
 margin: auto;
