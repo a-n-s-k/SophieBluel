@@ -155,6 +155,10 @@ li:hover {
 	border: solid 1px #1D6154;
 	border-radius: 20px;
 }
+.categorie h3 a {
+	text-decoration: none;
+	color: #1D6154;
+}
 .gallery {
 	/* width: 100%; */
 	display: flex;

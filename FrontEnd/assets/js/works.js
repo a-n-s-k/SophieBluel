@@ -1,6 +1,5 @@
 
 const laGalerie = document.querySelector("div.gallery");
-const lesCategories = document.querySelector("div.categorie");
 fetch('http://localhost:5678/api/works')
   .then((response) => {
     if (!response.ok) {
@@ -10,7 +9,6 @@ fetch('http://localhost:5678/api/works')
   })
   .then((data) => {
     for (const projet of data) {
-
       // Création de l'élément HTML figure
       const figureProjet = document.createElement("figure");
        // Création de l'élément HTML img
@@ -34,7 +32,7 @@ fetch('http://localhost:5678/api/works')
   .catch((error) => {
     const p = document.createElement("p");
     p.appendChild(document.createTextNode(`Error: ${error.message}`));
-    document.body.insertBefore(p, laGalerie);
+    // document.body.insertBefore(p, laGalerie);
   });
 
 
