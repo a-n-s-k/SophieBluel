@@ -7,59 +7,17 @@ function statutPromesse (response) {
 }
 
 function jsonPromesse (response) {
-  return response.json()
+  const donnees = response.json();
+  return donnees;
 }
 
-/* function creationElements () {
-      // Création de l'élément HTML figure
-      const figureProjet = document.createElement("figure");
-      // Création de l'élément HTML img
-     const imageProjet = document.createElement("img");
-     // Création de l'élément HTML figcaption
-     const figcaptionProjet = document.createElement("figcaption");
-      return;
-} */
-/* function creationAtributsElements () {
-  // Création de l'attibut src de l'élément HTML img et ajout de son contenu
- imageProjet.src = projet.imageUrl;
-  // Création de l'attibut alt de l'élément HTML img et ajout de son contenu
- imageProjet.alt = projet.title;
- // Ajout du contenu entre les balises ouvrante et fermante figcaption
- figcaptionProjet.textContent = projet.title;
- figureProjet.append(
-     imageProjet,
-     figcaptionProjet
- );
- laGalerie.appendChild(figureProjet);
-  return;
-} */
-/* function creationElements () {
-  // Création de l'élément HTML figure
-  const figureProjet = document.createElement("figure");
-  // Création de l'élément HTML img
- const imageProjet = document.createElement("img");
-  // Création de l'attibut src de l'élément HTML img et ajout de son contenu
- imageProjet.src = projet.imageUrl;
-  // Création de l'attibut alt de l'élément HTML img et ajout de son contenu
- imageProjet.alt = projet.title;
- // Création de l'élément HTML figcaption
- const figcaptionProjet = document.createElement("figcaption");
- // Ajout du contenu entre les balises ouvrante et fermante figcaption
- figcaptionProjet.textContent = projet.title;
- figureProjet.append(
-     imageProjet,
-     figcaptionProjet
- );
- laGalerie.appendChild(figureProjet);
-  return;
-} */
+
 
 function affichageProjets (data) {
   const laGalerie = document.querySelector("div.gallery");
   for (const projet of data) {
 
-
-
+if (projet.categoryId !== 0) {
     
     // Création de l'élément HTML figure
     const figureProjet = document.createElement("figure");
@@ -79,12 +37,14 @@ function affichageProjets (data) {
     );
     laGalerie.appendChild(figureProjet);
   }
+  }
   return;
 }
 
 function affichageFiltreCategorie (data) {
   const laGalerie = document.querySelector("div.gallery");
-  for (const projet of data) {
+ 
+  for (const projet of donnees) {
     // Création de l'élément HTML figure
     if (projet.categoryId === 3){
       const figureProjet = document.createElement("figure");
@@ -106,7 +66,7 @@ function affichageFiltreCategorie (data) {
     }  
   }
   return;
-  
+
 }
 
 
@@ -115,16 +75,16 @@ function affichageFiltreCategorie (data) {
   {name: 'chery', color: 'red'},
   {name: 'apple', color: 'green'},
   {name: 'grape', color: 'yellow'},
-]
-let redFruits = [];
+] */
+/* let redFruits = [];
 
-fruits.forEach (function (fruit) {
-  if (fruit.color === 'red') redFruits.push(fruit.name);
+reponse.forEach (function (donnee) {
+  if (donnee.categoryId !== 0) redFruits.push(donnee.category.name);
 })
 
-console.log(redFruits);
+console.log(redFruits); */
 
-// output: strawberry,chery */
+// output: strawberry,chery
 
 
 
@@ -166,5 +126,7 @@ function lesProjets () {
   return;
 }
 lesProjets ();
+
+
 
 
