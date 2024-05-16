@@ -55,9 +55,9 @@ function touteslesCategories () {
   }
 touteslesCategories ();
 
-/* alert(getCookie()); */
 
-let getCookies = function(){
+
+/* let getCookies = function(){
   let pairs = document.cookie.split(";");
   let cookies = {};
   for (let i=0; i<pairs.length; i++){
@@ -67,4 +67,4 @@ let getCookies = function(){
   return cookies;
 }
 var myCookies = getCookies();
-alert(myCookies.secret); // "do not tell you"
+alert(myCookies.secret); // "do not tell you" */
