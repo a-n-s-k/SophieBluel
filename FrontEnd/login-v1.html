@@ -10,7 +10,7 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/css/style.css">
     <!-- <script src="./assets/js/login.js"></script> -->
-	<script defer src="./assets/js/forms-v2.js"></script>
+	<script defer src="./assets/js/forms.js"></script>
 </head>
 <body>
 	<header>
@@ -27,33 +27,26 @@
 	<main>
 		<section id="login">
 			<h2>Log In</h2>
-			<!-- <form id="id-login">
-				<form id="id-login" action="index.html" method="post">
-				<label for="id-email">Email:</label>
-				<input type="email" name="name-email" id="id-email" oninput="validateEmailInput()" >
-				<span class="email-err"></span>
-				<span class="email-val"></span>
-				
+			<form novalidate>
+				<!-- <p>
+					<label for="mail">
+					  <span>E-mail adresse </span>
+					  <input type="email" name="name-email" id="id-email" required minlength="21" maxlength="21">
+					  <span class="error" aria-live="polite"></span>
+					</label>
+				</p>
+				<button>Submit</button> -->
 
-				<label for="id-password">Mot de passe</label>
+
+
+				<label for="email">E-mail</label>
+				<input type="email" name="name-email" id="id-email" required minlength="20" maxlength="21" pattern="/\S+@\S+\.\S+/">
+				<span class="error"></span>
+				<button>Submit</button>
+<!-- 				<label for="password">Mot de passe</label>
 				<input type="password" name="name-password" id="id-password" required>
-				<span class="password-eval"></span>
-				<button type="submit" id="id-connexion" value="connexion">Se connecter</button>
-
-			</form> -->
-			<!-- <div id="message"> -->
-				<!-- <h3>Password must contain the following:</h3>
-				<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-				<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-				<p id="number" class="invalid">A <b>number</b></p>
-				<p id="length" class="invalid">Minimum <b>8 characters</b></p> -->
-			<!-- </div> -->
-
-
-
-
-
-
+				<button type="submit" id="id-connexion" value="connexion">Se connecter</button> -->
+			</form>
 		</section>
 	</main>
 	<footer>

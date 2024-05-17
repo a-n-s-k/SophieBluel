@@ -1,4 +1,27 @@
 
+// Validation formulaire sur la page de connexion avant soumission.
+// Pour l'addresse email
+const idEmail = document.getElementById("id-mail");
+idEmail.addEventListener("input", (event) => {
+  if (idEmail.validity.typeMismatch) {
+    idEmail.setCustomValidity("On attend une adresse email !");
+  } else {
+    idEmail.setCustomValidity("");
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function seConnecter () {
