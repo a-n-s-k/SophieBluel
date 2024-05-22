@@ -225,9 +225,14 @@ margin: auto;
 
 
 /* Log In */
+
 #login {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
 	width: 50%;
 	margin: auto;
+	border: solid 1px rebeccapurple;
 }
 #login > * {
 	text-align: center;
@@ -275,6 +280,80 @@ button[type="submit"]{
 	border-radius: 60px ;
 	border: none;
 }
+input[type="email"] {
+	appearance: none;
+	width: 100%;
+	border: 1px solid #333;
+	margin: 0;
+	font-family: inherit;
+	font-size: 90%;
+	box-sizing: border-box;
+  }
+
+  
+/* Style for error messages */
+.email-err {
+	width: 100%;
+	padding: 0;
+	font-size: 80%;
+	color: white;
+	background-color: #900;
+	border-radius: 0 0 5px 5px;
+	box-sizing: border-box;
+}
+.email-err.active {
+	padding: 0.3em;
+}
+.email-val {
+	width: 100%;
+	padding: 0;
+	font-size: 80%;
+	color: white;
+	background-color: #032411;
+	border-radius: 0 0 5px 5px;
+	box-sizing: border-box;
+}
+.email-val.active {
+	padding: 0.3em;
+}
+/* The message box is shown when the user clicks on the password field */
+#message {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	display:none;
+	background: #f1f1f1;
+	color: #000;
+}
+  
+#message p {
+	padding: 10px 35px;
+	font-size: 14px;
+  }
+#message h3 {
+	font-size: 16px;
+}
+  /* Add a green text color and a checkmark when the requirements are right */
+.valid {
+	color: green;
+  }
+.valid:before {
+	content: "✔";
+  }
+  
+  /* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+	color: red;
+  }
+.invalid:before {
+	content: "✖";
+  }
+
+
+
+
+
+
 
 footer nav ul {
 	display: flex;

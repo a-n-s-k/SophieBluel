@@ -1,19 +1,13 @@
-// const boutonSeDeconnecter = document.getElementById('se-deconnecter');
-const messageErreur = document.getElementById('message-erreur');
-
-// Vérifier si un jeton de session est stocké
-const token = localStorage.getItem('token');
-
 // const formulaireConnexion = document.getElementById('formulaireConnexion');
-const boutonSeConnecter = document.querySelector(".se-connecter");
-const boutonSeDeConnecter = document.querySelector(".se-deconnecter");
+const boutonSeConnecter = document.querySelector("#se-connecter");
+const boutonSeDeConnecter = document.querySelector("#se-deconnecter");
 // const idEmail = document.getElementById("id-mail");
 
 
 
 
 function creationNavigation () {
-	const laNavigation = document.getElementById("navigation");
+	const laNavigation = document.querySelector("ul.navigation");
 
 	// Création de l'élément HTML li
 	const liNavigationPorfolio = document.createElement("li");
@@ -42,13 +36,8 @@ function creationNavigation () {
 	 aNavigationDeConnexion.setAttribute('href', './logout');
 	 aNavigationConnexion.textContent = "LogIn";
 	 aNavigationDeConnexion.textContent = "LogOut";
-	//  aNavigationConnexion.setAttribute('id', 'se-connecter');
-
-	 aNavigationConnexion.setAttribute('class', 'se-connecter');
-	 aNavigationDeConnexion.setAttribute('class', 'se-deconnecter');
-
-
-	//  aNavigationDeConnexion.setAttribute('id', 'se-deconnecter');
+	 aNavigationConnexion.setAttribute('id', 'se-connecter');
+	 aNavigationDeConnexion.setAttribute('id', 'se-deconnecter');
 
 	 aNavigationInsta.setAttribute('href', '#');
 	 imgNavigationInsta.setAttribute('src', './assets/icons/instagram.png');
@@ -63,7 +52,7 @@ function creationNavigation () {
 
 	
   
-	if (token !== null) {
+	if (token) {
 			
 			laNavigation.appendChild(
 				liNavigationPorfolio,
@@ -71,7 +60,6 @@ function creationNavigation () {
 				liNavigationDeConnexion,
 				liNavigationInsta
 			);	
-			window.location.href = 'index.html';
 	} else {
 		laNavigation.appendChild(
 			liNavigationPorfolio,
@@ -79,11 +67,9 @@ function creationNavigation () {
 			liNavigationConnexion,
 			liNavigationInsta
 		);	
-		window.location.href = 'index.html';
 	}
 }
 
-creationNavigation ()
 
 
 
@@ -92,9 +78,58 @@ creationNavigation ()
 
 
 
+// const boutonSeDeconnecter = document.getElementById('se-deconnecter');
+const messageErreur = document.getElementById('message-erreur');
+
+// Vérifier si un jeton de session est stocké
+const token = localStorage.getItem('token');
+
+const liConnexion = document.getElementById('connexion');
+const aConnexion = document.createElement("a");
 
 
-// boutonsConnexion()
+// const liConnexion = document.getElementById('connexion');
+// const aConnexionElement = liConnexion.append(aConnexion);
+
+
+/* const idDeconnexion = aConnexion.setAttribute('id', 'se-deconnecter');
+const hrefDeconnexion = aConnexion.setAttribute('href', 'logout');
+const buttonSeDeconnecter = document.createTextNode("Log Out"); */
+
+const idConnexion = aConnexion.setAttribute('id', 'se-connecter');
+const hrefConnexion = aConnexion.setAttribute('href', 'login.html');
+const buttonSeConnecter = document.createTextNode("Log In");
+
+
+// const aConnexionElement = liConnexion.append(aConnexion);
+
+function boutonsConnexion() {
+if (token) {
+	aConnexion.id = "se-deconnecter";
+	aConnexion.href = "logout";
+	aConnexion.textContent = "Log Out"
+
+    liConnexion.appendChild(aConnexion);
+
+
+/* 	aConnexion.appendChild(buttonSeDeconnecter);
+	liConnexion.append(aConnexion); */
+    // liConnexion.appendChild(aConnexion);
+
+    // Utilisateur déjà connecté, redirigez vers la page d'accueil ou autre
+    window.location.href = 'index.html';
+} else {
+	aConnexion.id = "se-connecter";
+	aConnexion.href = "login.html";
+	aConnexion.textContent = "Log In"
+
+    liConnexion.appendChild(aConnexion);
+
+	window.location.href = 'index.html';
+}
+}
+
+boutonsConnexion()
 
 boutonSeConnecter.addEventListener('submit', function(event) {
     event.preventDefault();
