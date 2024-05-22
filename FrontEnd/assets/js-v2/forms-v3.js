@@ -111,7 +111,7 @@ function createLoginForm() {
   );
   
   loginElement.appendChild(formElement);
-  // loginElement.appendChild(messagedivElement);
+  loginElement.appendChild(messagedivElement);
   }
   createLoginForm()
   
@@ -247,6 +247,34 @@ function createLoginForm() {
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+                      
   
   
   
