@@ -1,26 +1,102 @@
-import {statutPromesse, jsonPromesse} from "./mon-module.js";
-import {lesCategories, donneesCategories} from "./categories.js";
-import {affichageProjets} from "./projets.js";
 
 
-// import token from "./login.js";
+const loginElement = document.getElementById('login');
 
-/* function boutonsConnexion() {
-  if (token != null) {
-    const idConnexion = document.getElementById('connexion');
-    idConnexion.setAttribute('class', 'se-deconnecter');
-    const buttonSeDeconnecter = document.createTextNode("Se Deconnecter");
-    idConnexion.appendChild(buttonSeDeconnecter);
+/* DEBUT - Vérifier si un jeton de session est stocké et le recupéré */
+const token = localStorage.getItem('token');
+/* FIN - Vérifier si un jeton de session est stocké et le recupéré */
+
+
+/* DEBUT - Fonction Vérification du status de la réponse API */
+function statutPromesse (response) {
+  if (response.status >= 200 && response.status < 300) {
+  return Promise.resolve(response)
   } else {
-    const idConnexion = document.getElementById('connexion');
-    idConnexion.setAttribute('class', 'se-connecter');
-    const buttonConnecter = document.createTextNode("Se connecter");
-    idConnexion.appendChild(buttonConnecter);
+  return Promise.reject(new Error(response.statusText))
   }
 }
-boutonsConnexion() */
-// boutonsConnexion()
+/* FIN - Fonction Vérification du status de la réponse API */
 
+/* DEBUT - Transformation de la réponse API en objet JavaScript*/
+function jsonPromesse (response) {
+  return response.json()
+}
+/* FIN - Transformation de la réponse API en objet JavaScript*/
+
+
+/* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
+const boutonDeConnexion = document.getElementById('connexion');
+if (token) {
+  boutonDeConnexion.setAttribute('href', '#');
+  boutonDeConnexion.textContent = "Logout";
+}
+// const boutonSeConnecter = document.querySelector("#id-connexion");
+/* FIN - Recupération des boutons de Connexion et de Déconnexion */
+
+
+/* DEBUT - Action sur bouton de déconnexion */
+boutonDeConnexion.addEventListener('click', function() {
+  // Déconnectez-vous en détruisant le jeton de session
+  localStorage.removeItem('token');
+
+  // Redirigez vers la page de connexion ou autre
+  window.location.href = 'index.html';
+});
+/* FIN - Action sur bouton de déconnexion */
+
+
+
+function donneesCategories(data) {
+  // Création des Eléments des catégories
+  const lesCategories = document.querySelector("div.categorie");
+  const h30Categorie = document.createElement("h3");
+  const a0Categorie = document.createElement("a");
+  a0Categorie.href = "#";
+  a0Categorie.textContent = "Tous";
+  h30Categorie.append(a0Categorie);
+  for (const categorie of data) {
+    const h3Categorie = document.createElement("h3");
+    const aCategorie = document.createElement("a");
+    aCategorie.id = categorie.id;
+    aCategorie.onclick = "affichageCategorie()";
+    aCategorie.textContent = categorie.name;
+    h3Categorie.append(aCategorie);
+    lesCategories.prepend(h30Categorie);
+    lesCategories.appendChild(h3Categorie);
+  }
+}
+
+
+function affichageProjets (data) {
+  // Création des Eléments HTML et insersion des données projets
+  const laGalerie = document.querySelector("div.gallery");
+  for (const projet of data) {
+    if (projet.categoryId !== 0) {
+      const figureProjet = document.createElement("figure");
+      const imageProjet = document.createElement("img");
+      imageProjet.src = projet.imageUrl;
+      imageProjet.alt = projet.title;
+      const figcaptionProjet = document.createElement("figcaption");
+      figcaptionProjet.textContent = projet.title;
+      figureProjet.append(
+        imageProjet,
+        figcaptionProjet
+      );
+      laGalerie.appendChild(figureProjet);
+    }
+  }
+}
+
+
+function touteslesCategories () {
+  fetch('http://localhost:5678/api/categories')
+  .then(statutPromesse)
+  .then(jsonPromesse)
+  .then(donneesCategories)
+  .catch(function(error) {
+  console.log("Il y a un problème. Status Code:", error);
+  });
+}
 
 function lesProjets () {
   fetch('http://localhost:5678/api/works')
@@ -31,20 +107,9 @@ function lesProjets () {
   console.log("Il y a un problème. Status Code:", error);
   });
 }
+
+
 lesProjets ();
-
-
-
-lesCategories;
-function touteslesCategories () {
-    fetch('http://localhost:5678/api/categories')
-    .then(statutPromesse)
-    .then(jsonPromesse)
-    .then(donneesCategories)
-    .catch(function(error) {
-    console.log("Il y a un problème. Status Code:", error);
-    });
-  }
 touteslesCategories ();
 
 
