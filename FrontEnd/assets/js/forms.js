@@ -1,5 +1,5 @@
 
-function createLoginForm() {
+export function createLoginForm() {
     const loginElement = document.getElementById('login');
     const formElement = document.createElement("form");
   
