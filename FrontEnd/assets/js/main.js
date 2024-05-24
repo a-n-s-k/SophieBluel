@@ -23,15 +23,72 @@ function jsonPromesse (response) {
 }
 /* FIN - Transformation de la réponse API en objet JavaScript*/
 
+/* DEBUT - Création du bouton mode édition*/
+function boutonEdition() {
+  // Création des Eléments du boubon mode edition
+  const idModeEdition = document.getElementById("id-edition");
+
+  const aModeEdition = document.createElement("a");
+  aModeEdition.setAttribute('class', 'class-edition');
+  aModeEdition.setAttribute('id', 'id-modifier');
+  aModeEdition.setAttribute('href', '#');
+
+  const imageModeEdition = document.createElement("img");
+  imageModeEdition.setAttribute('src', './assets/icons/editer.png');
+  imageModeEdition.setAttribute('alt', 'Edition');
+
+  const divModeEdition = document.createElement("div");
+  divModeEdition.textContent = "Mode édition";
+
+  aModeEdition.append(imageModeEdition, divModeEdition);
+
+  idModeEdition.appendChild(aModeEdition);
+}
+/* FIN - Création du bouton mode édition*/
+
+
+/* DEBUT - Création du bouton Modifier*/
+function boutonModeModifier() {
+  // Création des Eléments du boubon modifier
+  const classDivMesProjets = document.querySelector("div.mesprojets");
+
+  const aModeModifier = document.createElement("a");
+  aModeModifier.setAttribute('class', 'modifier');
+  aModeModifier.setAttribute('id', 'id-modifier');
+  aModeModifier.setAttribute('href', '#');
+
+  const imageModeModifier = document.createElement("img");
+  imageModeModifier.setAttribute('src', './assets/icons/editer.png');
+  imageModeModifier.setAttribute('alt', 'Edition');
+
+  const divModeModifier = document.createElement("div");
+  divModeModifier.textContent = "modifier";
+
+  aModeModifier.append(imageModeModifier, divModeModifier);
+
+  classDivMesProjets.appendChild(aModeModifier);
+}
+/* FIN - Création du bouton Modifier*/
+
+
 
 /* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
 const boutonDeConnexion = document.getElementById('connexion');
 if (token) {
   boutonDeConnexion.setAttribute('href', '#');
   boutonDeConnexion.textContent = "Logout";
+  boutonEdition();
+  boutonModeModifier()
+  
+  
+} else {
+  touteslesCategories ();
 }
 // const boutonSeConnecter = document.querySelector("#id-connexion");
 /* FIN - Recupération des boutons de Connexion et de Déconnexion */
+
+
+
 
 
 /* DEBUT - Action sur bouton de déconnexion */
@@ -110,7 +167,7 @@ function lesProjets () {
 
 
 lesProjets ();
-touteslesCategories ();
+
 
 
 

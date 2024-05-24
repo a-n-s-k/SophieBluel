@@ -28,6 +28,7 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 }
@@ -48,16 +49,24 @@ table {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
+	max-width: 1440px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+header, main, footer {
+	max-width: 1140px;
+	margin:auto;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px auto;
+
 }
+
 section {
 	margin: 50px 0
 }
@@ -145,7 +154,7 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	/* margin-bottom: 1em; */
 }
 .categorie {
 	display: flex;
@@ -349,9 +358,62 @@ input[type="email"] {
 	content: "✖";
   }
 
+  /* Bouton Mode Edition */
+.class-edition {
+	display: flex;
+	height: 60px;
+	align-items: center;
+	justify-content: center;
+	column-gap: 10px;
+	background-color: #000;
+	text-decoration: none;
+	box-sizing: border-box;
+}
+
+.class-edition div {
+	color: #f1f1f1;
+}
+
+.class-edition img {
+	height: 16px;
+	width: 16px;
+}
 
 
 
+.modifier a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 10px;
+	text-decoration: none;
+}
+.modifier img {
+	display: block;
+	height: 16px;
+	width: 16px;
+}
+
+.mesprojets {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	column-gap: 30px;
+	margin-bottom: 1em;
+}
+.mesprojets h2 {
+	display: flex;
+	color: #1D6154;
+}
+.mesprojets a {
+	display: flex;
+	column-gap: 10px;
+	text-decoration: none;
+}
+.mesprojets a img {
+	height: 16px;
+	width: 16px;
+}
 
 
 
