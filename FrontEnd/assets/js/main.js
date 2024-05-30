@@ -29,8 +29,8 @@ function boutonEdition() {
   const idModeEdition = document.getElementById("id-edition");
 
   const aModeEdition = document.createElement("a");
-  aModeEdition.setAttribute('class', 'class-edition');
-  aModeEdition.setAttribute('id', 'id-modifier');
+  aModeEdition.setAttribute('class', 'edition');
+  aModeEdition.setAttribute('class', 'class-editer');
   aModeEdition.setAttribute('href', '#');
 
   const imageModeEdition = document.createElement("img");
@@ -54,7 +54,7 @@ function boutonModeModifier() {
 
   const aModeModifier = document.createElement("a");
   aModeModifier.setAttribute('class', 'modifier');
-  aModeModifier.setAttribute('id', 'id-modifier');
+  aModeModifier.setAttribute('class', 'class-modifier');
   aModeModifier.setAttribute('href', '#');
 
   const imageModeModifier = document.createElement("img");
@@ -164,8 +164,6 @@ function lesProjets () {
   console.log("Il y a un problème. Status Code:", error);
   });
 }
-
-
 lesProjets ();
 
 
