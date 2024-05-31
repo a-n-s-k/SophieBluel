@@ -1,4 +1,7 @@
-
+import { statutPromesse, jsonPromesse, affichageErreurs} from  "./manage.js";
+import { createElementsCategories, createElementsWorks} from  "./categories.js";
+import { createElementsEdition, createElementsModification} from  "./edition.js";
+import { createElementsModale} from  "./modale.js";
 
 const loginElement = document.getElementById('login');
 
@@ -7,80 +10,13 @@ const token = localStorage.getItem('token');
 /* FIN - Vérifier si un jeton de session est stocké et le recupéré */
 
 
-/* DEBUT - Fonction Vérification du status de la réponse API */
-function statutPromesse (response) {
-  if (response.status >= 200 && response.status < 300) {
-  return Promise.resolve(response)
-  } else {
-  return Promise.reject(new Error(response.statusText))
-  }
-}
-/* FIN - Fonction Vérification du status de la réponse API */
-
-/* DEBUT - Transformation de la réponse API en objet JavaScript*/
-function jsonPromesse (response) {
-  return response.json()
-}
-/* FIN - Transformation de la réponse API en objet JavaScript*/
-
-/* DEBUT - Création du bouton mode édition*/
-function boutonEdition() {
-  // Création des Eléments du boubon mode edition
-  const idModeEdition = document.getElementById("id-edition");
-
-  const aModeEdition = document.createElement("a");
-  aModeEdition.setAttribute('class', 'edition');
-  aModeEdition.setAttribute('class', 'class-editer');
-  aModeEdition.setAttribute('href', '#');
-
-  const imageModeEdition = document.createElement("img");
-  imageModeEdition.setAttribute('src', './assets/icons/editer.png');
-  imageModeEdition.setAttribute('alt', 'Edition');
-
-  const divModeEdition = document.createElement("div");
-  divModeEdition.textContent = "Mode édition";
-
-  aModeEdition.append(imageModeEdition, divModeEdition);
-
-  idModeEdition.appendChild(aModeEdition);
-}
-/* FIN - Création du bouton mode édition*/
-
-
-/* DEBUT - Création du bouton Modifier*/
-function boutonModeModifier() {
-  // Création des Eléments du boubon modifier
-  const classDivMesProjets = document.querySelector("div.mesprojets");
-
-  const aModeModifier = document.createElement("a");
-  aModeModifier.setAttribute('class', 'modifier');
-  aModeModifier.setAttribute('class', 'class-modifier');
-  aModeModifier.setAttribute('href', '#');
-
-  const imageModeModifier = document.createElement("img");
-  imageModeModifier.setAttribute('src', './assets/icons/editer.png');
-  imageModeModifier.setAttribute('alt', 'Edition');
-
-  const divModeModifier = document.createElement("div");
-  divModeModifier.textContent = "modifier";
-
-  aModeModifier.append(imageModeModifier, divModeModifier);
-
-  classDivMesProjets.appendChild(aModeModifier);
-}
-/* FIN - Création du bouton Modifier*/
-
-
-
 /* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
 const boutonDeConnexion = document.getElementById('connexion');
 if (token) {
   boutonDeConnexion.setAttribute('href', '#');
   boutonDeConnexion.textContent = "Logout";
-  boutonEdition();
-  boutonModeModifier()
-  
-  
+  createElementsEdition();
+  createElementsModification();
 } else {
   touteslesCategories ();
 }
@@ -103,69 +39,93 @@ boutonDeConnexion.addEventListener('click', function() {
 
 
 
-function donneesCategories(data) {
-  // Création des Eléments des catégories
-  const lesCategories = document.querySelector("div.categorie");
-  const h30Categorie = document.createElement("h3");
-  const a0Categorie = document.createElement("a");
-  a0Categorie.href = "#";
-  a0Categorie.textContent = "Tous";
-  h30Categorie.append(a0Categorie);
-  for (const categorie of data) {
-    const h3Categorie = document.createElement("h3");
-    const aCategorie = document.createElement("a");
-    aCategorie.id = categorie.id;
-    aCategorie.onclick = "affichageCategorie()";
-    aCategorie.textContent = categorie.name;
-    h3Categorie.append(aCategorie);
-    lesCategories.prepend(h30Categorie);
-    lesCategories.appendChild(h3Categorie);
-  }
-}
-
-
-function affichageProjets (data) {
-  // Création des Eléments HTML et insersion des données projets
-  const laGalerie = document.querySelector("div.gallery");
-  for (const projet of data) {
-    if (projet.categoryId !== 0) {
-      const figureProjet = document.createElement("figure");
-      const imageProjet = document.createElement("img");
-      imageProjet.src = projet.imageUrl;
-      imageProjet.alt = projet.title;
-      const figcaptionProjet = document.createElement("figcaption");
-      figcaptionProjet.textContent = projet.title;
-      figureProjet.append(
-        imageProjet,
-        figcaptionProjet
-      );
-      laGalerie.appendChild(figureProjet);
-    }
-  }
-}
-
 
 function touteslesCategories () {
-  fetch('http://localhost:5678/api/categories')
-  .then(statutPromesse)
-  .then(jsonPromesse)
-  .then(donneesCategories)
-  .catch(function(error) {
-  console.log("Il y a un problème. Status Code:", error);
-  });
+  fetch('http://localhost:5678/api/categories', {
+      method: "GET"
+  })
+.then(statutPromesse)
+.then(jsonPromesse)
+.then(createElementsCategories)
+.catch(affichageErreurs);
 }
 
 function lesProjets () {
-  fetch('http://localhost:5678/api/works')
-  .then(statutPromesse)
-  .then(jsonPromesse)
-  .then(affichageProjets)
-  .catch(function(error) {
-  console.log("Il y a un problème. Status Code:", error);
-  });
+  fetch('http://localhost:5678/api/works', {
+      method: "GET"
+  })
+.then(statutPromesse)
+.then(jsonPromesse)
+.then(createElementsWorks)
+.catch(affichageErreurs);
 }
+
 lesProjets ();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* DEBUT - Recupération du lien de la Modification */
+const classBoutonModifier = document.querySelector("main section div a.class-modifier");
+const classBoutonEditer = document.querySelector("div a.class-editer");
+
+const idModale = document.getElementById("id-modale");
+
+/* FIN - Recupération du lien de la Modification */
+
+function lesModProjets () {
+  fetch('http://localhost:5678/api/works')
+  .then(statutPromesse)
+  .then(jsonPromesse)
+  .then(createElementsModale)
+  .catch(affichageErreurs);
+};
+
+
+// When the user clicks the button, open the modal 
+classBoutonModifier.onclick = function () {
+  idModale.setAttribute('class', 'modale-visible');
+  lesModProjets();
+}
+classBoutonEditer.onclick = function () {
+  idModale.setAttribute('class', 'modale-visible');
+  lesModProjets();
+}
+/* FIN - Création de la fenêtre modale */
+
+// Get the div element that closes the modal
+
+function closeAndRemoveElements() {
+  const toRemovedElements = document.getElementById("modale-gallery-content");
+  toRemovedElements.remove();
+}
+
+const divModClose = document.querySelector("div div div.class-mod-close");
+
+// When the user clicks on <span> (x), close the modal
+divModClose.onclick = function() {
+  closeAndRemoveElements();
+  idModale.setAttribute('class', 'modale-invisible');
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == idModale) {
+    closeAndRemoveElements();
+    idModale.setAttribute('class', 'modale-invisible');
+  }
+}
 
 

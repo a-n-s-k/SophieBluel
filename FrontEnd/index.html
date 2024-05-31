@@ -7,23 +7,27 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/css/style.css">
-	<script src="./assets/js/main.js" defer ></script>
-	<script src="./assets/js/modales.js" defer ></script>
+	<script type="module" src="./assets/js/main.js"></script>
+	<script type="module" src="./assets/js/modale.js"></script>
+
 </head>
 <body>
-	<div id="id-modale" class="class-modale">
+	<div id="id-modale" class="modale-invisible">
 		<div class="class-mod-content">
 			<div class="class-mod-close">x</div>
 			<div class="class-mod-title">Galerie photo</div>
-			<section class="section-class-mod-content"></section>
+			<section id="section-id-mod-content">
+				<!-- <div id="modale-gallery-content"></div> -->
+			</section>
 			<button class="bouton-mod-ajouter">Ajouter une photo</button>
 		</div>
 	</div>
-	<div id="id-edition">
-	</div>
-
+	<div id="id-edition" class="class-edition-invisible" ></div>
 	<header>
 			<h1>Sophie Bluel<span>Architecte d'intérieur</span></h1>
 			<nav>
@@ -36,20 +40,6 @@
 			</nav>
 	</header>
 	<main>
-
-<!-- 		<button id="myBtn">Open Modal</button>
-	
-		<div id="myModal" class="modal">
-			
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p>Some text in the Modal..</p>
-			</div>
-		</div> -->
-	
-
-
-
 		<section id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
@@ -62,28 +52,14 @@
 			</article>
 		</section>
 		<section id="portfolio">
-
-
-
 			<div class="mesprojets">
 				<h2>Mes Projets</h2>
-				<!-- <a class="modifier" id="id-modifier" href="#">
-					<img src="./assets/icons/editer.png" alt="Edition">
-					<div>Modifier</div>
-				</a> -->
 			</div>
-		
-				
-			
-
-
 			<!-- Début Affichage des catégories -->
-			<div class="categorie">
-			</div>
+			<div class="categorie"></div>
 			<!-- Fin Affichage des catégories -->
 			<!-- Début Affichage des projets -->
-			<div class="gallery">
-			</div>
+			<div class="gallery"></div>
 			<!-- Fin Affichage des projets -->
 		</section>
 		<section id="contact">

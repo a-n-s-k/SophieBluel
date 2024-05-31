@@ -1,5 +1,4 @@
 
-
 /* DEBUT - Création formulaire de connexion à l'administration du site */
 function createLoginForm() {
 	// Création des Eléments HTML pour la connexion
