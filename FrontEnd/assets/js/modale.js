@@ -1,7 +1,16 @@
+const selectIdModale = document.getElementById("id-modale");
+
+
+
 /* DEBUT - Création de la fenêtre modale */
 export function createElementsModale (data) {
+  // Modification de l'attibut de visibilité
+  selectIdModale.setAttribute('class', 'modale-visible');
+
   // Création des Eléments HTML et insersion des données projets
   const selectSectionContent = document.getElementById("section-id-mod-content");
+
+
 
   const createDivModaleGalleryContent = document.createElement("div");
   createDivModaleGalleryContent.setAttribute('id', 'modale-gallery-content');
@@ -32,12 +41,17 @@ export function createElementsModale (data) {
     }
   }
 }
-  
+/* FIN - Création de la fenêtre modale */  
 
 
 
-
-
+/* DEBUT - Suppression ou Fermeture de la fenêtre modale */
+export function closeAndRemoveElements() {
+  selectIdModale.setAttribute('class', 'modale-invisible');
+  const toRemovedElements = document.getElementById("modale-gallery-content");
+  toRemovedElements.remove();
+}
+/* FIN - Suppression ou Fermeture de la fenêtre modale */
 
 
 
