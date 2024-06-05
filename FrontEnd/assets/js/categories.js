@@ -22,10 +22,21 @@ export function createElementsCategories(data) {
 
 
 /* DEBUT Création des Eléments HTML et insersion des données travaux */
+
 export function createElementsWorks (data) {
   const selectDivGallery = document.querySelector("div.gallery");
   for (const work of data) {
-    if (work.categoryId !== 0) {
+    // if (work.categoryId !== 0) {
+      idCategories.addEventListener('click', function(event) {
+
+        const  idCategory = event.target.querySelector("main section div button.id");
+        const createFigureWorks = document.createElement("figure");
+        createFigureWorks.id = work.id;
+
+        if (work.categoryId == idCategory) {
+          
+
+
       const createFigureWorks = document.createElement("figure");
       const createImageWorks = document.createElement("img");
       createImageWorks.src = work.imageUrl;
@@ -38,10 +49,26 @@ export function createElementsWorks (data) {
       );
       selectDivGallery.appendChild(createFigureWorks);
     }
+    });
+ // }
   }
 }
-/* DEBUT Création des Eléments HTML et insersion des données travaux */
+/* FIN Création des Eléments HTML et insersion des données travaux */
 
+
+
+/* DEBUT Suppression des Eléments HTML et Utilisation du filtre */
+
+function removeWorks() {
+  // Récupération de l'élément galerie d'index.html
+  const gallerygetGalleryElement = document.getElementsByClassName("gallery").item(0);
+  // Suppression des enfants de l'élément galerie
+  while (gallerygetGalleryElement.firstChild) {
+    gallerygetGalleryElement.removeChild(gallerygetGalleryElement.firstChild);
+  };
+};
+
+/* FIN Suppression des Eléments HTML et Utilisation du filtre */
 
 
 
