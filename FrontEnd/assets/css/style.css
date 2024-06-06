@@ -2,9 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-* {
-	box-sizing: border-box;
-}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -28,9 +26,8 @@ time, mark, audio, video {
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: flex;
+	display: block;
 }
-
 body {
 	line-height: 1;
 }
@@ -51,23 +48,16 @@ table {
 }
 /** end reset css**/
 body {
+	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-
-header, main, footer {
-	max-width: 1140px;
-	margin:auto;
-}
-
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px auto;
-
+	margin: 50px 0
 }
-
 section {
 	margin: 50px 0
 }
@@ -92,15 +82,8 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154;
+	color: #1D6154
 }
-h3{
-	font-family: 'Syne';
-	font-weight: 600;
-	font-size: 30px;
-	color: #1D6154;
-}
-
 nav ul {
 	display: flex;
 	align-items: center;
@@ -114,22 +97,19 @@ nav li {
 nav a {
 	text-decoration: none;
 }
+
 li:hover {
 	color: #B1663C;
 }
-
-
-
 #introduction {
 	display: flex;
 	align-items: center;
-	box-sizing: border-box;
 }
 #introduction figure {
 	flex: 1
 }
 #introduction img {
-	display: flex;
+	display: block;
 	margin: auto;
 	width: 80%;
 }
@@ -144,53 +124,22 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio {
-	width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: 30px;
-    box-sizing: border-box;
-}
 #portfolio h2 {
 	text-align: center;
-	/* margin-bottom: 1em; */
-}
-.categorie {
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-	column-gap: 30px;
-	row-gap: 30px;
-}
-.categorie h3 {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 10px;
-	border: solid 1px #1D6154;
-	border-radius: 20px;
-}
-.categorie h3 a {
-	text-decoration: none;
-	color: #1D6154;
+	margin-bottom: 1em;
 }
 .gallery {
-	/* width: 100%; */
-	display: flex;
-	flex-wrap: wrap;
-	column-gap: 1.33%;
-	row-gap: 20px;
-	box-sizing: border-box;
-}
-.gallery figure {
-	width: 32%;
-	display: flex;
-	flex-direction: column;
-	row-gap: 10px;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 20px;
+	grid-row-gap: 20px;
 }
 
+.gallery img {
+	width: 100%;
+
+}
 #contact {
 	width: 50%;
 margin: auto;
@@ -223,41 +172,6 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-
-/* Log In */
-
-#login {
-	display: flex;
-	flex-direction: column;
-	row-gap: 20px;
-	width: 50%;
-	margin: auto;
-	border: solid 1px rebeccapurple;
-}
-#login > * {
-	text-align: center;
-
-}
-#login h2{
-	margin-bottom: 20px;
-}
-#login form {
-	text-align: left;
-	margin-top:30px;
-	display: flex;
-	flex-direction: column;
-}
-
-#login input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-#login label {
-	margin: 2em 0 1em 0;
-}
-
 input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
@@ -268,144 +182,6 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
-button[type="submit"]{
-	height: 36px;
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-	border: none;
-}
-input[type="email"] {
-	appearance: none;
-	width: 100%;
-	border: 1px solid #333;
-	margin: 0;
-	font-family: inherit;
-	font-size: 90%;
-	box-sizing: border-box;
-  }
-
-  
-/* Style for error messages */
-.email-err {
-	width: 100%;
-	padding: 0;
-	font-size: 80%;
-	color: white;
-	background-color: #900;
-	border-radius: 0 0 5px 5px;
-	box-sizing: border-box;
-}
-.email-err.active {
-	padding: 0.3em;
-}
-.email-val {
-	width: 100%;
-	padding: 0;
-	font-size: 80%;
-	color: white;
-	background-color: #032411;
-	border-radius: 0 0 5px 5px;
-	box-sizing: border-box;
-}
-.email-val.active {
-	padding: 0.3em;
-}
-/* The message box is shown when the user clicks on the password field */
-#message {
-	display: flex;
-	flex-direction: column;
-	row-gap: 10px;
-	display:none;
-	background: #f1f1f1;
-	color: #000;
-}
-  
-#message p {
-	padding: 10px 35px;
-	font-size: 14px;
-  }
-#message h3 {
-	font-size: 16px;
-}
-  /* Add a green text color and a checkmark when the requirements are right */
-.valid {
-	color: green;
-  }
-.valid:before {
-	content: "✔";
-  }
-  
-  /* Add a red text color and an "x" when the requirements are wrong */
-.invalid {
-	color: red;
-  }
-.invalid:before {
-	content: "✖";
-  }
-
-  /* Bouton Mode Edition */
-.class-edition {
-	display: flex;
-	height: 60px;
-	align-items: center;
-	justify-content: center;
-	column-gap: 10px;
-	background-color: #000;
-	text-decoration: none;
-	box-sizing: border-box;
-}
-.class-edition-invisible {
-	display: none;
-}
-.class-editer {
-	display: flex;
-	column-gap: 10px;
-	color: white;
-	text-decoration: none;
-}
-
-
-
-.class-modifier, .class-editer  img {
-	height: 16px;
-	width: 16px;
-}
-
-.modifier a {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	column-gap: 10px;
-	text-decoration: none;
-}
-
-.mesprojets {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	column-gap: 30px;
-	margin-bottom: 1em;
-}
-.mesprojets h2 {
-	display: flex;
-	color: #1D6154;
-}
-.mesprojets a {
-	display: flex;
-	column-gap: 10px;
-	text-decoration: none;
-}
-.mesprojets a img {
-	height: 16px;
-	width: 16px;
-}
-
 
 /* DEBUT Les Modales */
 .modale-visible {
@@ -417,117 +193,40 @@ input[type="email"] {
 	height: 100%;
 	background: gray;
 	opacity: 0.9;
-
-	
   }
 .modale-invisible {
 	display: none;
 }
-  .class-mod-content {
-	display: flex;
-	row-gap: 10px;
-	flex-direction: column;
-	align-items: center;
 
-	justify-content: center;
-	width: 630px;
-	height: 688px;
-	background-color: white;
-	opacity: 1;
-	box-sizing: border-box;
-	border-radius: 10px;
 
-  }
 
-  .class-mod-title {
-	font-size: 26px;
-	font-weight: normal;
-  }
 
-  #modale-gallery-content {
-	width: 420px;
-	display: flex;
-	flex-wrap: wrap;
-	column-gap: 15px;
-	row-gap: 20px;
-	box-sizing: border-box;
-	padding: 22px;
-	
-  }
-  #modale-gallery-content figure {
-	width: 82px;
-	height: 104px;
-	display: flex;
-	flex-direction: column;
-	row-gap: 10px;
-}
-  
-  /* The Close Button */
-  .class-mod-close {
-	display: flex;
-	justify-content: right;
-	margin-right: 36px;
-	margin-top: -26px;
-	width: 630px;
-	height: 30px;
-	font-size: 24px;
-	font-weight: bold;
-  }
-  
-  .class-mod-close:hover,
-  .class-mod-close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-  }
 
-  .bouton-mod-ajouter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	width: 237px;
-    height: 36px;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 19px;
-	color: white;
-    background-color: #1D6154;
-    border-radius: 18px;
-}
-.class-work-image {
-	position: absolute;
-	width: 82px;
-	height: 104px;
-/*     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0.7;
-    background: red; */
-}
-.button-work-remove {
-	width: 17px;
-	height: 17px;
-    z-index: 10;
-	background-color: #000;
-	border: none;
-	border-radius: 4px;
-	margin: 8px 8px 96px 58px;
-}
-.fa-solid, .fa-trash-can{
-	font-size: 10px;
-	color: white;
-	text-align: center;
 
-/*     margin: 30px;
-    background: green; */
-}   
 
-/* FIN Les Modales */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
-
