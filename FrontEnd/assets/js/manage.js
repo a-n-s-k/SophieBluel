@@ -1,3 +1,7 @@
+
+
+
+
 /* DEBUT - Fonction Vérification du status de la réponse API */
 export function statutPromesse (response) {
   if (response.status >= 200 && response.status < 300) {

@@ -1,54 +1,53 @@
 import { statutPromesse, jsonPromesse, affichageErreurs} from  "./manage.js";
-import { createElementsCategories, createElementsWorks} from  "./categories.js";
+import { functionCategoryElements, createElementsWorks} from  "./categories.js";
 import { createElementsEdition, createElementsModification} from  "./edition.js";
 import { createElementsModale, closeAndRemoveElements} from  "./modale.js";
+import { filterCategory} from  "./filter.js";
 
 const loginElement = document.getElementById('login');
 
-/* DEBUT - Vérifier si un jeton de session est stocké et le recupéré */
+/* DEBUT - Vérifier si un jeton est stocké et le recupéré */
 const token = localStorage.getItem('token');
-/* FIN - Vérifier si un jeton de session est stocké et le recupéré */
+/* FIN - Vérifier si un jeton est stocké et le recupéré */
 
-
-
-
+/* DEBUT - Déconnexion */
+const boutonDeConnexion = document.getElementById('connexion');
+function deConnexion () {
+  boutonDeConnexion.setAttribute('href', '#');
+  boutonDeConnexion.textContent = "Logout";
+  /* DEBUT - Action sur bouton de déconnexion */
+  boutonDeConnexion.addEventListener('click', function() {
+    // Déconnexion en détruisant le locale storage
+    localStorage.removeItem('token');
+    // Redirection vers la page d'accueil
+    window.location.href = 'index.html';
+  })
+  /* FIN - Action sur bouton de déconnexion */
+}
+/* FIN - Déconnexion */
 
 
 /* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
-const boutonDeConnexion = document.getElementById('connexion');
 if (token) {
-  boutonDeConnexion.setAttribute('href', '#');
-  boutonDeConnexion.textContent = "Logout";
+  deConnexion ();
   createElementsEdition();
   createElementsModification();
   lesProjets ();
 
 } else {
-  touteslesCategories ();
-  lesProjets ();
+touteslesCategories ();
+lesProjets ();
 }
-// const boutonSeConnecter = document.querySelector("#id-connexion");
 /* FIN - Recupération des boutons de Connexion et de Déconnexion */
-
-
-/* DEBUT - Action sur bouton de déconnexion */
-boutonDeConnexion.addEventListener('click', function() {
-  // Déconnectez-vous en détruisant le jeton de session
-  localStorage.removeItem('token');
-
-  // Redirigez vers la page de connexion ou autre
-  window.location.href = 'index.html';
-});
-/* FIN - Action sur bouton de déconnexion */
 
 
 function touteslesCategories () {
   fetch('http://localhost:5678/api/categories', {
-      method: "GET"
-  })
+    method: "GET"
+})
 .then(statutPromesse)
 .then(jsonPromesse)
-.then(createElementsCategories)
+.then(functionCategoryElements)
 .catch(affichageErreurs);
 }
 
@@ -62,27 +61,24 @@ function lesProjets () {
 .catch(affichageErreurs);
 }
 
-// lesProjets ();
 
 
 
 
-/* DEBUT - Recupération du lien de la Modification */
+// DEBUT - Recupération du lien de la Modification 
 const classBoutonModifier = document.querySelector("main section div a.class-modifier");
 const classBoutonEditer = document.querySelector("div a.class-editer");
 
 const idModale = document.getElementById("id-modale");
 
-/* FIN - Recupération du lien de la Modification */
+// FIN - Recupération du lien de la Modification 
 
 function lesModProjets () {
-  if (token) {
   fetch('http://localhost:5678/api/works')
   .then(statutPromesse)
   .then(jsonPromesse)
   .then(createElementsModale)
   .catch(affichageErreurs);
-  }
 };
 
 
@@ -92,7 +88,7 @@ classBoutonModifier.addEventListener('click', lesModProjets);
 
 // Création et Afficahage de la Modale en cliquant sur le bouton Editer
 classBoutonEditer.addEventListener('click', lesModProjets);
-/* FIN - Création de la fenêtre modale */
+// FIN - Création de la fenêtre modale
 
 
 // Recupération du bouton X
@@ -111,14 +107,6 @@ window.addEventListener('click', function(event) {
 
 
 
-
-/* const  idCategories = document.querySelector("main section div.categorie");
-idCategories.addEventListener('click', function(event) {
-  const idCategory = event.target.getAttribute('id');
-  if (work.categoryId == idCategory) {
-    lesProjets ();
-  }
-}); */
 
 
 

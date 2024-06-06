@@ -1,4 +1,20 @@
+import { statutPromesse, jsonPromesse, affichageErreurs} from  "./manage.js";
+
+const token = localStorage.getItem('token');
 const selectIdModale = document.getElementById("id-modale");
+
+
+
+
+/* DEBUT - Recupération du lien de la Modification */
+const classBoutonModifier = document.querySelector("main section div a.class-modifier");
+const classBoutonEditer = document.querySelector("div a.class-editer");
+
+const idModale = document.getElementById("id-modale");
+
+/* FIN - Recupération du lien de la Modification */
+
+
 
 
 
@@ -52,6 +68,9 @@ export function closeAndRemoveElements() {
   toRemovedElements.remove();
 }
 /* FIN - Suppression ou Fermeture de la fenêtre modale */
+
+
+
 
 
 
