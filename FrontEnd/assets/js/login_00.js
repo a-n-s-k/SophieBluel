@@ -1,9 +1,3 @@
-// IDENTIFIANTS
-const loginEmail = document.getElementById("id-email").value;
-const loginPassword = document.getElementById("id-password").value;
-
-
-
 
 /* DEBUT - Création formulaire de connexion à l'administration du site */
 function createLoginForm() {
@@ -59,6 +53,8 @@ const boutonDeConnexion = document.getElementById('connexion');
 
 
 /* DEBUT - Action sur bouton de connexion */
+
+
 const formulaireConnexion = document.getElementById('id-login');
 const boutonDeconnexion = document.getElementById('boutonDeconnexion');
 const messageErreur = document.getElementById('messageErreur');
@@ -75,8 +71,8 @@ if (token) {
 formulaireConnexion.addEventListener('submit', function(event) {
     event.preventDefault();
 
-/*     const loginEmail = document.getElementById("id-email").value;
-    const loginPassword = document.getElementById("id-password").value; */
+    const loginEmail = document.getElementById("id-email").value;
+    const loginPassword = document.getElementById("id-password").value;
 
     // Envoyez les informations d'identification à l'API distante
     fetch('http://localhost:5678/api/users/login', {

@@ -1,108 +1,138 @@
-import { statutPromesse, jsonPromesse, affichageErreurs} from  "./manage.js";
-import { functionCategoryElements, createElementsWorks} from  "./categories.js";
-import { createElementsEdition, createElementsModification} from  "./edition.js";
-import { createElementsModale, closeAndRemoveElements} from  "./modale.js";
-import { filterCategory} from  "./filter.js";
 
-const loginElement = document.getElementById('login');
-
-/* DEBUT - Vérifier si un jeton est stocké et le recupéré */
-const token = localStorage.getItem('token');
-/* FIN - Vérifier si un jeton est stocké et le recupéré */
-
-/* DEBUT - Déconnexion */
-const boutonDeConnexion = document.getElementById('connexion');
-function deConnexion () {
-  boutonDeConnexion.setAttribute('href', '#');
-  boutonDeConnexion.textContent = "Logout";
-  /* DEBUT - Action sur bouton de déconnexion */
-  boutonDeConnexion.addEventListener('click', function() {
-    // Déconnexion en détruisant le locale storage
-    localStorage.removeItem('token');
-    // Redirection vers la page d'accueil
-    window.location.href = 'index.html';
-  })
-  /* FIN - Action sur bouton de déconnexion */
-}
-/* FIN - Déconnexion */
-
-
-/* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
-if (token) {
-  deConnexion ();
-  createElementsEdition();
-  createElementsModification();
-  lesProjets ();
-
-} else {
-touteslesCategories ();
-lesProjets ();
-}
-/* FIN - Recupération des boutons de Connexion et de Déconnexion */
-
-
-function touteslesCategories () {
-  fetch('http://localhost:5678/api/categories', {
-    method: "GET"
-})
-.then(statutPromesse)
-.then(jsonPromesse)
-.then(functionCategoryElements)
-.catch(affichageErreurs);
-}
-
-function lesProjets () {
-  fetch('http://localhost:5678/api/works', {
-      method: "GET"
-  })
-.then(statutPromesse)
-.then(jsonPromesse)
-.then(createElementsWorks)
-.catch(affichageErreurs);
-}
-
-
-
-
-
-// DEBUT - Recupération du lien de la Modification 
-const classBoutonModifier = document.querySelector("main section div a.class-modifier");
-const classBoutonEditer = document.querySelector("div a.class-editer");
-
-const idModale = document.getElementById("id-modale");
-
-// FIN - Recupération du lien de la Modification 
-
-function lesModProjets () {
-  fetch('http://localhost:5678/api/works')
-  .then(statutPromesse)
-  .then(jsonPromesse)
-  .then(createElementsModale)
-  .catch(affichageErreurs);
-};
-
-
-if (token) {
-// Création et Afficahage de la Modale en cliquant sur le bouton Modifier
-classBoutonModifier.addEventListener('click', lesModProjets);
-
-// Création et Afficahage de la Modale en cliquant sur le bouton Editer
-classBoutonEditer.addEventListener('click', lesModProjets);
-// FIN - Création de la fenêtre modale
-
-
-// Recupération du bouton X
-const divModClose = document.querySelector("div div div.class-mod-close");
-// Fermeture et Suppression de la Modale en cliquant sur le bouton X
-divModClose.addEventListener('click', closeAndRemoveElements);
-
-// Fermeture et Suppression de la Modale en cliquant ailleur en dehor de la Modale
-window.addEventListener('click', function(event) {
-  if (event.target == idModale) {
-    closeAndRemoveElements();
+// Clean LocalStorage Function
+function cleanLocalStorage() {
+  for(const key in localStorage) {
+      delete localStorage[key];
   }
-});
 }
+// cleanLocalStorage();
+
+// Works API URL and LocalStorage key
+const urlWorks = 'http://localhost:5678/api/works';
+const clefLocalStorageWorks = 'ls-works'
+
+// Categories API URL and LocalStorage key
+const urlCategories = 'http://localhost:5678/api/categories';
+const clefLocalStorageCategories = 'ls-categories'
+
+// Get Element by class gallery
+const selectDivGallery = document.querySelector(".gallery");
+// const selectDivGallery = document.getElementsByName('.gallery');
+console.log(selectDivGallery);
+
+
+
+// Async Function For Fetch Data and Save To LocalStorage
+async function fetchDataAndSaveToLocalStorage(url, key) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Erreur de requête : ${response.status}`);
+    }
+    const data = await response.json();
+
+
+
+    const storedData = localStorage.getItem(key)
+    if (!storedData) {
+      // const userData = JSON.parse(storedData)
+      localStorage.setItem(key, JSON.stringify(data));
+      return data;
+
+    } else if (storedData.length !== data.length ){
+      localStorage.setItem(key, JSON.stringify(data));
+      return data;
+      // console.log('User data not found in local storage')
+    } else {
+      const worksData = JSON.parse(storedData)
+      return worksData;
+    }
+
+
+
+
+
+/*     localStorage.setItem(key, JSON.stringify(data));
+    return data; */
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+
+// LocalStorage Works
+const donneesWorks = fetchDataAndSaveToLocalStorage(urlWorks, clefLocalStorageWorks);
+// Valeur LocalStorage Works
+const valeurLocalStorageWorks = localStorage[clefLocalStorageWorks];
+console.log(valeurLocalStorageWorks);
+// Longueur Valeur LocalStorage Works
+const longueurValeurLocalStorageWorks = valeurLocalStorageWorks.length;
+console.log(longueurValeurLocalStorageWorks);
+
+
+
+// LocalStorage Catgories
+const donneesCategories = fetchDataAndSaveToLocalStorage(urlCategories, clefLocalStorageCategories);
+// Valeur LocalStorage Works
+const valeurLocalStorageCategories = localStorage[clefLocalStorageCategories];
+console.log(valeurLocalStorageCategories);
+// Longueur Valeur LocalStorage Works
+const longueurValeurLocalStorageCategories = valeurLocalStorageCategories.length;
+console.log(longueurValeurLocalStorageCategories);
+
+
+
+// DEBUT Boucle sur les clés
+/* for (let i=0; i< localStorage.length; i++) {
+  let clef = localStorage.key(i);
+  let valeur = localStorage[clef];
+  console.log(`localStorage ${clef}:  ${valeur}`);
+} */
+// FIN Boucle sur les clés
+
+
+
+
+
+export function createElementsWorks(data, targetElement) {
+  // Ensure targetElement exists and is a valid element
+  if (!targetElement || !targetElement.nodeType === 1) {
+    console.error('Invalid target element provided. Please provide a valid DOM element.');
+    return;
+  }
+
+  // Fragment for efficient DOM manipulation
+  const fragment = document.createDocumentFragment();
+
+  for (const work of data) {
+    console.log(work);
+    const figure = document.createElement("figure");
+    figure.classList.add("cat-filter", work.categoryId);
+
+    const image = document.createElement("img");
+    image.src = work.imageUrl;
+    image.alt = work.title;
+
+    const figcaption = document.createElement("figcaption");
+    figcaption.textContent = work.title;
+
+    figure.append(image, figcaption);
+    fragment.appendChild(figure);
+  }
+
+  // Append all elements at once
+  targetElement.appendChild(fragment);
+}
+
+
+
+
+
+createElementsWorks(valeurLocalStorageWorks, selectDivGallery);
+
+
+
 
 
 
