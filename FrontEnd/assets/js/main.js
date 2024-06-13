@@ -1,18 +1,21 @@
-import { statutPromesse, jsonPromesse, affichageErreurs} from  "./manage.js";
-import { createElementsCategories, createElementsWorks} from  "./categories.js";
+import { statutPromesse, jsonPromesse, affichageErreurs, setLocalStorage, removeFromLocalStorage} from  "./manage.js";
+import { createElementsCategories} from  "./categories.js";
+import { createElementsWorks} from  "./works.js";
 import { createElementsEdition, createElementsModification} from  "./edition.js";
+
 import { createElementsModale} from  "./modale.js";
 
 const loginElement = document.getElementById('login');
 
+
 /* DEBUT - Vérifier si un jeton de session est stocké et le recupéré */
-const token = localStorage.getItem('token');
+const getSessionToken = sessionStorage.getItem('tokenKey');
 /* FIN - Vérifier si un jeton de session est stocké et le recupéré */
 
 
 /* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
 const boutonDeConnexion = document.getElementById('connexion');
-if (token) {
+if (getSessionToken) {
   boutonDeConnexion.setAttribute('href', '#');
   boutonDeConnexion.textContent = "Logout";
   createElementsEdition();
@@ -20,24 +23,16 @@ if (token) {
 } else {
   touteslesCategories ();
 }
-// const boutonSeConnecter = document.querySelector("#id-connexion");
 /* FIN - Recupération des boutons de Connexion et de Déconnexion */
-
-
-
-
 
 /* DEBUT - Action sur bouton de déconnexion */
 boutonDeConnexion.addEventListener('click', function() {
   // Déconnectez-vous en détruisant le jeton de session
-  localStorage.removeItem('token');
-
+  sessionStorage.removeItem('tokenKey');
   // Redirigez vers la page de connexion ou autre
   window.location.href = 'index.html';
 });
 /* FIN - Action sur bouton de déconnexion */
-
-
 
 
 function touteslesCategories () {
@@ -60,21 +55,7 @@ function lesProjets () {
 .catch(affichageErreurs);
 }
 
-lesProjets ();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+lesProjets();
 
 
 /* DEBUT - Recupération du lien de la Modification */
@@ -128,4 +109,12 @@ window.onclick = function(event) {
   }
 }
 
+
+// Clean LocalStorage Function
+function cleanLocalStorage() {
+  for(const key in localStorage) {
+      delete localStorage[key];
+  }
+}
+// cleanLocalStorage();
 

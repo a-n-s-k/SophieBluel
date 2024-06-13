@@ -24,6 +24,36 @@ export function affichageErreurs (error) {
 
 
 
+// Function for Set Local Storage
+export function setLocalStorage(key, value) {
+	// Check if local storage is available
+	if (typeof localStorage !== "undefined") {
+	  // Convert value to string if not already
+	  if (typeof value !== "string") {
+		value = JSON.stringify(value);
+	  }
+	
+	  localStorage.setItem(key, value);
+	} else {
+	  // Handle error if local storage is not supported
+	  console.error("Local storage is not supported by this browser.");
+	}
+  }
+
+  
+  
+// Funtion for Remove from Local Storage
+  export function removeFromLocalStorage(key) {
+	// Check if local storage is available
+	if (typeof localStorage !== "undefined") {
+	  localStorage.removeItem(key);
+	} else {
+	  // Handle error if local storage is not supported
+	  console.error("Local storage is not supported by this browser.");
+	}
+  }
+
+
 
 
 
