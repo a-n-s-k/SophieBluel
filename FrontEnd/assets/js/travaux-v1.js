@@ -2,6 +2,7 @@
 let works = window.localStorage.getItem("storedWorks");
 let categories = window.localStorage.getItem("storedCategories");
 const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
+const selectDivCategorie = document.querySelector(".categories");
 
 const urlApiWorks = "http://localhost:5678/api/works";
 const urlApiCategories = "http://localhost:5678/api/categories";
@@ -17,7 +18,7 @@ const catId = window.addEventListener('click', onClick); */
 
 async function worksElements (work, sectionDivGallery) {
     const figureElement = document.createElement('figure'); // Création de la balise figure pour chaque projet
-    figureElement.setAttribute('class', `projet cat-${work.categoryId}`);  // Création de l'attribut class pour figure
+    figureElement.setAttribute('class', `cat-${work.categoryId}`);  // Création de l'attribut class pour figure
     figureElement.setAttribute('id', `${work.id}`);  // Création de l'attribut id et recupération de sa valeur pour figure
     
     const imgElement = document.createElement('img');  // Création de la balise img pour chaque projet
@@ -45,9 +46,33 @@ async function getWorks() {
     } else {
         works = JSON.parse(works);
     }
-return works;
+    async function generateWorks() {
+        for (const work of works) {
+
+/*             const buttonCatId = document.querySelector(".categ");
+            buttonCatId.addEventListener("click", myFunction);
+
+            function myFunction() {
+            const catId = buttonCatId.getAttribute("id").split(" ")[0];
+            console.log(catId);
+            } */
+
+
+
+
+            //if (work.categoryId === 1) {
+                worksElements(work, sectionDivGallery);
+            //} else {
+               // worksElements(work, sectionDivGallery);
+                //sectionDivGallery.innerHTML = "";
+            //}
+            
+        }
+        
+    }
+    generateWorks()
 }
-//getWorks();
+getWorks();
 
 
 async function getCategories() {
@@ -59,7 +84,7 @@ async function getCategories() {
     } else {
         categories = JSON.parse(categories);
     }
-return categories;
+    categoriesElements(categories);
 }
 getCategories();
 
@@ -69,45 +94,26 @@ getCategories();
 
 
 // WORKS
-async function generateWorks(getWorks) {
-	//for (let i = 0; i < works.length; i++) {
-    //const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
-
-
+/* async function generateWorks() {
     for (const work of works) {
         worksElements(work, sectionDivGallery);
-
-/*         if (work.categoryId > 0 ) {
-            worksElements(work, sectionDivGallery);
-
-        } else if (work.categoryId === 1) {
-            worksElements(work, sectionDivGallery);
-        }
- */
-
-
     }
-		//const work = works[i]; // Variable pour parcourir chaque projet
-		
-		
-	//}
-    //return;
-}
+} */
 
 
 
 
 //generateFilterWorks(works);
-generateWorks(works);
+//generateWorks(works);
 
-const figureWorkClass = document.querySelector(".projet").getAttribute("class").split(" ")[1]; 
-console.log(figureWorkClass);
+/* const figureWorkClass = document.querySelector(".projet").getAttribute("class").split(" ")[1]; 
+console.log(figureWorkClass); */
 
 
 // CATEGORIES
-const selectDivCategorie = document.querySelector(".categories");
+
 /* DEBUT Création des Eléments des catégories */
-async function generateCategories(categories) {
+async function categoriesElements(categories) {
   const buttonElementAll = document.createElement("button");
   buttonElementAll.id = "cat-0";
   buttonElementAll.setAttribute('class', 'categ');
@@ -126,16 +132,71 @@ async function generateCategories(categories) {
 
   }
 }
-generateCategories(categories);
+//categoriesElements(categories);
 /* FIN Création des Eléments des catégories */
 
-const buttonCatId = document.querySelector(".categ").getAttribute("id").split(" ")[0];
-console.log(buttonCatId);
 
 
 
+/* function myFunction() {
+    //document.getElementById("demo").innerHTML = "Hello World";
+    const buttonCatId = document.querySelector(".categ").getAttribute("id").split(" ")[0];
+    console.log(buttonCatId);
+}
+myFunction(); */
 
-function generateFilterWorks() {
+//const buttonCatId = document.querySelectorAll(".categ");
+//const catId = buttonCatId.getAttribute("id");
+//buttonCatId.addEventListener("click", myFunction);
+//console.log(catId);
+
+/* for (const name of buttonCatId.getAttributeNames()) {
+    const value = buttonCatId.getAttribute(name);
+    console.log(name, value);
+  } */
+
+
+
+//const catAttributes = document.querySelector(".categ"); 
+//let catIdAttributes = catAttributes.getAttribute("id");
+//document.getElementById("demo").innerHTML = catIdAttributes;
+
+    const catAll = document.getElementById("cat-0");
+    const idCatAll = catAll.getAttribute("id");
+
+
+    const cat1 = document.getElementById("cat-1").getAttribute("id");
+    const cat2 = document.getElementById("cat-2").getAttribute("id");
+    const cat3 = document.getElementById("cat-3").getAttribute("id");
+    //const cat4 = document.getElementById("cat-4").getAttribute("id");
+
+
+    console.log(idCatAll);
+    console.log(cat1);
+    console.log(cat2);
+
+console.log(cat3);
+//console.log(cat4);
+
+//const element = document.getElementById("myBtn");
+/* catAttributes.addEventListener("click", function() {
+    let catIdAttributes = catAttributes.getAttribute("id");
+    let workClassAttributes = workAttributes.getAttribute("class");
+    console.log(catIdAttributes);
+    console.log(workClassAttributes);
+ */
+
+
+
+/* if ( catIdAttributes === workClassAttributes) {
+console.log(catIdAttributes);
+console.log(workClassAttributes);
+//getWorks();
+} */
+//});
+
+
+/* function generateFilterWorks() {
     const works = JSON.parse(localStorage.getItem('storedWorks'));
     let listWorks = [];
 
@@ -148,7 +209,7 @@ function generateFilterWorks() {
     generateWorks(listWorks)
     
 } 
-generateFilterWorks();
+generateFilterWorks(); */
 
 
 
