@@ -2,18 +2,68 @@
 let works = window.localStorage.getItem("storedWorks");
 let categories = window.localStorage.getItem("storedCategories");
 const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
+const selectDivCategorie = document.querySelector(".categories");
 
 const urlApiWorks = "http://localhost:5678/api/works";
 const urlApiCategories = "http://localhost:5678/api/categories";
 
-
-/* const onClick = (event) => {
-    if (event.target.nodeName === 'BUTTON') {
-        const clickedCatId = event.target.id;
-        console.log(clickedCatId);
-    }   
+const storedWorks = localStorage.getItem("storeWorks");
+if (storedWorks === null) {  // Récupération des works depuis l'API s'il n'y rien dans le localStorage
+    const reponse = await fetch(urlApiWorks);
+    works = await reponse.json();  // Transformation des works en JSON
+    const valeurWorks = JSON.stringify(works); // Transformation des works en Objets pour pouvoir les stocker en localStorage
+    window.localStorage.setItem("storeWorks", valeurWorks); // Stockage des informations dans le localStorage
+} else {
+    works = JSON.parse(localStorage.getItem("storeWorks"));
 }
-const catId = window.addEventListener('click', onClick); */
+
+for (let i = 0; i < works.length; i++) {
+    const work = works[i];
+    for (const key in work) {
+        const categorie = work.category;
+        for (const key in categorie) {
+            if (categorie.name === "Appartements") {
+                console.log(key+":", categorie[key]);
+                console.log(key+":", work[key]);
+            }
+            //console.log(key+":", categorie[key]);
+        }
+        //console.log(key+":", work[key]);
+    }
+}
+
+
+const storedCategories = localStorage.getItem("storeCategories");
+if (storedCategories === null) {  // Récupération des categories depuis l'API s'il n'y rien dans le localStorage
+    const reponse = await fetch(urlApiCategories);
+    categories = await reponse.json();  // Transformation des categories en JSON
+    const valeurCategories = JSON.stringify(categories); // Transformation des categories en Objets pour pouvoir les stocker en localStorage
+    window.localStorage.setItem("storeCategories", valeurCategories); // Stockage des informations dans le localStorage 
+} else {
+    categories = JSON.parse(localStorage.getItem("storeCategories"));
+}
+
+
+
+/* async function getWorks() {
+    if (storedWorks === null) {  // Récupération des works depuis l'API s'il n'y rien dans le localStorage
+        const reponse = await fetch(urlApiWorks);
+        works = await reponse.json();  // Transformation des works en JSON
+        const valeurWorks = JSON.stringify(works); // Transformation des works en Objets pour pouvoir les stocker en localStorage
+        window.localStorage.setItem("storeWorks", valeurWorks); // Stockage des informations dans le localStorage
+        return localStorage.getItem("storeWorks");
+    } else {
+        //works = JSON.parse(works);
+        //works = JSON.parse(localStorage.getItem("storeWorks"));
+        //works = localStorage.getItem("storeWorks").json();
+        //works = localStorage.getItem("storeWorks");
+        return storedWorks;
+    }
+}
+console.log(getWorks()); */
+
+
+
 
 async function worksElements (work, sectionDivGallery) {
     const figureElement = document.createElement('figure'); // Création de la balise figure pour chaque projet
@@ -28,29 +78,15 @@ async function worksElements (work, sectionDivGallery) {
     figcaptionElement.textContent = work.title;  // Insertion du titre pour le projet
 
     figureElement.appendChild(imgElement, figcaptionElement);  // Insertion des balises enfants img et figcaption à leur parent figure
-    //figureElement.dataset.category = work.category; // Ajoutez la catégorie à l'élément work
-    //figureElement.setAttribute('id', `${work.id}`);  // Création de l'attribut id et recupération de sa valeur pour figure
 
     sectionDivGallery.appendChild(figureElement);  // Insertion des balises figure à son parent div
 }
 
 
 
-async function getWorks() {
-    if (works === null) {  // Récupération des works depuis l'API s'il n'y rien dans le localStorage
-        const reponse = await fetch(urlApiWorks);
-        works = await reponse.json();  // Transformation des works en JSON
-        const valeurWorks = JSON.stringify(works); // Transformation des works en Objets pour pouvoir les stocker en localStorage
-        window.localStorage.setItem("storedWorks", valeurWorks); // Stockage des informations dans le localStorage 
-    } else {
-        works = JSON.parse(works);
-    }
-return works;
-}
-//getWorks();
 
 
-async function getCategories() {
+/* async function getCategories() {
     if (categories === null) {  // Récupération des categories depuis l'API s'il n'y rien dans le localStorage
         const reponse = await fetch(urlApiCategories);
         categories = await reponse.json();  // Transformation des categories en JSON
@@ -61,53 +97,26 @@ async function getCategories() {
     }
 return categories;
 }
-getCategories();
-
-
-
-
+getCategories(); */
 
 
 // WORKS
-async function generateWorks(getWorks) {
-	//for (let i = 0; i < works.length; i++) {
-    //const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
-
+/* async function generateWorks(getWorks) {
 
     for (const work of works) {
         worksElements(work, sectionDivGallery);
-
-/*         if (work.categoryId > 0 ) {
-            worksElements(work, sectionDivGallery);
-
-        } else if (work.categoryId === 1) {
-            worksElements(work, sectionDivGallery);
-        }
- */
-
-
     }
-		//const work = works[i]; // Variable pour parcourir chaque projet
-		
-		
-	//}
-    //return;
-}
-
-
-
-
+} */
 //generateFilterWorks(works);
-generateWorks(works);
+//generateWorks(works);
 
-const figureWorkClass = document.querySelector(".projet").getAttribute("class").split(" ")[1]; 
-console.log(figureWorkClass);
-
+//const figureWorkClass = document.querySelector(".projet").getAttribute("class").split(" ")[1]; 
+//console.log(figureWorkClass);
 
 // CATEGORIES
-const selectDivCategorie = document.querySelector(".categories");
+
 /* DEBUT Création des Eléments des catégories */
-async function generateCategories(categories) {
+/* async function generateCategories(categories) {
   const buttonElementAll = document.createElement("button");
   buttonElementAll.id = "cat-0";
   buttonElementAll.setAttribute('class', 'categ');
@@ -126,35 +135,69 @@ async function generateCategories(categories) {
 
   }
 }
-generateCategories(categories);
+generateCategories(categories); */
 /* FIN Création des Eléments des catégories */
 
-const buttonCatId = document.querySelector(".categ").getAttribute("id").split(" ")[0];
-console.log(buttonCatId);
+/* const buttonCatId = document.querySelector(".categ").getAttribute("id").split(" ")[0];
+console.log(buttonCatId); */
 
-
-
-
-function generateFilterWorks() {
+/* function generateFilterWorks() {
     const works = JSON.parse(localStorage.getItem('storedWorks'));
     let listWorks = [];
-
 
     works.forEach((work) => {
         if(work.categoryId == figureWorkClass[4]) {
             listWorks.push(work);
         }
     });
-    generateWorks(listWorks)
-    
+    generateWorks(listWorks)  
 } 
-generateFilterWorks();
+generateFilterWorks(); */
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//let y  =localStorage.getItem("storeWorks");
+//console.log(y);
+
+//let z  =localStorage.getItem("storeCategories");
+//console.log(z);
+
+//     Effacer un localStorage à partir de sa clef
+//localStorage.removeItem("storeCategories"); 
+
+//     Effacer tous les localStorages
+//localStorage.clear(); 
 
 
 
