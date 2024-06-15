@@ -26,9 +26,7 @@ for (let i = 0; i < works.length; i++) {
                 console.log(key+":", categorie[key]);
                 console.log(key+":", work[key]);
             }
-            //console.log(key+":", categorie[key]);
         }
-        //console.log(key+":", work[key]);
     }
 }
 
@@ -44,32 +42,11 @@ if (storedCategories === null) {  // Récupération des categories depuis l'API 
 }
 
 
-
-/* async function getWorks() {
-    if (storedWorks === null) {  // Récupération des works depuis l'API s'il n'y rien dans le localStorage
-        const reponse = await fetch(urlApiWorks);
-        works = await reponse.json();  // Transformation des works en JSON
-        const valeurWorks = JSON.stringify(works); // Transformation des works en Objets pour pouvoir les stocker en localStorage
-        window.localStorage.setItem("storeWorks", valeurWorks); // Stockage des informations dans le localStorage
-        return localStorage.getItem("storeWorks");
-    } else {
-        //works = JSON.parse(works);
-        //works = JSON.parse(localStorage.getItem("storeWorks"));
-        //works = localStorage.getItem("storeWorks").json();
-        //works = localStorage.getItem("storeWorks");
-        return storedWorks;
-    }
-}
-console.log(getWorks()); */
-
-
-
-
-async function worksElements (work, sectionDivGallery) {
+async function worksElements (work) {
     const figureElement = document.createElement('figure'); // Création de la balise figure pour chaque projet
     figureElement.setAttribute('class', `projet cat-${work.categoryId}`);  // Création de l'attribut class pour figure
     figureElement.setAttribute('id', `${work.id}`);  // Création de l'attribut id et recupération de sa valeur pour figure
-    
+            
     const imgElement = document.createElement('img');  // Création de la balise img pour chaque projet
     imgElement.src = work.imageUrl; // Création de l'attribut src et recupération de l'URL de l'image 
     imgElement.alt = work.title;  // Création de l'attribut alt et recupération du titre pour l'image
@@ -79,9 +56,28 @@ async function worksElements (work, sectionDivGallery) {
 
     figureElement.appendChild(imgElement, figcaptionElement);  // Insertion des balises enfants img et figcaption à leur parent figure
 
-    sectionDivGallery.appendChild(figureElement);  // Insertion des balises figure à son parent div
+    sectionDivGallery.appendChild(figureElement);  // Insertion des balises figure à son parent div        
 }
 
+
+async function showWorks () {
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        await worksElements (work);
+    }
+}
+showWorks ();
+
+async function showFilteredWorks () {
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        const categorie = work.category;
+        if (categorie.name === "Appartements") {
+            await worksElements (work);
+        }
+    }
+}
+showFilteredWorks ();
 
 
 

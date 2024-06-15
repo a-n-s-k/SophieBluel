@@ -1,147 +1,143 @@
 
-// Clean LocalStorage Function
-function cleanLocalStorage() {
-  for(const key in localStorage) {
-      delete localStorage[key];
+//let categories = window.localStorage.getItem("storedCategories");
+const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
+const selectDivCategorie = document.querySelector(".categories");
+
+const urlApiWorks = "http://localhost:5678/api/works";
+const urlApiCategories = "http://localhost:5678/api/categories";
+
+// Récupération des works eventuellement stockés dans le localStorage
+let works = localStorage.getItem("storeWorks");
+// Récupération des works depuis l'API s'il n'y rien dans le localStorage
+if (works === null) {  
+  // Appel à l'API et récupération de la réponse pour works
+  const reponse = await fetch(urlApiWorks);
+  // Transformation de la réponse pour works en JSON
+  works = await reponse.json(); 
+  // Conversion de works pour pouvoir le stocker en localStorage
+  const valeurWorks = JSON.stringify(works); 
+  // Stockage des works dans le localStorage
+  window.localStorage.setItem("storeWorks", valeurWorks); 
+} else {
+  // On parse ici le localStorage de works récupéré 
+  works = JSON.parse(localStorage.getItem("storeWorks"));
+}
+
+
+
+// Récupération des catégories eventuellement stockés dans le localStorage
+let categories = localStorage.getItem("storeCategories");
+// Récupération des catégories depuis l'API s'il n'y rien dans le localStorage
+if (categories === null) {
+  // Appel à l'API et récupération de la réponse pour catégories
+  const reponse = await fetch(urlApiCategories);
+  // Transformation de la réponse pour catégories en JSON
+  categories = await reponse.json();
+  // Conversion de categories pour pouvoir le stocker en localStorage
+  const valeurCategories = JSON.stringify(categories);
+  // Stockage des categories dans le localStorage
+    window.localStorage.setItem("storeCategories", valeurCategories);
+} else {
+  // On parse ici le localStorage de categories récupéré
+  categories = JSON.parse(localStorage.getItem("storeCategories"));
+}
+
+
+
+// Fonction qui crée les éléments de works
+async function worksElements (work) {
+  // Création de la balise figure pour chaque work
+  const figureElement = document.createElement('figure');
+  // Création de l'attribut class pour figure
+  figureElement.setAttribute('class', `projet cat-${work.categoryId}`);
+  // Création de l'attribut id et recupération de sa valeur pour figure
+  figureElement.setAttribute('id', `${work.id}`);  
+   
+  // Création de la balise img pour chaque projet
+  const imgElement = document.createElement('img');
+  // Création de l'attribut src et recupération de l'URL de l'image 
+  imgElement.src = work.imageUrl;
+  // Création de l'attribut alt et recupération du titre pour l'image
+  imgElement.alt = work.title;  
+
+  // Création de la balise figcaption pour chaque projet
+  const figcaptionElement = document.createElement("figcaption");
+  // Insertion du titre pour le projet
+  figcaptionElement.textContent = work.title;  
+  // Insertion des balises enfants img et figcaption à leur parent figure
+  figureElement.appendChild(imgElement, figcaptionElement);  
+  // Insertion des balises figure à son parent div
+  sectionDivGallery.appendChild(figureElement);          
+}
+
+
+
+/* DEBUT Création des Eléments des catégories */
+async function categoriesElements(categorie) {
+    const buttonElement = document.createElement("button");
+    buttonElement.setAttribute('class', `categ`);
+    buttonElement.setAttribute('id', `cat-${categorie.id}`);
+    buttonElement.textContent = categorie.name;
+    selectDivCategorie.appendChild(buttonElement);
+}
+/* FIN Création des Eléments des catégories */
+
+// Fonction qui affiche les catégories
+async function showCategories () {
+  const buttonElementAll = document.createElement("button");
+  buttonElementAll.id = "cat-0";
+  buttonElementAll.setAttribute('class', 'categ');
+  buttonElementAll.textContent = "Tous";
+  selectDivCategorie.appendChild(buttonElementAll);
+  for (let i = 0; i < categories.length; i++) {
+      const categorie = categories[i];
+      await categoriesElements (categorie);
   }
 }
-// cleanLocalStorage();
-
-// Works API URL and LocalStorage key
-const urlWorks = 'http://localhost:5678/api/works';
-const clefLocalStorageWorks = 'ls-works'
-
-// Categories API URL and LocalStorage key
-const urlCategories = 'http://localhost:5678/api/categories';
-const clefLocalStorageCategories = 'ls-categories'
-
-// Get Element by class gallery
-const selectDivGallery = document.querySelector(".gallery");
-// const selectDivGallery = document.getElementsByName('.gallery');
-console.log(selectDivGallery);
+showCategories ();
 
 
 
-// Async Function For Fetch Data and Save To LocalStorage
-async function fetchDataAndSaveToLocalStorage(url, key) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Erreur de requête : ${response.status}`);
+async function showWorks () {
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        await worksElements (work);
     }
-    const data = await response.json();
+}
+showWorks ();
 
 
-
-    const storedData = localStorage.getItem(key)
-    if (!storedData) {
-      // const userData = JSON.parse(storedData)
-      localStorage.setItem(key, JSON.stringify(data));
-      return data;
-
-    } else if (storedData.length !== data.length ){
-      localStorage.setItem(key, JSON.stringify(data));
-      return data;
-      // console.log('User data not found in local storage')
-    } else {
-      const worksData = JSON.parse(storedData)
-      return worksData;
+selectDivCategorie.addEventListener("click", (event) => {
+    const catId = event.target.id[4];
+    sectionDivGallery.innerHTML = "";
+    async function showFilteredWorks () {
+        //sectionDivGallery.innerHTML = "";
+        for (let i = 0; i < works.length; i++) {
+            const work = works[i];
+            const categorie = work.category;
+                if ((work.categoryId > 0) && (work.categoryId == catId)){ 
+                await worksElements (work);
+            }  else if (catId === "0") {  
+                location.reload();
+            } 
+        }
     }
+    return showFilteredWorks ();
+
+});
 
 
 
+//let y  =localStorage.getItem("storeWorks");
+//console.log(y);
 
+//let z  =localStorage.getItem("storeCategories");
+//console.log(z);
 
-/*     localStorage.setItem(key, JSON.stringify(data));
-    return data; */
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
+//     Effacer un localStorage à partir de sa clef
+//localStorage.removeItem("storeCategories"); 
 
-
-// LocalStorage Works
-const donneesWorks = fetchDataAndSaveToLocalStorage(urlWorks, clefLocalStorageWorks);
-// Valeur LocalStorage Works
-const valeurLocalStorageWorks = localStorage[clefLocalStorageWorks];
-console.log(valeurLocalStorageWorks);
-// Longueur Valeur LocalStorage Works
-const longueurValeurLocalStorageWorks = valeurLocalStorageWorks.length;
-console.log(longueurValeurLocalStorageWorks);
-
-
-
-// LocalStorage Catgories
-const donneesCategories = fetchDataAndSaveToLocalStorage(urlCategories, clefLocalStorageCategories);
-// Valeur LocalStorage Works
-const valeurLocalStorageCategories = localStorage[clefLocalStorageCategories];
-console.log(valeurLocalStorageCategories);
-// Longueur Valeur LocalStorage Works
-const longueurValeurLocalStorageCategories = valeurLocalStorageCategories.length;
-console.log(longueurValeurLocalStorageCategories);
-
-
-
-// DEBUT Boucle sur les clés
-/* for (let i=0; i< localStorage.length; i++) {
-  let clef = localStorage.key(i);
-  let valeur = localStorage[clef];
-  console.log(`localStorage ${clef}:  ${valeur}`);
-} */
-// FIN Boucle sur les clés
-
-
-
-
-
-export function createElementsWorks(data, targetElement) {
-  // Ensure targetElement exists and is a valid element
-  if (!targetElement || !targetElement.nodeType === 1) {
-    console.error('Invalid target element provided. Please provide a valid DOM element.');
-    return;
-  }
-
-  // Fragment for efficient DOM manipulation
-  const fragment = document.createDocumentFragment();
-
-  for (const work of data) {
-    console.log(work);
-    const figure = document.createElement("figure");
-    figure.classList.add("cat-filter", work.categoryId);
-
-    const image = document.createElement("img");
-    image.src = work.imageUrl;
-    image.alt = work.title;
-
-    const figcaption = document.createElement("figcaption");
-    figcaption.textContent = work.title;
-
-    figure.append(image, figcaption);
-    fragment.appendChild(figure);
-  }
-
-  // Append all elements at once
-  targetElement.appendChild(fragment);
-}
-
-
-
-
-
-createElementsWorks(valeurLocalStorageWorks, selectDivGallery);
-
-
-
-
-
-
-
-
-
-
-
-
-
+//     Effacer tous les localStorages
+//localStorage.clear(); 
 
 
