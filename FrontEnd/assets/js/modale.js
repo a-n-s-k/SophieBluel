@@ -1,4 +1,4 @@
-import { statutPromesse, jsonPromesse, affichageErreurs} from  "./manage.js";
+
 
 const token = localStorage.getItem('token');
 const selectIdModale = document.getElementById("id-modale");

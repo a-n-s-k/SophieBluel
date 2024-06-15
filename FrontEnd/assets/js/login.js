@@ -1,10 +1,3 @@
-// IDENTIFIANTS
-const loginEmail = document.getElementById("id-email").value;
-const loginPassword = document.getElementById("id-password").value;
-
-
-
-
 /* DEBUT - Création formulaire de connexion à l'administration du site */
 function createLoginForm() {
 	// Création des Eléments HTML pour la connexion
@@ -63,20 +56,12 @@ const formulaireConnexion = document.getElementById('id-login');
 const boutonDeconnexion = document.getElementById('boutonDeconnexion');
 const messageErreur = document.getElementById('messageErreur');
 
-// Vérifier si un jeton de session est stocké
-const token = localStorage.getItem('token');
-if (token) {
-    // Utilisateur déjà connecté, redirigez vers la page d'accueil ou autre
-    window.location.href = 'accueil.html';
-}
-
-
 
 formulaireConnexion.addEventListener('submit', function(event) {
     event.preventDefault();
 
-/*     const loginEmail = document.getElementById("id-email").value;
-    const loginPassword = document.getElementById("id-password").value; */
+    const loginEmail = document.getElementById("id-email").value;
+    const loginPassword = document.getElementById("id-password").value;
 
     // Envoyez les informations d'identification à l'API distante
     fetch('http://localhost:5678/api/users/login', {
@@ -96,8 +81,8 @@ formulaireConnexion.addEventListener('submit', function(event) {
             messageErreur.textContent = data.message;
         } else {
             // Connexion réussie, enregistrez le token de session
-            const token = data.token;
-            localStorage.setItem('token', token);
+            const loginSessionToken = data.token;
+			sessionStorage.setItem('tokenKey', loginSessionToken);
             // Redirigez vers la page d'accueil ou autre
             window.location.href = 'index.html';
         }
@@ -107,35 +92,11 @@ formulaireConnexion.addEventListener('submit', function(event) {
         messageErreur.textContent = 'Une erreur est survenue. Veuillez réessayer.';
     });
 });
-
-
 	boutonDeconnexion.addEventListener('click', function() {
 		// Déconnectez-vous en détruisant le jeton de session
-		localStorage.removeItem('token');
-	
+		sessionStorage.removeItem(tokenKey);
 		// Redirigez vers la page de connexion ou autre
 		window.location.href = 'index.html';
 	});
 
 /* FIN - Action sur bouton de déconnexion */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
