@@ -1,30 +1,34 @@
 /* DEBUT - Création formulaire de connexion à l'administration du site */
-function createLoginForm() {
+const selectSectionLogin = document.getElementById('login');
+function loginElements() {
 	// Création des Eléments HTML pour la connexion
-	  const loginElement = document.getElementById('login');
+	  //const loginElement = document.getElementById('login');
 	  const formElement = document.createElement("form");
-	
-	  const labelEmailElement = document.createElement("label");
-	  const labelPasswordElement = document.createElement("label");
-	
-	  const inputEmailElement = document.createElement("input");
-	  const inputPasswordElement = document.createElement("input");
-	
-	  const buttonElement = document.createElement("button");
-
 	  formElement.setAttribute('id', 'id-login');
 	  formElement.setAttribute('method', 'post');
+
 	
+	  const labelEmailElement = document.createElement("label");
 	  labelEmailElement.setAttribute('for', 'id-email');
+
+	  const inputEmailElement = document.createElement("input");
 	  inputEmailElement.setAttribute('type', 'email');
 	  inputEmailElement.setAttribute('name', 'name-email');
 	  inputEmailElement.setAttribute('id', 'id-email');
-	 
+
+
+	  const inputPasswordElement = document.createElement("input");
+	  const labelPasswordElement = document.createElement("label");
 	  labelPasswordElement.setAttribute('for', 'id-password');
 	  inputPasswordElement.setAttribute('type', 'password');
 	  inputPasswordElement.setAttribute('name', 'name-password');
 	  inputPasswordElement.setAttribute('id', 'id-password');
+
 	
+	  
+	  
+	
+	  const buttonElement = document.createElement("button");
 	  buttonElement.setAttribute('type', 'submit');
 	  buttonElement.setAttribute('id', 'id-connexion');
 	  buttonElement.setAttribute('value', 'connexion');
@@ -39,25 +43,31 @@ function createLoginForm() {
 		inputPasswordElement,
 		buttonElement
 	  );
-	  loginElement.appendChild(formElement);
-    return loginElement;
-	}
-	createLoginForm()
+	  selectSectionLogin.appendChild(formElement);
+    //return selectSectionLogin;
+}
+loginElements();
 /* FIN - Création formulaire de connexion à l'administration du site */
 
 
+
+
+
 /* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
-const boutonDeConnexion = document.getElementById('connexion');
+//const boutonDeConnexion = document.getElementById('connexion');
+//const selectButtonLogin = document.getElementById('connexion');
 /* FIN - Recupération des boutons de Connexion et de Déconnexion */
 
 
 /* DEBUT - Action sur bouton de connexion */
-const formulaireConnexion = document.getElementById('id-login');
-const boutonDeconnexion = document.getElementById('boutonDeconnexion');
-const messageErreur = document.getElementById('messageErreur');
+//const formulaireConnexion = document.getElementById('id-login');
+const selectButtonConnexion = document.getElementById('id-login');
+//const boutonDeconnexion = document.getElementById('boutonDeconnexion');
+//const selectButtonDeConnexion = document.querySelector("deconnecter");
+//const messageErreur = document.getElementById('messageErreur');
 
 
-formulaireConnexion.addEventListener('submit', function(event) {
+selectButtonConnexion.addEventListener('submit', function(event) {
     event.preventDefault();
 
     const loginEmail = document.getElementById("id-email").value;
@@ -83,6 +93,8 @@ formulaireConnexion.addEventListener('submit', function(event) {
             // Connexion réussie, enregistrez le token de session
             const loginSessionToken = data.token;
 			sessionStorage.setItem('tokenKey', loginSessionToken);
+
+			
             // Redirigez vers la page d'accueil ou autre
             window.location.href = 'index.html';
         }
@@ -92,11 +104,3 @@ formulaireConnexion.addEventListener('submit', function(event) {
         messageErreur.textContent = 'Une erreur est survenue. Veuillez réessayer.';
     });
 });
-	boutonDeconnexion.addEventListener('click', function() {
-		// Déconnectez-vous en détruisant le jeton de session
-		sessionStorage.removeItem(tokenKey);
-		// Redirigez vers la page de connexion ou autre
-		window.location.href = 'index.html';
-	});
-
-/* FIN - Action sur bouton de déconnexion */

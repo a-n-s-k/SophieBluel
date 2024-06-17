@@ -368,73 +368,62 @@ input[type="email"] {
 	content: "✔";
   }
   
-  /* Add a red text color and an "x" when the requirements are wrong */
-.invalid {
-	color: red;
-  }
-.invalid:before {
-	content: "✖";
-  }
 
-  /* Bouton Mode Edition */
-.class-edition {
+
+  /* BOUTON EDITION ET MODIFICATION */
+.edition-visible {
 	display: flex;
 	height: 60px;
 	align-items: center;
 	justify-content: center;
-	column-gap: 10px;
 	background-color: #000;
-	text-decoration: none;
 	box-sizing: border-box;
 }
-.class-edition-invisible {
-	display: none;
-}
-.class-editer {
+.modification-visible {
 	display: flex;
+}
+.edition-visible a , .modification-visible a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	column-gap: 10px;
-	color: white;
 	text-decoration: none;
 }
+.edition-visible a {
+	color: white;
+}
 
+.modification-visible a {
+	color: black;
+}
 
-
-.class-modifier, .class-editer  img {
+.edition-visible img , .modification-visible img {
 	height: 16px;
 	width: 16px;
 }
-
-.modifier a {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	column-gap: 10px;
-	text-decoration: none;
+.edition-invisible , .modification-invisible{
+	display: none;
 }
 
-.mesprojets {
+
+ /* TITRE MES PROJETS */
+.mes-projets {
 	display: flex;
 	justify-content: center;
-	align-items: center;
 	column-gap: 30px;
 	margin-bottom: 1em;
 }
-.mesprojets h2 {
+.mes-projets h2 {
 	display: flex;
 	color: #1D6154;
 }
-.mesprojets a {
+.mes-projets div {
 	display: flex;
-	column-gap: 10px;
-	text-decoration: none;
-}
-.mesprojets a img {
-	height: 16px;
-	width: 16px;
 }
 
 
-/* DEBUT Les Modales */
+
+/* MODALES */
 .modale-visible {
 	display: flex;
 	position: fixed;
