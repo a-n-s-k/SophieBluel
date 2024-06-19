@@ -1,56 +1,58 @@
+//import { createElementsModale, closeAndRemoveElements} from  "./modale.js";
+
+
 
 //let categories = window.localStorage.getItem("storedCategories");
 const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
 const selectDivCategorie = document.querySelector(".categories");
 
+const loginSession = sessionStorage.getItem("tokenKey");
 
 
-let loginSession = sessionStorage.getItem("tokenKey");
-if (loginSession) {  
-    const selectButtonLogin = document.getElementById('connexion');
+const selectButtonLogin = document.getElementById('connexion');
+
+
+
+
+  if (loginSession) {  
+    
 		selectButtonLogin.setAttribute('class', 'deconnecter');
     selectButtonLogin.textContent = "Logout";
 
     const selectButtonDeConnexion = document.querySelector(".deconnecter");
-  
 
     selectButtonDeConnexion.addEventListener('click', function() {
       // Déconnectez-vous en détruisant le jeton de session
-      sessionStorage.removeItem(tokenKey);
+      sessionStorage.removeItem("tokenKey");
       // Redirigez vers la page de connexion ou autre
-      window.location.href = 'index.html';
-    });
-
-} 
-
-
-
-
+		window.location.href = 'index.html';
+    });  
+} else if (!loginSession) {
+  selectButtonLogin.setAttribute('class', 'connecter');
+  selectButtonLogin.textContent = "Login";
+}
 
 
-
-
-
-const urlApiWorks = "http://localhost:5678/api/works";
-const urlApiCategories = "http://localhost:5678/api/categories";
+export const urlApiWorks = "http://localhost:5678/api/works";
+export const urlApiCategories = "http://localhost:5678/api/categories";
 
 // Récupération des works eventuellement stockés dans le localStorage
 let works = localStorage.getItem("storeWorks");
-// Récupération des works depuis l'API s'il n'y rien dans le localStorage
-if (works === null) {  
-  // Appel à l'API et récupération de la réponse pour works
-  const reponse = await fetch(urlApiWorks);
-  // Transformation de la réponse pour works en JSON
-  works = await reponse.json(); 
-  // Conversion de works pour pouvoir le stocker en localStorage
-  const valeurWorks = JSON.stringify(works); 
-  // Stockage des works dans le localStorage
-  window.localStorage.setItem("storeWorks", valeurWorks); 
-} else {
-  // On parse ici le localStorage de works récupéré 
-  works = JSON.parse(localStorage.getItem("storeWorks"));
-}
 
+  // Récupération des works depuis l'API s'il n'y rien dans le localStorage
+  if (works === null) {  
+    // Appel à l'API et récupération de la réponse pour works
+    const reponse = await fetch(urlApiWorks);
+    // Transformation de la réponse pour works en JSON
+    works = await reponse.json(); 
+    // Conversion de works pour pouvoir le stocker en localStorage
+    const valeurWorks = JSON.stringify(works); 
+    // Stockage des works dans le localStorage
+    window.localStorage.setItem("storeWorks", valeurWorks); 
+  } else {
+    // On parse ici le localStorage de works récupéré 
+    works = JSON.parse(localStorage.getItem("storeWorks"));
+  }
 
 
 // Récupération des catégories eventuellement stockés dans le localStorage
@@ -171,40 +173,14 @@ selectDivCategorie.addEventListener("click", (event) => {
 
 
 
-/* 
 
-// Fonction qui crée les éléments de works
-async function worksElements (work) {
-  // Création de la balise figure pour chaque work
-  const figureElement = document.createElement('figure');
-  // Création de l'attribut class pour figure
-  figureElement.setAttribute('class', `projet cat-${work.categoryId}`);
-  // Création de l'attribut id et recupération de sa valeur pour figure
-  figureElement.setAttribute('id', `${work.id}`);  
-   
-  // Création de la balise img pour chaque projet
-  const imgElement = document.createElement('img');
-  // Création de l'attribut src et recupération de l'URL de l'image 
-  imgElement.src = work.imageUrl;
-  // Création de l'attribut alt et recupération du titre pour l'image
-  imgElement.alt = work.title;  
-
-  // Création de la balise figcaption pour chaque projet
-  const figcaptionElement = document.createElement("figcaption");
-  // Insertion du titre pour le projet
-  figcaptionElement.textContent = work.title;  
-  // Insertion des balises enfants img et figcaption à leur parent figure
-  figureElement.appendChild(imgElement, figcaptionElement);  
-  // Insertion des balises figure à son parent div
-  sectionDivGallery.appendChild(figureElement);          
-}
-
-*/
+if (loginSession) {
 
 // EDITION ET MODIFICATION
 
 const selectDivEdit = document.getElementById("edition");
 const selectDivModif = document.getElementById("modification");
+
 
 const textEdition = "edition";
 const textModification = "modification";
@@ -212,10 +188,11 @@ const textModification = "modification";
 // Fonction qui crée les éléments des boutons modifier et éditer
 async function editElements(idSelection, texte) {
   idSelection.setAttribute('class', `${texte}-visible`);
+  
 
-  const aElement = document.createElement("a");
+  //const aElement = document.createElement("a");
   // createAEdition.setAttribute('class', 'edition');
-  aElement.setAttribute('href', '#');
+  //aElement.setAttribute('href', '#');
 
  const imgElement = document.createElement("img");
   imgElement.setAttribute('src', `./assets/icons/${texte}.png`);
@@ -224,11 +201,141 @@ async function editElements(idSelection, texte) {
   const divElement = document.createElement("div");
   divElement.textContent = texte;
 
-  aElement.append(imgElement, divElement);
-  idSelection.appendChild(aElement);
+  //aElement.append(imgElement, divElement);
+  idSelection.append(imgElement, divElement);
 }
 
 editElements(selectDivEdit, textEdition);
 editElements(selectDivModif, textModification);
 
 
+
+const selectIdModale = document.getElementById("modale");
+
+const modaleGallery = document.getElementById("modale-gallery");
+const selectAddWork = document.getElementById("add-work");
+
+
+
+
+
+/* DEBUT - Création de la fenêtre modale */
+async function createElementsModale (works) {
+  // Modification de l'attibut de visibilité
+  selectIdModale.setAttribute('class', 'modale-visible');
+
+  // Création des Eléments HTML et insersion des données projets
+  const divModaleGallery = document.createElement("div");
+  divModaleGallery.setAttribute('class', 'modale-gallery');
+
+  for (let i = 0; i < works.length; i++) {
+    const work = works[i];
+
+      const createFigureWorks = document.createElement("figure");
+      createFigureWorks.id = work.id;
+      const createImageWorks = document.createElement("img");
+      createImageWorks.src = work.imageUrl;
+      createImageWorks.alt = work.title;
+      createImageWorks.setAttribute('class', 'class-work-image');
+
+      const createIconRemoveWork = document.createElement("i");
+      createIconRemoveWork.setAttribute('class', 'fa-solid fa-trash-can');
+      
+      
+      const createButtonRemoveWork = document.createElement("button");
+      createButtonRemoveWork.setAttribute('class', 'button-work-remove');
+      createButtonRemoveWork.appendChild(createIconRemoveWork);
+      createButtonRemoveWork.setAttribute('id', `rem-${work.id}`);
+
+      createFigureWorks.append(
+        createImageWorks,
+        createButtonRemoveWork,
+      );
+      divModaleGallery.appendChild(createFigureWorks);
+    } 
+    
+    modaleGallery.appendChild(divModaleGallery);
+}
+createElementsModale (works);
+
+
+
+
+
+
+
+
+
+  // Création et Afficahage de la Modale en cliquant sur le bouton Modifier
+  selectDivModif.addEventListener('click', function() {
+    selectIdModale.setAttribute('class', 'modale-visible');
+  });
+
+  selectDivEdit.addEventListener('click', function() {
+    selectIdModale.setAttribute('class', 'modale-visible');
+  });
+
+  // Recupération du bouton X
+  const divModClose = document.querySelector(".modale-close");
+  divModClose.addEventListener('click', function() {
+    selectIdModale.setAttribute('class', 'modale-invisible');
+  });
+  
+  // Fermeture et Suppression de la Modale en cliquant ailleur en dehors de la Modale
+  window.addEventListener('click', function(event) {
+    if (event.target == selectIdModale) {
+      selectIdModale.setAttribute('class', 'modale-invisible');
+    }
+  });
+
+
+//////////
+
+
+
+// DELETE WORK 
+let numRem;
+window.addEventListener('click', function(event) {
+  if (event.target.matches(".button-work-remove")) {
+    numRem = event.target.id.slice(4);
+    removeWork(numRem);
+  } 
+});
+
+// CALL API FOR DELETE WORK
+function removeWork(identifiant) {
+  fetch(urlApiWorks + "/" + identifiant, {
+    method: "DELETE",
+    headers: {
+      authorization: `Bearer ${loginSession}`,
+    },
+  }).then((response) => {
+    if (response.ok) {
+      localStorage.removeItem("storeCategories");
+      localStorage.removeItem("storeWorks"); 
+    } else {
+      alert("Erreur : " + response.status);
+    }
+  });
+}
+
+
+
+
+
+////////////////
+
+
+
+////////////////
+
+
+
+
+
+
+
+
+
+
+}
