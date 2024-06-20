@@ -1,44 +1,27 @@
-const loginSession = sessionStorage.getItem("tokenKey");
+// DEBUT CREATE MODALE GALLERY
+async function createModale (works) {
+  selectIdModaleGallery.setAttribute('class', 'visible');
 
-let works = localStorage.getItem("storeWorks");
-works = JSON.parse(localStorage.getItem("works"));
+  const createDivGalleryHead = document.createElement("div");
+  createDivGalleryHead.setAttribute('class', 'gallery-head');
+  const createIconClose = document.createElement("i");
+  createIconClose.setAttribute('class', 'fa-solid fa-xmark');
+  createDivGalleryHead.append(createIconClose);
 
+  const createDivGalleryTitle = document.createElement("div");
+  createDivGalleryTitle.setAttribute('class', 'gallery-title');
+  createDivGalleryTitle.textContent = "Galerie photo";
 
-let categories = localStorage.getItem("storeCategories");
-categories = JSON.parse(localStorage.getItem("storeCategories"));
+  const createDivGalleryWorks = document.createElement("div");
+  createDivGalleryWorks.setAttribute('class', 'gallery-works');
+  for (let i = 0; i < works.length; i++) {
+    const work = works[i];
 
-
-
-
-const selectIdModale = document.getElementById("modale");
-
-
-
-
-//const selectModale = document.getElementById("modale");
-//const selectModaleContent = document.querySelector(".modale-content");
-const modaleGallery = document.getElementById("modale-gallery");
-const selectAddWork = document.getElementById("add-work");
-
-
-/* DEBUT - Création de la fenêtre modale */
-export async function createElementsModale (works) {
-  // Modification de l'attibut de visibilité
-  selectIdModale.setAttribute('class', 'modale-visible');
-
-  // Création des Eléments HTML et insersion des données projets
-  const divModaleGallery = document.createElement("div");
-  divModaleGallery.setAttribute('class', 'modale-gallery');
-
-
-
-  //const createDivModaleGalleryContent = document.createElement("div");
-  //createDivModaleGalleryContent.setAttribute('id', 'modale-gallery-content');
-  //selectSectionContent.appendChild(createDivModaleGalleryContent);
-
-  for (const work of works) {
       const createFigureWorks = document.createElement("figure");
       createFigureWorks.id = work.id;
+      createFigureWorks.setAttribute('class', 'modale-work');
+
+
       const createImageWorks = document.createElement("img");
       createImageWorks.src = work.imageUrl;
       createImageWorks.alt = work.title;
@@ -46,36 +29,39 @@ export async function createElementsModale (works) {
 
       const createIconRemoveWork = document.createElement("i");
       createIconRemoveWork.setAttribute('class', 'fa-solid fa-trash-can');
-
+      
+      
       const createButtonRemoveWork = document.createElement("button");
       createButtonRemoveWork.setAttribute('class', 'button-work-remove');
       createButtonRemoveWork.appendChild(createIconRemoveWork);
+      createButtonRemoveWork.setAttribute('id', `rem-${work.id}`);
 
       createFigureWorks.append(
         createImageWorks,
         createButtonRemoveWork,
       );
-      divModaleGallery.appendChild(createFigureWorks);
-      modaleGallery.appendChild(divModaleGallery);
-    }
-    
-    
+      createDivGalleryWorks.appendChild(createFigureWorks);
+  } 
+
+  const createDivGallerySeparator = document.createElement("div");
+  createDivGallerySeparator.setAttribute('class', 'gallery-separator');
+  createDivGallerySeparator.textContent = "------------------------------";
+
+  const createDivFormSubmit = document.createElement("div");
+  createDivFormSubmit.setAttribute('class', 'form-submit');
+  createDivFormSubmit.textContent = "Valider";
+
+
+  selectIdModaleGallery.append(
+    createDivGalleryHead,
+    createDivGalleryTitle,
+    createDivGalleryWorks,
+    createDivGallerySeparator,
+    createDivFormSubmit
+  );
+  return selectClassModaleContent.appendChild(selectIdModaleGallery);
 }
-createElementsModale (works);
-//createElementsModale (works);
-/* FIN - Création de la fenêtre modale */  
-
-
-
-/* DEBUT - Suppression ou Fermeture de la fenêtre modale */
-export async function closeAndRemoveElements() {
-  selectIdModale.setAttribute('class', 'modale-invisible');
-  const toRemovedElements = document.querySelector(".modale-gallery");
-  return toRemovedElements.remove();
-}
-
-/* FIN - Suppression ou Fermeture de la fenêtre modale */
-
+// FIN CREATE MODALE GALLERY
 
 
 
