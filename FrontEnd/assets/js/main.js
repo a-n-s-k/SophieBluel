@@ -1,8 +1,3 @@
-//import { createElementsModale, closeAndRemoveElements} from  "./modale.js";
-
-
-
-//let categories = window.localStorage.getItem("storedCategories");
 const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
 const selectDivCategorie = document.querySelector(".categories");
 
@@ -11,6 +6,7 @@ const loginSession = sessionStorage.getItem("tokenKey");
 
 const selectButtonLogin = document.getElementById('connexion');
 
+const selectModaleContent = document.querySelector(".modale-content");
 
 
 
@@ -224,15 +220,25 @@ async function createElementsModale (works) {
   // Modification de l'attibut de visibilité
   selectIdModale.setAttribute('class', 'modale-visible');
 
+
+  const createIconClose = document.createElement("i");
+  createIconClose.setAttribute('class', 'fa-solid fa-xmark');
+
+  //createDivModaleHead.appendChild(createIconClose);
+  divModaleHead.appendChild(createIconClose);
+
   // Création des Eléments HTML et insersion des données projets
   const divModaleGallery = document.createElement("div");
-  divModaleGallery.setAttribute('class', 'modale-gallery');
+  divModaleGallery.setAttribute('class', 'modale-gallery-visible');
 
   for (let i = 0; i < works.length; i++) {
     const work = works[i];
 
       const createFigureWorks = document.createElement("figure");
       createFigureWorks.id = work.id;
+      createFigureWorks.setAttribute('class', 'modale-work');
+
+
       const createImageWorks = document.createElement("img");
       createImageWorks.src = work.imageUrl;
       createImageWorks.alt = work.title;
@@ -255,6 +261,7 @@ async function createElementsModale (works) {
     } 
     
     modaleGallery.appendChild(divModaleGallery);
+
 }
 createElementsModale (works);
 
@@ -276,9 +283,11 @@ createElementsModale (works);
   });
 
   // Recupération du bouton X
-  const divModClose = document.querySelector(".modale-close");
-  divModClose.addEventListener('click', function() {
-    selectIdModale.setAttribute('class', 'modale-invisible');
+  const divModClose = document.querySelector(".modale-head");
+  divModClose.addEventListener('click', function(event) {
+    if (event.target.matches(".fa-xmark")) {
+      selectIdModale.setAttribute('class', 'modale-invisible');
+    }
   });
   
   // Fermeture et Suppression de la Modale en cliquant ailleur en dehors de la Modale
@@ -287,10 +296,6 @@ createElementsModale (works);
       selectIdModale.setAttribute('class', 'modale-invisible');
     }
   });
-
-
-//////////
-
 
 
 // DELETE WORK 
@@ -323,11 +328,63 @@ function removeWork(identifiant) {
 
 
 
-////////////////
+//////////////////////////////////////////////////////////
+
+
+async function createModaleForm () {
+  // Modification de l'attibut de visibilité
+  selectIdModale.setAttribute('class', 'modale-visible');
+
+  const createIconClose = document.createElement("i");
+  createIconClose.setAttribute('class', 'fa-solid fa-xmark');
+  const createIconPrevious = document.createElement("i");
+  createIconPrevious.setAttribute('class', 'fa-solid fa-arrow-left');
+  divModaleHead.append(createIconPrevious, createIconClose);
+
+
+  const divModaleWorkForm = document.createElement("div");
+  divModaleWorkForm.setAttribute('class', 'modale-work-form');
+
+  const formElement = document.createElement("form");
+  formElement.setAttribute('id', 'id-work');
+  formElement.setAttribute('method', 'post');
+
+  const inputImageElement = document.createElement("input");
+  inputImageElement.setAttribute('type', 'file');
+  inputImageElement.setAttribute('id', 'image-file');
+
+  const labelImageTitleElement = document.createElement("label");
+  labelImageTitleElement.setAttribute('for', 'image-title');
+  const inputImageTitleElement = document.createElement("input");
+  inputImageTitleElement.setAttribute('type', 'image-title');
+
+  const labelImageCategoryElement = document.createElement("label");
+  labelImageCategoryElement.setAttribute('for', 'image-category');
+  const inputImageCategoryElement = document.createElement("input");
+  inputImageCategoryElement.setAttribute('type', 'image-category');
+
+  formElement.append(
+    inputImageElement,
+    labelImageTitleElement,
+    labelImageCategoryElement
+    );
+    divModaleWorkForm.append(divModaleHead, formElement);
+    modaleGallery.appendChild(divModaleWorkForm);
+}
+
+
+const addWork = document.getElementById("add-work");
+addWork.addEventListener('click', function() {
+  const modaleGallery = document.querySelector(".modale-gallery-visible");
+  modaleGallery.setAttribute('class', 'modale-gallery-invisible');
+    createModaleForm ();
+});
 
 
 
-////////////////
+
+////////////////////////////////////////////////////
+
 
 
 
