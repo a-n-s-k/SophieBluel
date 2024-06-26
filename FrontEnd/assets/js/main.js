@@ -161,7 +161,6 @@ selectDivCategorie.addEventListener("click", (event) => {
 });
 
 
-
 //let y  =localStorage.getItem("storeWorks");
 //console.log(y);
 
@@ -173,9 +172,6 @@ selectDivCategorie.addEventListener("click", (event) => {
 
 //     Effacer tous les localStorages
 //localStorage.clear(); 
-
-
-
 
 
 if (loginSession) {
@@ -263,8 +259,8 @@ async function createModale (works) {
   } 
 
   const createDivGallerySeparator = document.createElement("div");
-  createDivGallerySeparator.setAttribute('class', 'gallery-separator');
-  createDivGallerySeparator.textContent = "------------------------------";
+  createDivGallerySeparator.setAttribute('class', 'modale-separator');
+  //createDivGallerySeparator.textContent = "------------------------------";
 
   const createDivAddWork = document.createElement("div");
   //createDivFormSubmit.setAttribute('class', 'gallery-add');
@@ -288,7 +284,6 @@ async function createModale (works) {
 
 
 // DEBUT CREATE MODALE ADD WORK
-//const varAddWork = 
 async function createModaleAddWork (works) {
   selectIdModaleForm.setAttribute('class', 'visible');
 
@@ -310,11 +305,9 @@ async function createModaleAddWork (works) {
   createDivFormTitle.setAttribute('class', 'modale-title');
   createDivFormTitle.textContent = "Ajout photo";
 
-  const createDivFormWork = document.createElement("div");
-  createDivFormWork.setAttribute('class', 'form-work');
-
   const formElement = document.createElement("form");
   formElement.setAttribute('id', 'work-form');
+  formElement.setAttribute('class', 'form-work');
   formElement.setAttribute('method', 'post');
 
   const divLabelImageElement = document.createElement("div");
@@ -324,14 +317,22 @@ async function createModaleAddWork (works) {
   imgLabelImageElement.setAttribute('src', 'assets/images/picture-svgrepo-com.png');
   const labelImageElement = document.createElement("label");
   labelImageElement.setAttribute('for', 'image-file');
-  labelImageElement.textContent = "jpg, png :4mo max";
+  labelImageElement.setAttribute('class', 'button-image-input');
+  labelImageElement.textContent = "+ Ajouter photo";
+
+  const divInputImageElement = document.createElement("div");
+  divInputImageElement.setAttribute('class', 'div-image-input');
+  divInputImageElement.textContent = "jpg, png :4mo max";
+
   const inputImageElement = document.createElement("input");
   inputImageElement.setAttribute('type', 'file');
   inputImageElement.setAttribute('id', 'image-file');
+  inputImageElement.setAttribute('style', 'display:none');
+
   inputImageElement.setAttribute('name', 'image-file');
   inputImageElement.setAttribute('accept', '.jpg, .jpeg, .png');
  
-  divLabelImageElement.append(imgLabelImageElement, inputImageElement, labelImageElement);
+  divLabelImageElement.append(imgLabelImageElement, inputImageElement, labelImageElement, divInputImageElement);
 
   const labelImageTitleElement = document.createElement("label");
   labelImageTitleElement.setAttribute('for', 'image-title');
@@ -344,11 +345,6 @@ async function createModaleAddWork (works) {
   const labelImageCategoryElement = document.createElement("label");
   labelImageCategoryElement.setAttribute('for', 'image-category');
   labelImageCategoryElement.textContent = "Catégorie";
-  const fieldsetImageCategoryElement = document.createElement("fieldset");
-
-
-  
-  fieldsetImageCategoryElement.setAttribute('class', 'selection-category');
 
   const selectImageCategoryElement = document.createElement("select");
   selectImageCategoryElement.setAttribute('id', 'select-category');
@@ -356,36 +352,17 @@ async function createModaleAddWork (works) {
   selectImageCategoryElement.setAttribute('form', 'work-form');
   selectImageCategoryElement.setAttribute("requiered", "");
 
-
-  const optionImageCategoryElement = document.createElement("option");
-  optionImageCategoryElement.setAttribute("value", "");
-  optionImageCategoryElement.setAttribute("label", "");
-  optionImageCategoryElement.setAttribute("hidden", "");
-
-  fieldsetImageCategoryElement.append(selectImageCategoryElement, optionImageCategoryElement);
-
-
-
-
-
-  const inputImageCategoryElement = document.createElement("input");
-  inputImageCategoryElement.setAttribute('type', 'image-category');
-
   formElement.append(
-    //labelImageElement,
-    //inputImageElement,
     divLabelImageElement,
     labelImageTitleElement,
     inputImageTitleElement,
     labelImageCategoryElement,
-    fieldsetImageCategoryElement
-    //inputImageCategoryElement
+    selectImageCategoryElement
     );
 
     const createDivFormSeparator = document.createElement("div");
     createDivFormSeparator.setAttribute('class', 'modale-separator');
-    createDivFormSeparator.textContent = "------------------------------";
-  
+
     const createDivSubmitWork = document.createElement("div");
     const createButtonSubmitWork = document.createElement("button");
     createButtonSubmitWork.setAttribute('id', 'submit-to-preview');
@@ -393,54 +370,38 @@ async function createModaleAddWork (works) {
     createButtonSubmitWork.textContent = "Valider";
     createDivSubmitWork.append(createButtonSubmitWork);
 
-
-
-    createDivFormWork.append(formElement);
     selectIdModaleForm.append(
     createDivFormHead,
     createDivFormTitle,
-    createDivFormWork,
+    formElement,
     createDivFormSeparator,
     createDivSubmitWork
   );
   selectClassModaleContent.appendChild(selectIdModaleForm);
 
 }
-
 // FIN CREATE MODALE ADD WORK
 
 
 // DEBUT CREATE MODALE ADD WORK PREVIEW
-
-/* async function createModaleAddWorkPreview (works) {
-  const node = document.getElementById("modale-form");
-  const clone = node.cloneNode(true);
-  document.getElementById("modale-form-preview").appendChild(clone);
- 
-}
- */
-
-
-
-
-
-
-
-
-
-/* async function createModaleAddWorkPreview (works) {
+async function createModaleAddWorkPreview (inputImageUrl, theGetInputTitle, theGetInputCategory) {
   selectIdModaleFormPreview.setAttribute('class', 'visible');
 
   const createDivFormHead = document.createElement("div");
   createDivFormHead.setAttribute('class', 'form-head');
+
   const createButtonFormHeadC = document.createElement("button");
   createButtonFormHeadC.setAttribute('class', 'close-modale');
+
   const createIconClose = document.createElement("i");
   createIconClose.setAttribute('class', 'fa-solid fa-xmark');
+
   const createButtonFormHeadP = document.createElement("button");
   createButtonFormHeadP.setAttribute('class', 'previous-modale');
+
   const createIconPrevious = document.createElement("i");
   createIconPrevious.setAttribute('class', 'fa-solid fa-arrow-left');
+
   createButtonFormHeadC.append(createIconClose);
   createButtonFormHeadP.append(createIconPrevious);
   createDivFormHead.append(createButtonFormHeadP, createButtonFormHeadC);
@@ -449,120 +410,85 @@ async function createModaleAddWork (works) {
   createDivFormTitle.setAttribute('class', 'modale-title');
   createDivFormTitle.textContent = "Ajout photo";
 
-  const createDivFormWork = document.createElement("div");
-  createDivFormWork.setAttribute('class', 'form-work');
-
   const formElement = document.createElement("form");
-  formElement.setAttribute('id', 'work-form');
+  formElement.setAttribute('id', 'work-form-preview');
+  formElement.setAttribute('class', 'form-work');
   formElement.setAttribute('method', 'post');
 
   const divLabelImageElement = document.createElement("div");
-  divLabelImageElement.setAttribute('class', 'file-preview');
+  divLabelImageElement.setAttribute('class', 'image-preview');
+
   const imgLabelImageElement = document.createElement("img");
-  imgLabelImageElement.setAttribute('src', 'assets/images/picture-svgrepo-com.png');
-  const labelImageElement = document.createElement("label");
-  labelImageElement.setAttribute('for', 'image-file');
-  labelImageElement.textContent = "jpg, png :4mo max";
-  const inputImageElement = document.createElement("input");
-  inputImageElement.setAttribute('type', 'file');
-  inputImageElement.setAttribute('id', 'image-file');
-  inputImageElement.setAttribute('name', 'image-file');
-  inputImageElement.setAttribute('accept', '.jpg, .jpeg, .png');
+  imgLabelImageElement.setAttribute('src', `assets/images/${inputImageUrl}`);
  
-  divLabelImageElement.append(imgLabelImageElement, inputImageElement, labelImageElement);
+  divLabelImageElement.append(imgLabelImageElement);
 
   const labelImageTitleElement = document.createElement("label");
   labelImageTitleElement.setAttribute('for', 'image-title');
   labelImageTitleElement.textContent = "Titre";
   const inputImageTitleElement = document.createElement("input");
   inputImageTitleElement.setAttribute('type', 'text');
-  inputImageTitleElement.setAttribute('id', 'image-title');
+  inputImageTitleElement.setAttribute('id', 'image-title-preview');
   inputImageTitleElement.setAttribute('name', 'image-title');
+  inputImageTitleElement.setAttribute('value', `${theGetInputTitle}`);
 
   const labelImageCategoryElement = document.createElement("label");
-  labelImageCategoryElement.setAttribute('for', 'image-category');
+  labelImageCategoryElement.setAttribute('for', 'select-category-preview');
   labelImageCategoryElement.textContent = "Catégorie";
-  const fieldsetImageCategoryElement = document.createElement("fieldset");
-
-  fieldsetImageCategoryElement.setAttribute('class', 'selection-category');
 
   const selectImageCategoryElement = document.createElement("select");
-  selectImageCategoryElement.setAttribute('id', 'select-category');
-  selectImageCategoryElement.setAttribute('name', 'select-category');
-  selectImageCategoryElement.setAttribute('form', 'work-form');
+  selectImageCategoryElement.setAttribute('id', 'select-category-preview');
+  selectImageCategoryElement.setAttribute('name', 'select-category-preview');
+  selectImageCategoryElement.setAttribute('form', 'work-form-preview');
   selectImageCategoryElement.setAttribute("requiered", "");
-
-  const optionImageCategoryElement = document.createElement("option");
-  optionImageCategoryElement.setAttribute("value", "");
-  optionImageCategoryElement.setAttribute("label", "");
-  optionImageCategoryElement.setAttribute("hidden", "");
-
-  fieldsetImageCategoryElement.append(selectImageCategoryElement, optionImageCategoryElement);
-
-  const inputImageCategoryElement = document.createElement("input");
-  inputImageCategoryElement.setAttribute('type', 'image-category');
+  selectImageCategoryElement.textContent = `${theGetInputCategory}`
 
   formElement.append(
     divLabelImageElement,
     labelImageTitleElement,
     inputImageTitleElement,
     labelImageCategoryElement,
-    fieldsetImageCategoryElement
+    selectImageCategoryElement,
     );
 
     const createDivFormSeparator = document.createElement("div");
     createDivFormSeparator.setAttribute('class', 'modale-separator');
-    createDivFormSeparator.textContent = "------------------------------";
-  
+     
     const createDivSubmitWork = document.createElement("div");
     const createButtonSubmitWork = document.createElement("button");
-    createButtonSubmitWork.setAttribute('id', 'submit-work');
-    createButtonSubmitWork.setAttribute('class', 'submit-add');
-    createButtonSubmitWork.textContent = "Ajouter";
+    createButtonSubmitWork.setAttribute('id', 'submit-work-preview');
+    createButtonSubmitWork.setAttribute('class', 'submit-add-preview');
+    createButtonSubmitWork.textContent = "Valider";
     createDivSubmitWork.append(createButtonSubmitWork);
 
-
-    createDivFormWork.append(formElement);
     selectIdModaleFormPreview.append(
     createDivFormHead,
     createDivFormTitle,
-    createDivFormWork,
+    formElement,
     createDivFormSeparator,
     createDivSubmitWork
   );
   selectClassModaleContent.appendChild(selectIdModaleFormPreview);
-
-} */
-//createModaleAddWorkPreview (works);
+}
 // FIN CREATE MODALE ADD WORK PREVIEW
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Génération des options catégories
+// START - GENERATE CATEGORIES OPTIONS
 async function generateCategoryOption (categories) {
   const categorySelector = document.getElementById("select-category");
+  const emptyCategory = document.createElement("option");
+  emptyCategory.setAttribute("value", "");
+  emptyCategory.setAttribute("label", "");
+  emptyCategory.textContent = "Choisissez une catégorie";
+  categorySelector.append(emptyCategory);
   categories.forEach((category) => {
     const optionImageCategoryElement = document.createElement("option");
     optionImageCategoryElement.setAttribute("value", category.id);
     optionImageCategoryElement.setAttribute("label", category.name);
+    optionImageCategoryElement.textContent = `${category.name}`;
     categorySelector.appendChild(optionImageCategoryElement);
   });
 }  
-
+// END - GENERATE CATEGORIES OPTIONS
 
 // VISIBILITY CLOSE REMOVE
 async function visibilityRemoveModale() {
@@ -574,10 +500,10 @@ async function visibilityRemoveModale() {
     selectIdModaleForm.removeChild(selectIdModaleForm.firstChild);
     selectIdModaleForm.setAttribute("class", "invisible");
   }
- /*  while (selectIdModaleFormPreview.hasChildNodes()) {
+  while (selectIdModaleFormPreview.hasChildNodes()) {
     selectIdModaleFormPreview.removeChild(selectIdModaleFormPreview.firstChild);
     selectIdModaleFormPreview.setAttribute("class", "invisible");
-  } */
+  }
 }
 
   // Recupération du bouton X
@@ -624,7 +550,7 @@ window.addEventListener('click', function(event) {
     const numRem = event.target.id;
    removeWork(numRem.slice(4));
   } 
-
+  
 });
 
 
@@ -646,18 +572,11 @@ function removeWork(identifiant) {
 }
 
 
-
-
-
-
-
-
 //////////////////////////////////////////////////////////
 let getInputImage;
 window.addEventListener('click', function(event) {
   if (event.target.id === "image-file") {
     getInputImage = document.getElementById('image-file');
-    console.log(getInputImage);
    } 
  });
 
@@ -677,20 +596,28 @@ window.addEventListener('click', function(event) {
      } 
   });
 
-
 window.addEventListener('click', async function(event) {
   if (event.target.id == "submit-to-preview") {
 
   const theGetInputImage = getInputImage.files[0];
+
+  const inputImageUrl = theGetInputImage.name;
+  console.log(inputImageUrl);
+
   const theGetInputTitle = getInputTitle.value;
   const theGetInputCategory = getInputCategory.value;
+  const theGetInputCategoryLabel = getInputCategory.label;
+
+  if (theGetInputCategory) {
+    const theGetInputCategoryName = theGetInputCategory.textContent;
+    console.log(theGetInputCategoryName);
+  }
+  const theGetInputCategoryName = theGetInputCategory.textContent;
   console.log(theGetInputImage);
   console.log(theGetInputTitle);
   console.log(theGetInputCategory);
-
-  //const theInputTitle = getInputTitle.value;
-  //const theInputcategory = getInputcategory.value;
-
+  console.log(theGetInputCategoryLabel);
+  
   if (!theGetInputImage || !theGetInputTitle || !theGetInputCategory) {
     alert('Veuillez sélectionner une image, un titre et une catégorie.');
     return;
@@ -701,97 +628,41 @@ window.addEventListener('click', async function(event) {
   formData.append('title', theGetInputTitle);
   formData.append('category', theGetInputCategory);
 
+createModaleAddWorkPreview (inputImageUrl, theGetInputTitle, theGetInputCategory);
+selectIdModaleForm.setAttribute('class', 'invisible');
+
+window.addEventListener('click', async function(event) {
+  if (event.target.id == "submit-work-preview") {
+try {
+const response = await fetch( urlApiWorks, {
+  method: 'POST',
+  body: formData,
+  headers: {
+    authorization: `Bearer ${loginSession}`,
+  },
+});
+
+if (response.ok) {
+  alert('Image envoyée avec succès !');
+  localStorage.removeItem("storeCategories");
+  localStorage.removeItem("storeWorks");
+  //getInputImage.value = '';
+ // getInputTitle.value = '';
+ // getInputcategory.value = '';
+
+} else {
+  alert('Erreur lors de l\'envoi de l\'image.');
+}
+} catch (error) {
+console.error(error);
+alert('Erreur lors de l\'envoi de l\'image.');
+}
+
+}
+});
 
 
-/*   try {
-    const response = await fetch( urlApiWorks, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        authorization: `Bearer ${loginSession}`,
-      },
-    });
 
-    if (response.ok) {
-      alert('Image envoyée avec succès !');
-      localStorage.removeItem("storeCategories");
-      localStorage.removeItem("storeWorks");
-      //getInputImage.value = '';
-     //getInputTitle.value = '';
-      //getInputcategory.value = '';
-      //getPreviewImage.src = '';
-
-    } else {
-      alert('Erreur lors de l\'envoi de l\'image.');
-    }
-  } catch (error) {
-    console.error(error);
-    alert('Erreur lors de l\'envoi de l\'image.');
-  } */
-
-   // async function createModaleAddWorkPreview (works) {
-      const workNode = document.getElementById("modale-form");
-      const cloneWorkNode = workNode.cloneNode(true);
-      cloneWorkNode.id = "modale-form-preview";
-      cloneWorkNode.class = "visible";
-
-
-      async function changeAttributs(){
-       // var element = document.getElementById('myElement');
-        var children = cloneWorkNode.children;
-        for(let i=0; i<children.length; i++){
-            const child = children[i];
-            const childChild = child.firstChild;
-            const childChildChild = childChild.firstChild;
-            const childChildId = childChild.id;
-            //const childChildChildId = childChildChild.id;
-            console.log("Enfant niveau 1 : " + child);
-
-
-            console.log("Enfant niveau 3 : " + childChildChild);
-            console.log("ID Enfant niveau 2 : " + childChildId);
-            const childClass = child.getAttribute("class");
-            const childId = child.getAttribute("id");
-            console.log("Class Enfant niveau 1 : " + childClass);
-            console.log("ID Enfant niveau 1 : " + childId);
-           
-        }
-    }
-    changeAttributs();
-
-      //const cloneWorkNodeChild1 = cloneWorkNode.lastChild[1];
-      //console.log(cloneWorkNodeChild1);
-      //const cloneWorkNodelastChild = cloneWorkNode.lastChild;
-      //cloneWorkNodelastChild.firstChild.id = "submit-work";
-    
-      //cloneWorkNode.lastChild.id = "submit-work";
-      //clone.setAttribute('id', 'modale-form-preview');
-
-      //console.log(clone);
-      selectClassModaleContent.appendChild(cloneWorkNode);
-      //document.getElementById("modale-form-preview").appendChild(cloneWorkNode);
-      //const previewImage = clonedElements.getElementById("file-preview");
-      //previewImage.setAttribute('class', 'image-preview');
-      //const previewSubmit = clonedElements.getElementById("submit-to-preview");
-      //previewImage.setAttribute('class', 'submit-work');
-
-      //const clonedElements = document.getElementById("modale-form-preview").appendChild(clone);
-      //const selectFilePreview = clonedElements.getElementById("file-preview");
-      //selectFilePreview.setAttribute('class', 'image-preview');
-      //console.log(clonedElements);
-      //clonedElements.setAttribute('id', 'form-preview');
-      //selectIdModaleFormPreview.setAttribute('class', 'visible');
-/*       const previewVisibility = selectIdModaleFormPreview.setAttribute('class', 'visible');
-      if (previewVisibility) {
-        const previewImage = selectIdModaleFormPreview.getElementById("file-preview");
-        previewImage.setAttribute('class', 'image-preview');
-        const previewSubmit = selectIdModaleFormPreview.getElementById("submit-to-preview");
-        previewImage.setAttribute('class', 'submit-work');
-      } */
-   // }
-    //createModaleAddWorkPreview (works);
-    selectIdModaleForm.setAttribute('class', 'invisible');
-    //changePreviewElementsAttributes ();
 }
 });
 
@@ -807,33 +678,6 @@ window.addEventListener('click', async function(event) {
     previewImage.setAttribute('class', 'submit-work');
   }
 } */
-
-
-try {
-  const response = await fetch( urlApiWorks, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      authorization: `Bearer ${loginSession}`,
-    },
-  });
-
-  if (response.ok) {
-    alert('Image envoyée avec succès !');
-    localStorage.removeItem("storeCategories");
-    localStorage.removeItem("storeWorks");
-    //getInputImage.value = '';
-   //getInputTitle.value = '';
-    //getInputcategory.value = '';
-    //getPreviewImage.src = '';
-
-  } else {
-    alert('Erreur lors de l\'envoi de l\'image.');
-  }
-} catch (error) {
-  console.error(error);
-  alert('Erreur lors de l\'envoi de l\'image.');
-}
 
 
 

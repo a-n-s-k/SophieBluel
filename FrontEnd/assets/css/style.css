@@ -199,6 +199,19 @@ input[type="submit"]{
 }
 
 /* Boutons */
+.categories button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 19px;
+	color: white;
+    background-color: #1D6154;
+    border-radius: 18px;
+}
+
 button {
     display: flex;
     justify-content: center;
@@ -206,7 +219,6 @@ button {
     height: 36px;
     font-size: 14px;
     font-weight: bold;
-    /* padding: 19px; */
 	color: white;
     background-color: #1D6154;
     border-radius: 18px;
@@ -439,7 +451,7 @@ input[type="email"] {
 	height: 688px;
 	background-color: white;
 	opacity: 1;
-	box-sizing: border-box;
+	/* box-sizing: border-box; */
 	border-radius: 10px;
 	/* z-index: 1; */
 }
@@ -450,14 +462,14 @@ input[type="email"] {
 	justify-content: space-between;
 	row-gap: 10px;
 	width: 630px;
-	height: 688px;
+	min-height: 688px;
 	opacity: 1;
-	box-sizing: border-box;
+	/* box-sizing: border-box; */
   }
 .gallery-head  {
 	display: flex;
 	justify-content: right;
-	width: 630px;
+	width: 590px;
 }
 
 .gallery-head i {
@@ -502,25 +514,25 @@ input[type="email"] {
 }
 
 /* MODALE ADD WORK */
-#modale-form {
+#modale-form, #modale-form-preview {
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	row-gap: 10px;
+	row-gap: 30px;
 	width: 630px;
-	height: 688px;
+	height: 670px;
 	opacity: 1;
-	box-sizing: border-box;
-	/* z-index: 2; */
+	/* box-sizing: border-box; */
   }
 .form-head  {
 	display: flex;
 	justify-content: space-between;
-	width: 630px;
+	width: 590px;
+	margin-top:10px;
 }
 .form-head i {
 	color: black;
 	font-size: large;
+	font-size: 24px;
 }
 .close-modale {
 	border: none;
@@ -533,27 +545,33 @@ input[type="email"] {
 .modale-title {
 	font-weight: 700;
 	font-size: 26px;
-	color: #1D6154
 }
 
-.form-work form {
+.form-work {
 	width: 420px;
-	/* padding: 22px; */
 	display: flex;
 	justify-content: center;
-	align-items: center;
 	flex-direction: column;
-	
-	row-gap: 10px;
+	row-gap: 30px;
 	box-sizing: border-box;
   }
 
 .form-work input {
 	width: 420px;
-	height: 51px;
-	display: flex;
+	height: 50px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 .file-preview {
+	display: flex;
+	width: 420px;
+	height: 169px;
+	flex-direction: column;
+	align-items: center;
+	background-color: #E8F1F6;
+	border-radius: 10px;
+}
+.image-preview {
 	display: flex;
 	width: 420px;
 	height: 169px;
@@ -566,29 +584,23 @@ input[type="email"] {
 	width: 76px;
 	height: 76px;
 }
+.image-preview img {
+	display: flex;
+	width: 130px;
+	height: 169px;
+}
+
 .file-preview input {
 	width: 173px;
-	height: 36px;
     font-size: 14px;
     font-weight: bold;
     padding: 19px;
 	color: white;
-    background-color: #011612;
+    background-color: #A7A7A7;
     border-radius: 18px;
 }
-.image-preview {
-	display: flex;
-	width: 420px;
-	height: 169px;
-	flex-direction: column;
-	align-items: center;
-	background-color: #E8F1F6;
-	border-radius: 10px;
-}
-.image-preview img {
-	width: 76px;
-	height: 76px;
-}
+
+
 .image-preview input {
 	width: 173px;
 	height: 36px;
@@ -600,7 +612,20 @@ input[type="email"] {
     border-radius: 18px;
 }
 
-#submit-work {
+.submit-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	width: 237px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 19px;
+	color: white;
+    background-color: #A7A7A7;
+    border-radius: 18px;
+}
+.submit-add-preview {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -614,7 +639,17 @@ input[type="email"] {
     border-radius: 18px;
 }
 
-  
+.button-image-input {
+    display: flex;
+	width: 173px;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    font-size: 14px;
+	color: #306685;
+    background-color: #CBD6DC;
+    border-radius: 50px;
+}
   /* MODALE BOUTONS CLOSE AND PREVIOUS */
 
 
@@ -646,7 +681,11 @@ input[type="email"] {
 	color: white;
 	text-align: center;
 }  
-
+.modale-separator {
+	width: 420px;
+	height: 1px;
+	background-color: #B3B3B3;
+}
 
 
 /* FIN Les Modales */
