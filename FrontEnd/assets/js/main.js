@@ -1,3 +1,9 @@
+const selectButtonConnexion = document.querySelector(".connecter");
+selectButtonConnexion.addEventListener('click', function(event) {
+  event.preventDefault();
+window.location.href = 'login.html';
+});  
+
 const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
 const selectDivCategorie = document.querySelector(".categories");
 
@@ -25,11 +31,13 @@ const selectDivModif = document.getElementById("modification");
 
     const selectButtonDeConnexion = document.querySelector(".deconnecter");
 
-    selectButtonDeConnexion.addEventListener('click', function() {
+    selectButtonDeConnexion.addEventListener('click', function(event) {
+      event.preventDefault();
       // Déconnectez-vous en détruisant le jeton de session
       sessionStorage.removeItem("tokenKey");
       // Redirigez vers la page de connexion ou autre
 		window.location.href = 'index.html';
+
     });  
 } else if (!loginSession) {
   selectButtonLogin.setAttribute('class', 'connecter');
@@ -37,8 +45,8 @@ const selectDivModif = document.getElementById("modification");
 }
 
 
-export const urlApiWorks = "http://localhost:5678/api/works";
-export const urlApiCategories = "http://localhost:5678/api/categories";
+const urlApiWorks = "http://localhost:5678/api/works";
+const urlApiCategories = "http://localhost:5678/api/categories";
 
 // Récupération des works eventuellement stockés dans le localStorage
 let works = localStorage.getItem("storeWorks");
@@ -99,7 +107,7 @@ async function worksElements (work) {
   // Insertion du titre pour le projet
   figcaptionElement.textContent = work.title;  
   // Insertion des balises enfants img et figcaption à leur parent figure
-  figureElement.appendChild(imgElement, figcaptionElement);  
+  figureElement.append(imgElement, figcaptionElement);  
   // Insertion des balises figure à son parent div
   sectionDivGallery.appendChild(figureElement);          
 }
@@ -184,11 +192,6 @@ const textModification = "modification";
 // Fonction qui crée les éléments des boutons modifier et éditer
 async function editElements(idSelection, texte) {
   idSelection.setAttribute('class', `${texte}-visible`);
-  
-
-  //const aElement = document.createElement("a");
-  // createAEdition.setAttribute('class', 'edition');
-  //aElement.setAttribute('href', '#');
 
  const imgElement = document.createElement("img");
   imgElement.setAttribute('src', `./assets/icons/${texte}.png`);
@@ -295,8 +298,10 @@ async function createModaleAddWork (works) {
   createIconClose.setAttribute('class', 'fa-solid fa-xmark');
   const createButtonFormHeadP = document.createElement("button");
   createButtonFormHeadP.setAttribute('class', 'previous-modale');
+  //createButtonFormHeadP.setAttribute('id', 'previous-to-gallery');
   const createIconPrevious = document.createElement("i");
   createIconPrevious.setAttribute('class', 'fa-solid fa-arrow-left');
+  createIconPrevious.setAttribute('id', 'previous-to-gallery');
   createButtonFormHeadC.append(createIconClose);
   createButtonFormHeadP.append(createIconPrevious);
   createDivFormHead.append(createButtonFormHeadP, createButtonFormHeadC);
@@ -350,7 +355,8 @@ async function createModaleAddWork (works) {
   selectImageCategoryElement.setAttribute('id', 'select-category');
   selectImageCategoryElement.setAttribute('name', 'select-category');
   selectImageCategoryElement.setAttribute('form', 'work-form');
-  selectImageCategoryElement.setAttribute("requiered", "");
+  selectImageCategoryElement.requiered;
+  //selectImageCategoryElement.setAttribute("requiered", "");
 
   formElement.append(
     divLabelImageElement,
@@ -398,9 +404,11 @@ async function createModaleAddWorkPreview (inputImageUrl, theGetInputTitle, theG
 
   const createButtonFormHeadP = document.createElement("button");
   createButtonFormHeadP.setAttribute('class', 'previous-modale');
+ // createButtonFormHeadP.setAttribute('id', 'previous-to-add');
 
   const createIconPrevious = document.createElement("i");
   createIconPrevious.setAttribute('class', 'fa-solid fa-arrow-left');
+  createIconPrevious.setAttribute('id', 'previous-to-add');
 
   createButtonFormHeadC.append(createIconClose);
   createButtonFormHeadP.append(createIconPrevious);
@@ -441,7 +449,7 @@ async function createModaleAddWorkPreview (inputImageUrl, theGetInputTitle, theG
   selectImageCategoryElement.setAttribute('name', 'select-category-preview');
   selectImageCategoryElement.setAttribute('form', 'work-form-preview');
   selectImageCategoryElement.setAttribute("requiered", "");
-  selectImageCategoryElement.textContent = `${theGetInputCategory}`
+  //selectImageCategoryElement.textContent = `${theGetInputCategory}`
 
   formElement.append(
     divLabelImageElement,
@@ -473,8 +481,8 @@ async function createModaleAddWorkPreview (inputImageUrl, theGetInputTitle, theG
 // FIN CREATE MODALE ADD WORK PREVIEW
 
 // START - GENERATE CATEGORIES OPTIONS
-async function generateCategoryOption (categories) {
-  const categorySelector = document.getElementById("select-category");
+async function generateCategoryOption (categories, selectcategories) {
+  const categorySelector = document.getElementById(`${selectcategories}`);
   const emptyCategory = document.createElement("option");
   emptyCategory.setAttribute("value", "");
   emptyCategory.setAttribute("label", "");
@@ -491,7 +499,16 @@ async function generateCategoryOption (categories) {
 // END - GENERATE CATEGORIES OPTIONS
 
 // VISIBILITY CLOSE REMOVE
-async function visibilityRemoveModale() {
+
+/* async function visibilityRemoveElementChilds(identifiantElement) {
+  while (identifiantElement.hasChildNodes()) {
+    identifiantElement.removeChild(identifiantElement.firstChild);
+    identifiantElement.setAttribute("class", "invisible");
+  }
+} */
+
+
+/* async function visibilityRemoveModale() {
   while (selectIdModaleGallery.hasChildNodes()) {
     selectIdModaleGallery.removeChild(selectIdModaleGallery.firstChild);
     selectIdModaleGallery.setAttribute("class", "invisible");
@@ -505,12 +522,18 @@ async function visibilityRemoveModale() {
     selectIdModaleFormPreview.setAttribute("class", "invisible");
   }
 }
-
+ */
   // Recupération du bouton X
   window.addEventListener('click', function(event) {
       if (event.target.className === "fa-solid fa-xmark") {
       selectIdModale.setAttribute('class', 'invisible');
-      visibilityRemoveModale();
+      visibilityRemoveElementChilds(selectIdModaleGallery);
+      visibilityRemoveElementChilds(selectIdModaleForm);
+      visibilityRemoveElementChilds(selectIdModaleFormPreview);
+      //localStorage.removeItem("storeWorks");
+      location.reload();
+
+      //visibilityRemoveModale();
     }
   });
 
@@ -518,16 +541,54 @@ async function visibilityRemoveModale() {
   window.addEventListener('click', function(event) {
     if (event.target == selectIdModale) {
       selectIdModale.setAttribute('class', 'invisible');
-      visibilityRemoveModale();
+      visibilityRemoveElementChilds(selectIdModaleGallery);
+      visibilityRemoveElementChilds(selectIdModaleForm);
+      visibilityRemoveElementChilds(selectIdModaleFormPreview);
+      location.reload();
+      //localStorage.removeItem("storeWorks");
+      //visibilityRemoveModale();
     }
   });
+
+// START PREVIOUS BUTTON
+
+
+
+
+
+/*   window.addEventListener('click', function(event) {
+    if (event.target.className === "fa-solid fa-arrow-left") {
+      const element = document.querySelector(".fa-solid .fa-arrow-left");
+      console.log(element);
+
+      if (element.parentElement.id === "previous-to-gallery") {
+      visibilityRemoveElementChilds(selectIdModaleForm);
+      //createModale (works);
+      } else if (element.parentElement.id === "previous-to-add") {
+        visibilityRemoveElementChilds(selectIdModaleFormPreview);
+      }
+  }
+}); */
+
+
+window.addEventListener('click', function(event) {
+  if (event.target.id === "previous-to-gallery") {
+    visibilityRemoveElementChilds(selectIdModaleForm);
+    selectIdModaleGallery.setAttribute('class', 'visible');
+} else if (event.target.id === "previous-to-add") {
+  visibilityRemoveElementChilds(selectIdModaleFormPreview);
+  selectIdModaleForm.setAttribute('class', 'visible');
+}
+});
+// END PREVIOUS BUTTON
 
 // Add Work
   window.addEventListener('click', function(event) {
     if (event.target.id == "add-work") {
-      visibilityRemoveModale();
+      visibilityElementChilds(selectIdModaleGallery);
+      //visibilityRemoveModale();
       createModaleAddWork(works);
-      generateCategoryOption (categories);
+      generateCategoryOption (categories, 'select-category');
     }
   });
 
@@ -548,9 +609,9 @@ async function visibilityRemoveModale() {
 window.addEventListener('click', function(event) {
  if (event.target.className === "fa-solid fa-trash-can") {
     const numRem = event.target.id;
-   removeWork(numRem.slice(4));
+    const nodeId = numRem.slice(4);
+    removeWork(nodeId);
   } 
-  
 });
 
 
@@ -563,8 +624,9 @@ function removeWork(identifiant) {
     },
   }).then((response) => {
     if (response.ok) {
-     localStorage.removeItem("storeCategories");
-     localStorage.removeItem("storeWorks"); 
+      const element = document.getElementById(`${identifiant}`);
+      element.remove();
+    localStorage.removeItem("storeWorks"); 
     } else {
       alert("Erreur : " + response.status);
     }
@@ -584,7 +646,6 @@ window.addEventListener('click', function(event) {
  window.addEventListener('click', function(event) {
    if (event.target.id === "image-title") {
     getInputTitle = document.getElementById('image-title');
-     console.log(getInputTitle);
     } 
   });
 
@@ -592,7 +653,6 @@ window.addEventListener('click', function(event) {
   window.addEventListener('click', function(event) {
     if (event.target.id === "select-category") {
       getInputCategory = document.getElementById('select-category');
-      console.log(getInputCategory);
      } 
   });
 
@@ -629,6 +689,9 @@ window.addEventListener('click', async function(event) {
   formData.append('category', theGetInputCategory);
 
 createModaleAddWorkPreview (inputImageUrl, theGetInputTitle, theGetInputCategory);
+generateCategoryOption (categories, 'select-category-preview');
+toSetSelectedAttribute(document.getElementById("select-category-preview"),theGetInputCategory);
+
 selectIdModaleForm.setAttribute('class', 'invisible');
 
 window.addEventListener('click', async function(event) {
@@ -646,10 +709,7 @@ if (response.ok) {
   alert('Image envoyée avec succès !');
   localStorage.removeItem("storeCategories");
   localStorage.removeItem("storeWorks");
-  //getInputImage.value = '';
- // getInputTitle.value = '';
- // getInputcategory.value = '';
-
+  toDisabledElement('submit-work-preview');
 } else {
   alert('Erreur lors de l\'envoi de l\'image.');
 }
@@ -701,15 +761,32 @@ alert('Erreur lors de l\'envoi de l\'image.');
 }
 
 
+async function visibilityRemoveElementChilds(identifiantElement) {
+  while (identifiantElement.hasChildNodes()) {
+    identifiantElement.removeChild(identifiantElement.firstChild);
+    identifiantElement.setAttribute("class", "invisible");
+  }
+}
+async function visibilityElementChilds(identifiantElement) {
+    identifiantElement.setAttribute("class", "invisible");
+}
+
+async function toDisabledElement(identifiant) {
+  document.getElementById(`${identifiant}`).disabled = true;
+}
 
 
-
-
-
-
-
-
-
+async function toSetSelectedAttribute(variableIdentifiant, valeurValue) {
+  // Loop through all the items in drop down list
+    for (let i = 0; i< variableIdentifiant.options.length; i++) { 
+      if (variableIdentifiant.options[i].value == valeurValue) {
+      // Item is found. Set its property and exit
+      variableIdentifiant.options[i].selected = true;
+      break;
+      }
+    }
+    return;
+}
 
 
 

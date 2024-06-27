@@ -1,8 +1,6 @@
 /* DEBUT - Création formulaire de connexion à l'administration du site */
 const selectSectionLogin = document.getElementById('login');
-function loginElements() {
-	// Création des Eléments HTML pour la connexion
-	  //const loginElement = document.getElementById('login');
+async function loginElements() {
 	  const formElement = document.createElement("form");
 	  formElement.setAttribute('id', 'id-login');
 	  formElement.setAttribute('method', 'post');
@@ -23,9 +21,6 @@ function loginElements() {
 	  inputPasswordElement.setAttribute('type', 'password');
 	  inputPasswordElement.setAttribute('name', 'name-password');
 	  inputPasswordElement.setAttribute('id', 'id-password');
-
-	
-	  
 	  
 	
 	  const buttonElement = document.createElement("button");
@@ -44,35 +39,16 @@ function loginElements() {
 		buttonElement
 	  );
 	  selectSectionLogin.appendChild(formElement);
-    //return selectSectionLogin;
 }
 loginElements();
 /* FIN - Création formulaire de connexion à l'administration du site */
 
 
-
-
-
-/* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
-//const boutonDeConnexion = document.getElementById('connexion');
-//const selectButtonLogin = document.getElementById('connexion');
-/* FIN - Recupération des boutons de Connexion et de Déconnexion */
-
-
-/* DEBUT - Action sur bouton de connexion */
-//const formulaireConnexion = document.getElementById('id-login');
 const selectButtonConnexion = document.getElementById('id-login');
-//const boutonDeconnexion = document.getElementById('boutonDeconnexion');
-//const selectButtonDeConnexion = document.querySelector("deconnecter");
-//const messageErreur = document.getElementById('messageErreur');
-
-
 selectButtonConnexion.addEventListener('submit', function(event) {
     event.preventDefault();
-
     const loginEmail = document.getElementById("id-email").value;
     const loginPassword = document.getElementById("id-password").value;
-
     // Envoyez les informations d'identification à l'API distante
     fetch('http://localhost:5678/api/users/login', {
         method: "POST",
@@ -93,8 +69,6 @@ selectButtonConnexion.addEventListener('submit', function(event) {
             // Connexion réussie, enregistrez le token de session
             const loginSessionToken = data.token;
 			sessionStorage.setItem('tokenKey', loginSessionToken);
-
-			
             // Redirigez vers la page d'accueil ou autre
             window.location.href = 'index.html';
         }
