@@ -150,22 +150,23 @@ showWorks ();
 
 
 selectDivCategorie.addEventListener("click", (event) => {
+  const categoryId = document.getElementById(`${event.target.id}`);
     const catId = event.target.id[4];
     sectionDivGallery.innerHTML = "";
     async function showFilteredWorks () {
-        //sectionDivGallery.innerHTML = "";
         for (let i = 0; i < works.length; i++) {
             const work = works[i];
             const categorie = work.category;
                 if ((work.categoryId > 0) && (work.categoryId == catId)){ 
+                  categoryId.style.backgroundColor = "grey";
                 await worksElements (work);
             }  else if (catId === "0") {  
                 location.reload();
             } 
         }
     }
-    return showFilteredWorks ();
-
+    //return showFilteredWorks ();
+    showFilteredWorks ();
 });
 
 
@@ -298,7 +299,6 @@ async function createModaleAddWork (works) {
   createIconClose.setAttribute('class', 'fa-solid fa-xmark');
   const createButtonFormHeadP = document.createElement("button");
   createButtonFormHeadP.setAttribute('class', 'previous-modale');
-  //createButtonFormHeadP.setAttribute('id', 'previous-to-gallery');
   const createIconPrevious = document.createElement("i");
   createIconPrevious.setAttribute('class', 'fa-solid fa-arrow-left');
   createIconPrevious.setAttribute('id', 'previous-to-gallery');
@@ -356,7 +356,6 @@ async function createModaleAddWork (works) {
   selectImageCategoryElement.setAttribute('name', 'select-category');
   selectImageCategoryElement.setAttribute('form', 'work-form');
   selectImageCategoryElement.requiered;
-  //selectImageCategoryElement.setAttribute("requiered", "");
 
   formElement.append(
     divLabelImageElement,
@@ -449,7 +448,7 @@ async function createModaleAddWorkPreview (inputImageUrl, theGetInputTitle, theG
   selectImageCategoryElement.setAttribute('name', 'select-category-preview');
   selectImageCategoryElement.setAttribute('form', 'work-form-preview');
   selectImageCategoryElement.setAttribute("requiered", "");
-  //selectImageCategoryElement.textContent = `${theGetInputCategory}`
+ 
 
   formElement.append(
     divLabelImageElement,
@@ -500,29 +499,6 @@ async function generateCategoryOption (categories, selectcategories) {
 
 // VISIBILITY CLOSE REMOVE
 
-/* async function visibilityRemoveElementChilds(identifiantElement) {
-  while (identifiantElement.hasChildNodes()) {
-    identifiantElement.removeChild(identifiantElement.firstChild);
-    identifiantElement.setAttribute("class", "invisible");
-  }
-} */
-
-
-/* async function visibilityRemoveModale() {
-  while (selectIdModaleGallery.hasChildNodes()) {
-    selectIdModaleGallery.removeChild(selectIdModaleGallery.firstChild);
-    selectIdModaleGallery.setAttribute("class", "invisible");
-  }
-  while (selectIdModaleForm.hasChildNodes()) {
-    selectIdModaleForm.removeChild(selectIdModaleForm.firstChild);
-    selectIdModaleForm.setAttribute("class", "invisible");
-  }
-  while (selectIdModaleFormPreview.hasChildNodes()) {
-    selectIdModaleFormPreview.removeChild(selectIdModaleFormPreview.firstChild);
-    selectIdModaleFormPreview.setAttribute("class", "invisible");
-  }
-}
- */
   // Recupération du bouton X
   window.addEventListener('click', function(event) {
       if (event.target.className === "fa-solid fa-xmark") {
@@ -626,7 +602,7 @@ function removeWork(identifiant) {
     if (response.ok) {
       const element = document.getElementById(`${identifiant}`);
       element.remove();
-    localStorage.removeItem("storeWorks"); 
+      localStorage.removeItem("storeWorks"); 
     } else {
       alert("Erreur : " + response.status);
     }

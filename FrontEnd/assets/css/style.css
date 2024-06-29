@@ -211,6 +211,18 @@ input[type="submit"]{
     background-color: #1D6154;
     border-radius: 18px;
 }
+.categories .categ-selected button  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 19px;
+	color: rgb(36, 35, 35);
+    background-color: #71dbc8;
+    border-radius: 18px;
+}
 
 button {
     display: flex;
@@ -450,10 +462,8 @@ input[type="email"] {
 	width: 630px;
 	height: 688px;
 	background-color: white;
-	opacity: 1;
-	/* box-sizing: border-box; */
 	border-radius: 10px;
-	/* z-index: 1; */
+	z-index: 1;
 }
 /* MODALE GALLERY */
 #modale-gallery {
@@ -464,7 +474,6 @@ input[type="email"] {
 	width: 630px;
 	min-height: 688px;
 	opacity: 1;
-	/* box-sizing: border-box; */
   }
 .gallery-head  {
 	display: flex;
