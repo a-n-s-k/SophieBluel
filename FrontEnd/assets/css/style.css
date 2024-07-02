@@ -28,9 +28,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {
+/* body {
 	line-height: 1;
-}
+} */
 ol, ul {
 	list-style: none;
 }
@@ -57,6 +57,7 @@ header, main, footer{
 	max-width: 1140px;
 	margin:auto;
 }
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -101,25 +102,39 @@ nav li {
 nav a {
 	text-decoration: none;
 }
-
+nav a:active {
+	font-weight: bold;
+}
+nav img {
+width: 20px;
+height: 20px;
+}
 li:hover {
 	color: #B1663C;
 }
 #introduction {
 	display: flex;
 	align-items: center;
-}
-#introduction figure {
-	flex: 1
+	justify-content: center;
+	column-gap: 60px;
+	padding: 92px;
 }
 #introduction img {
-	display: block;
+	width: 474px;
+	height: 355px;
+/* 	display: block;
 	margin: auto;
-	width: 80%;
+	width: 80%; */
 }
 
 #introduction article {
-	flex: 1
+	display: flex;
+	width: 474px;
+	height: 355px;
+	flex-direction: column;
+	justify-content: center;
+	column-gap: 20px;
+	
 }
 #introduction h2 {
 	margin-bottom: 1em;
@@ -128,25 +143,40 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+#portfolio {
+	display: flex;
+	flex-direction: column;
+	padding: 0 92px;
+}
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
 .gallery {
+	display: flex;
+	flex-wrap: wrap;
+	row-gap: 20px;
+	column-gap: 20px;
+
+
+
+
+/* 	
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 20px; */
 }
 
 .gallery img {
-	width: 100%;
-
+	/* width: 100%; */
+	width: 305px;
+	height: 407px;
 }
 #contact {
-	width: 50%;
-margin: auto;
+	width: 380px;
+    margin: auto;
 }
 #contact > * {
 	text-align: center;
@@ -176,12 +206,13 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+#contact input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
 	margin : 2em auto ;
+	height: 36px;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
@@ -199,29 +230,29 @@ input[type="submit"]{
 }
 
 /* Boutons */
-.categories button {
-    display: flex;
+.cat  {
+	display: flex;
     justify-content: center;
     align-items: center;
-    height: 36px;
-    font-size: 14px;
-    font-weight: bold;
+	color:#1D6154;
+    background-color: white;
+	font-size: 14px;
+	font-weight: bold;
+	height: 36px;
     padding: 19px;
+    border-radius: 60px;
+}
+.cat-focused {
 	color: white;
     background-color: #1D6154;
-    border-radius: 18px;
 }
-
 button {
-    display: flex;
+	display: flex;
     justify-content: center;
     align-items: center;
     height: 36px;
-    font-size: 14px;
-    font-weight: bold;
-	color: white;
-    background-color: #1D6154;
-    border-radius: 18px;
+    padding: 19px;
+    border-radius: 60px;
 }
 
 
@@ -255,11 +286,15 @@ footer nav ul {
 
 /* Log In */
 
+.login-main {
+	height: 864px;
+}
 #login {
 	display: flex;
 	flex-direction: column;
 	row-gap: 20px;
-	width: 50%;
+	/* width: 50%; */
+	width: 379px;
 	margin: auto;
 }
 #login > * {
@@ -284,6 +319,10 @@ footer nav ul {
 }
 #login label {
 	margin: 2em 0 1em 0;
+}
+#login a {
+align-self: center;
+color: #000;	
 }
 
 input[type="submit"]{
@@ -341,11 +380,11 @@ input[type="email"] {
 	border-radius: 0 0 5px 5px;
 	box-sizing: border-box;
 }
-.email-val.active {
+.email-val .active {
 	padding: 0.3em;
 }
 /* The message box is shown when the user clicks on the password field */
-#message {
+/* #message {
 	display: flex;
 	flex-direction: column;
 	row-gap: 10px;
@@ -360,7 +399,7 @@ input[type="email"] {
   }
 #message h3 {
 	font-size: 16px;
-}
+} */
   /* Add a green text color and a checkmark when the requirements are right */
 .valid {
 	color: green;
@@ -384,12 +423,11 @@ input[type="email"] {
 .modification-visible {
 	display: flex;
 	column-gap: 10px;
+	padding: 10px 0 0 0;
 }
 .edition-visible div , .modification-visible div {
 	display: flex;
-	/* align-items: center; */
 	justify-content: center;
-	/* column-gap: 10px; */
 	text-decoration: none;
 }
 .edition-visible div {
@@ -404,7 +442,7 @@ input[type="email"] {
 	height: 16px;
 	width: 16px;
 }
-.edition-invisible , .modification-invisible{
+.edition-invisible , .modification-invisible {
 	display: none;
 }
 
@@ -420,9 +458,9 @@ input[type="email"] {
 	display: flex;
 	color: #1D6154;
 }
-.mes-projets div {
+/* .mes-projets div {
 	display: flex;
-}
+} */
 
 
 
@@ -432,7 +470,7 @@ input[type="email"] {
 }
 .visible {
 	display: flex;
-  }
+}
 #modale {
 	position: fixed;
 	justify-content: center;
@@ -459,47 +497,37 @@ input[type="email"] {
 #modale-gallery {
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	row-gap: 10px;
+	row-gap: 30px;
 	width: 630px;
 	min-height: 688px;
 	opacity: 1;
-	/* box-sizing: border-box; */
-  }
-.gallery-head  {
-	display: flex;
-	justify-content: right;
-	width: 590px;
-}
 
-.gallery-head i {
-	color: black;
-	font-size: large;
-}
+  }
 .gallery-title {
 	font-size: 26px;
 	font-weight: normal;
 }
 .gallery-works {
 	width: 420px;
-	padding: 22px;
+	height: 390px;
 	display: flex;
 	flex-wrap: wrap;
-	column-gap: 15px;
-	row-gap: 20px;
+	column-gap: 10px;
+	row-gap: 30px;
+	align-content: baseline;
 	box-sizing: border-box;
   }
-.gallery-works figure {
-	width: 82px;
+/* .gallery-works figure {
+	width: 76px;
 	height: 104px;
 	display: flex;
 }
 .gallery-works img {
 	position: absolute;
-	width: 82px;
+	width: 76px;
 	height: 104px;
-}
-#gallery-add {
+} */
+.gallery-add {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -521,15 +549,21 @@ input[type="email"] {
 	width: 630px;
 	height: 670px;
 	opacity: 1;
-	/* box-sizing: border-box; */
   }
-.form-head  {
+.form-head {
 	display: flex;
 	justify-content: space-between;
 	width: 590px;
-	margin-top:10px;
+	margin-top:20px;
 }
-.form-head i {
+.gallery-head  {
+	display: flex;
+	justify-content: right;
+	width: 590px;
+	margin-top:20px;
+}
+
+.form-head i, .gallery-head i {
 	color: black;
 	font-size: large;
 	font-size: 24px;
@@ -537,13 +571,14 @@ input[type="email"] {
 .close-modale {
 	border: none;
 	background: none;
+	padding-right: 10px;
 }
 .previous-modale {
 	border: none;
 	background: none;
+	padding-left: 10px;
 }
 .modale-title {
-	font-weight: 700;
 	font-size: 26px;
 }
 
@@ -556,29 +591,41 @@ input[type="email"] {
 	box-sizing: border-box;
   }
 
-.form-work input {
+.form-work input, select {
 	width: 420px;
 	height: 50px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 .file-preview {
-	display: flex;
+	/* display: flex; */
 	width: 420px;
 	height: 169px;
 	flex-direction: column;
 	align-items: center;
+	row-gap: 10px;
 	background-color: #E8F1F6;
 	border-radius: 10px;
 }
-.image-preview {
+.file-title {
 	display: flex;
 	width: 420px;
-	height: 169px;
 	flex-direction: column;
+	row-gap: 10px;
+}
+.file-category {
+	display: flex;
+	width: 420px;
+	flex-direction: column;
+	row-gap: 10px;
+}
+.image-preview {
+	width: 420px;
+	height: 169px;
+	justify-content: center;
 	align-items: center;
 	background-color: #E8F1F6;
-	border-radius: 10px;
+	border-radius: 60px;
 }
 .file-preview img {
 	width: 76px;
@@ -611,7 +658,10 @@ input[type="email"] {
     background-color: #011612;
     border-radius: 18px;
 }
-
+.div-image-input {
+    font-size: 10px;
+	color: #444444;
+}
 .submit-add {
     display: flex;
     justify-content: center;
@@ -623,7 +673,7 @@ input[type="email"] {
     padding: 19px;
 	color: white;
     background-color: #A7A7A7;
-    border-radius: 18px;
+    border-radius: 60px;
 }
 .submit-add-preview {
     display: flex;
@@ -636,7 +686,7 @@ input[type="email"] {
     padding: 19px;
 	color: white;
     background-color: #1D6154;
-    border-radius: 18px;
+    border-radius: 60px;
 }
 
 .button-image-input {
@@ -648,33 +698,33 @@ input[type="email"] {
     font-size: 14px;
 	color: #306685;
     background-color: #CBD6DC;
-    border-radius: 50px;
+    border-radius: 60px;
 }
   /* MODALE BOUTONS CLOSE AND PREVIOUS */
 
-
-
-
-
 .modale-work {
 	display: flex;
-	width: 82px;
+	width: 76px;
 	height: 104px;
 	justify-content: right;
 }
 .class-work-image {
 	position: absolute;
-	width: 82px;
+	width: 76px;
 	height: 104px;
 }
 .button-work-remove {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 4px;
 	width: 17px;
 	height: 17px;
     z-index: 1;
 	background-color: #000;
+	padding: 4px;
 	border: none;
 	border-radius: 4px;
-	/* margin: 8px 8px 96px 58px; */
 }
 .fa-solid, .fa-trash-can{
 	font-size: 10px;
