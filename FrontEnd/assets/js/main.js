@@ -1,12 +1,13 @@
+// CONNEXION A LOGIN.HTML
 const selectButtonConnexion = document.querySelector(".connecter");
 selectButtonConnexion.addEventListener("click", function(event) {
   event.preventDefault();
-  
 window.location.href = "login.html";
 });  
 
-const sectionDivGallery = document.querySelector(".gallery"); // Récupération de l'élément du DOM qui accueillera les projets
-const selectDivCategorie = document.querySelector(".categories");
+
+
+
 
 const loginSession = sessionStorage.getItem("tokenKey");
 
@@ -18,7 +19,6 @@ const selectIdModale = document.getElementById("modale");
 const selectClassModaleContent = document.querySelector(".modale-content");
 const selectIdModaleGallery = document.getElementById("modale-gallery");
 const selectIdModaleForm = document.getElementById("modale-form");
-const selectIdModaleFormPreview = document.getElementById("modale-form-preview");
 
 // Select EDITION and MODIFICATION Id
 const selectDivEdit = document.getElementById("edition");
@@ -53,6 +53,7 @@ const urlApiCategories = "http://localhost:5678/api/categories";
 // Récupération des works eventuellement stockés dans le localStorage
 let works = localStorage.getItem("storeWorks");
 
+async function worksLocalStorage () {
   // Récupération des works depuis l'API s'il n'y rien dans le localStorage
   if (works === null) {  
     // Appel à l'API et récupération de la réponse pour works
@@ -67,6 +68,8 @@ let works = localStorage.getItem("storeWorks");
     // On parse ici le localStorage de works récupéré 
     works = JSON.parse(localStorage.getItem("storeWorks"));
   }
+}
+worksLocalStorage ();
 
 
 // Récupération des catégories eventuellement stockés dans le localStorage
@@ -88,132 +91,89 @@ if (categories === null) {
 
 
 
-// Fonction qui crée les éléments de works
+// FONCTION QUI CREEE LES ELEMENTS DE WORKS
+const sectionDivGallery = document.querySelector(".gallery");
 async function worksElements (work) {
-  // Création de la balise figure pour chaque work
   const figureElement = document.createElement("figure");
-  // Création de l'attribut class pour figure
   figureElement.setAttribute("class", `projet cat-${work.categoryId}`);
-  // Création de l'attribut id et recupération de sa valeur pour figure
   figureElement.setAttribute("id", `${work.id}`);  
    
-  // Création de la balise img pour chaque projet
-  const imgElement = document.createElement("img");
-  // Création de l'attribut src et recupération de l'URL de l'image 
+  const imgElement = document.createElement("img"); 
   imgElement.src = work.imageUrl;
-  // Création de l'attribut alt et recupération du titre pour l'image
   imgElement.alt = work.title;  
 
-  // Création de la balise figcaption pour chaque projet
   const figcaptionElement = document.createElement("figcaption");
-  // Insertion du titre pour le projet
   figcaptionElement.textContent = work.title;  
-  // Insertion des balises enfants img et figcaption à leur parent figure
-  figureElement.append(imgElement, figcaptionElement);  
-  // Insertion des balises figure à son parent div
+  figureElement.append(imgElement, figcaptionElement); 
+
   sectionDivGallery.appendChild(figureElement);          
 }
 
-
-
-/* DEBUT Création des Eléments des catégories */
+// FONCTION QUI CREEE LES ELEMENTS DES CATEGORIES
+const selectDivCategorie = document.querySelector(".categories");
 async function categoriesElements(categorie) {
-    const buttonElement = document.createElement("button");
-    buttonElement.setAttribute("class", `cat`);
-    buttonElement.setAttribute("id", `cat-${categorie.id}`);
-    buttonElement.textContent = categorie.name;
-    selectDivCategorie.appendChild(buttonElement);
-}
-/* FIN Création des Eléments des catégories */
+  const buttonElement = document.createElement("button");
+  buttonElement.setAttribute("class", "cat nofocused");
+  buttonElement.setAttribute("id", `cat-${categorie.id}`);
+  buttonElement.textContent = categorie.name;
 
-// Fonction qui affiche les catégories
-async function showCategories () {
+  selectDivCategorie.appendChild(buttonElement);
+}
+
+
+// FONCTION QUI AFFICHE LES CATEGORIES
+async function showCategories() {
   const buttonElementAll = document.createElement("button");
   buttonElementAll.id = "cat-0";
-  buttonElementAll.setAttribute("class", "cat");
+  buttonElementAll.setAttribute("class", "cat focused");
   buttonElementAll.textContent = "Tous";
+
   selectDivCategorie.appendChild(buttonElementAll);
   for (let i = 0; i < categories.length; i++) {
-      const categorie = categories[i];
-      await categoriesElements (categorie);
+    const categorie = categories[i];
+    await categoriesElements(categorie);
+  }
+}
+
+// FONCTION QUI AFFICHE LES WORKS
+async function showWorks() {
+  for (let i = 0; i < works.length; i++) {
+    const work = works[i];
+    await worksElements(work);
   }
 }
 
 
-if (!loginSession) {
-showCategories ();
-}
-
-async function showWorks () {
-    for (let i = 0; i < works.length; i++) {
-        const work = works[i];
-        await worksElements (work);
-    }
-}
-showWorks ();
-/* console.log(selectDivCategorie);
-for (const child of selectDivCategorie.children) {
-  console.log(child.id);
-}
-if (selectDivCategorie.hasChildNodes()) {
-  const children = selectDivCategorie.childNodes;
-  console.log(children.length);
-  console.log(selectDivCategorie.childElementCount);
-  for (let i = 0; i < children.length; i++) {
-    const child = document.getElementById(`cat-${i}`)
-    //const child = children[i];
-    console.log(child);
-  }
-} */
-
-/* window.addEventListener("click", function(event) {
-  if (event.target.className === "cat") {
-  const idCat = document.getElementById(`${event.target.id}`);
-  idCat.setAttribute("class", "cat-focused");
-}
-}); */
-
-const children = selectDivCategorie.childNodes;
-console.log(children.length);
-console.log(selectDivCategorie.childElementCount);
-for (let i = 0; i < children.length; i++) {
-  //let childId = document.getElementById(`cat-${i}`)
-
-  const child = children[i];
-  console.log(child);
-}
-
-
-
+// FITRES CATEGORIES
 selectDivCategorie.addEventListener("click", (event) => {
-    const categId = event.target.id;
-    const catId = categId[4];
-    const categIdElement = document.getElementById(`${categId}`);
-    categIdElement.setAttribute("class", "cat-focused");
+  const categId = event.target.id;
+  const catId = categId[4];
 
+  const categIdElement = document.getElementById(`${categId}`);
+  const categClass = document.querySelectorAll(".cat");
+  for (const categ of categClass) {
+    categ.setAttribute("class", "cat nofocused");
+    if (categId) {
+      categIdElement.setAttribute("class", "cat focused");
+    } 
+  }
 
-
-
-    sectionDivGallery.innerHTML = "";
-    async function showFilteredWorks () {
-        for (let i = 0; i < works.length; i++) {
-            const work = works[i];
-            const categorie = work.category;
-                if ((work.categoryId > 0) && (work.categoryId == catId)){ 
-                await worksElements (work);
-            }  else if (catId === "0") {  
-                location.reload();
-            } 
-        }
+  sectionDivGallery.innerHTML = "";
+  async function showFilteredWorks () {
+    for (let i = 0; i < works.length; i++) {
+      const work = works[i];
+      const categorie = work.category;
+      if ((work.categoryId > 0) && (work.categoryId == catId)){ 
+        await worksElements (work);
+      } else if (catId === "0") {  
+        await worksElements (work);
+      } 
     }
-    return showFilteredWorks ();
+  }
+  return showFilteredWorks ();
 });
  
-
-
-if (loginSession) {
-
-// EDITION
+// FONCTION CREATION BOUTON EDITION
 async function editElements() {
   selectDivEdit.setAttribute("class", "edition-visible");
   const imgElement = document.createElement("img");
@@ -223,8 +183,8 @@ async function editElements() {
   divElement.textContent = "Mode édition";
   selectDivEdit.append(imgElement, divElement);
 }
-editElements();
-// MODIFICATION
+
+// FONCTION CREATION BOUTON MODIFICATION
 async function modifElements() {
   selectDivModif.setAttribute("class", "modification-visible");
   const imgElement = document.createElement("img");
@@ -234,14 +194,48 @@ async function modifElements() {
   divElement.textContent = "modifier";
   selectDivModif.append(imgElement, divElement);
 }
-modifElements();
+
+// VISIBILITE ET SUPPRESSION D'ELEMENTS ENFANTS
+async function visibilityRemoveElementChilds(identifiantVar) {
+  while (identifiantVar.hasChildNodes()) {
+    identifiantVar.removeChild(identifiantVar.firstChild);
+    identifiantVar.setAttribute("class", "invisible");
+  }
+}
+// POUR RENDRE INVISIBILITE UN ELEMENT
+async function visibilityElement(identifiantElement) {
+  const idVar = document.getElementById("identifiantElement");
+  idVar.setAttribute("class", "invisible");
+}
+
+// POUR REMETTRE A ZERO LE FORMULAIRE
+function clearFormData() {
+  const idImagePreview = document.getElementById("image-preview");
+  idImagePreview.setAttribute("class", "image-preview invisible");
+  const idFilePreview = document.getElementById("file-preview");
+  idFilePreview.setAttribute("class", "file-preview visible");
+
+  const titleInput = document.getElementById("image-title");
+  titleInput.value = "";
+  const categorySelected = document.getElementById("select-category");
+  categorySelected.value = "";
+
+  const submiButton = document.getElementById("submit-work-preview");
+  submiButton.setAttribute("id", "submit-to-preview");
+  submiButton.setAttribute("class", "submit-add");
 }
 
 
 
+
 if (loginSession) {
+// AFFICHAGE CATEGORIES EDITION ET MODIFICATION
+  showWorks();
+  editElements();
+  modifElements();
 // DEBUT CREATE MODALE GALLERY
 async function createModale (works) {
+
   selectIdModaleGallery.setAttribute("class", "visible");
 
   const createDivGalleryHead = document.createElement("div");
@@ -312,9 +306,9 @@ async function createModale (works) {
 }
 // FIN CREATE MODALE GALLERY
 
-
 // DEBUT CREATE MODALE ADD WORK
 async function createModaleAddWork (works) {
+
   selectIdModaleForm.setAttribute("class", "visible");
 
   const createDivFormHead = document.createElement("div");
@@ -325,7 +319,7 @@ async function createModaleAddWork (works) {
   createIconClose.setAttribute("class", "fa-solid fa-xmark");
   const createButtonFormHeadP = document.createElement("button");
   createButtonFormHeadP.setAttribute("class", "previous-modale");
-  //createButtonFormHeadP.setAttribute("id", "previous-to-gallery");
+
   const createIconPrevious = document.createElement("i");
   createIconPrevious.setAttribute("class", "fa-solid fa-arrow-left");
   createIconPrevious.setAttribute("id", "previous-to-gallery");
@@ -450,9 +444,8 @@ async function generateCategoryOption (categories, selectcategories) {
   window.addEventListener("click", function(event) {
       if (event.target.className === "fa-solid fa-xmark") {
       selectIdModale.setAttribute("class", "invisible");
-      visibilityRemoveElementChilds(selectIdModaleGallery);
-      visibilityRemoveElementChilds(selectIdModaleForm);
-      visibilityRemoveElementChilds(selectIdModaleFormPreview);
+      //visibilityRemoveElementChilds(selectIdModaleGallery);
+      //visibilityRemoveElementChilds(selectIdModaleForm);
       location.reload();
     }
   });
@@ -461,22 +454,20 @@ async function generateCategoryOption (categories, selectcategories) {
   window.addEventListener("click", function(event) {
     if (event.target == selectIdModale) {
       selectIdModale.setAttribute("class", "invisible");
-      visibilityRemoveElementChilds(selectIdModaleGallery);
-      visibilityRemoveElementChilds(selectIdModaleForm);
-      visibilityRemoveElementChilds(selectIdModaleFormPreview);
+      //visibilityRemoveElementChilds(selectIdModaleGallery);
+      //visibilityRemoveElementChilds(selectIdModaleForm);
       location.reload();
     }
   });
 
 // START PREVIOUS BUTTON
-
 window.addEventListener("click", function(event) {
   if (event.target.id === "previous-to-gallery") {
     visibilityRemoveElementChilds(selectIdModaleForm);
+    //visibilityElement(selectIdModaleForm);
+    //visibilityRemoveElementChilds(identifiantElement)
     selectIdModaleGallery.setAttribute("class", "visible");
-} else if (event.target.id === "previous-to-add") {
-  visibilityRemoveElementChilds(selectIdModaleFormPreview);
-  selectIdModaleForm.setAttribute("class", "visible");
+    createModale (works);
 }
 });
 // END PREVIOUS BUTTON
@@ -484,12 +475,13 @@ window.addEventListener("click", function(event) {
 // Add Work
   window.addEventListener("click", function(event) {
     if (event.target.id == "add-work") {
-      visibilityElementChilds(selectIdModaleGallery);
+      //selectIdModaleGallery.setAttribute("class", "invisible");
+      visibilityRemoveElementChilds(selectIdModaleGallery);
       createModaleAddWork(works);
       generateCategoryOption (categories, "select-category");
+      
     }
   });
-
 // Création et Affichage de la Modale en cliquant sur le bouton Modifier
   selectDivModif.addEventListener("click", async function() {
     selectIdModale.setAttribute("class", "visible");
@@ -549,105 +541,63 @@ window.addEventListener("click", function(event) {
      } 
   });
 
-window.addEventListener("click", async function(event) {
-  if (event.target.id == "submit-to-preview") {
+  window.addEventListener("click", async function(event) {
+      if (event.target.id == "submit-to-preview") {
 
-  const theGetInputImage = getInputImage.files[0];
-  console.log(theGetInputImage);
+      const theGetInputImage = getInputImage.files[0];
+      const inputImageUrl = theGetInputImage.name;
+      const theGetInputTitle = getInputTitle.value;
+      const theGetInputCategory = getInputCategory.value;
 
-  const inputImageUrl = theGetInputImage.name;
-  console.log(inputImageUrl);
-
-  const theGetInputTitle = getInputTitle.value;
-  const theGetInputCategory = getInputCategory.value;
-  const theGetInputCategoryLabel = getInputCategory.label;
-
-  if (theGetInputCategory) {
-    const theGetInputCategoryName = theGetInputCategory.textContent;
-  }
-  const theGetInputCategoryName = theGetInputCategory.textContent;
-
-  
-  if (!theGetInputImage || !theGetInputTitle || !theGetInputCategory) {
-    alert("Veuillez sélectionner une image, un titre et une catégorie.");
-    return;
-  } else {
-    const theFilePreviewDiv = document.getElementById("file-preview");
-    theFilePreviewDiv.setAttribute("class", "file-preview invisible");
-    const theImagePreviewDiv = document.getElementById("image-preview");
-    theImagePreviewDiv.setAttribute("class", "image-preview visible");
-    const theSubmit = document.getElementById("submit-to-preview");
-    theSubmit.setAttribute("id", "submit-work-preview");
-    theSubmit.setAttribute("class", "submit-add-preview");
-    const theImagePreviewImg = document.getElementById("imagepreview");
-    theImagePreviewImg.setAttribute("src", `assets/images/${inputImageUrl}`);
-  }
-
-  const formData = new FormData();
-  formData.append("image", theGetInputImage);
-  formData.append("title", theGetInputTitle);
-  formData.append("category", theGetInputCategory);
-
-
-window.addEventListener("click", async function(event) {
-  if (event.target.id == "submit-work-preview") {
-try {
-const response = await fetch( urlApiWorks, {
-  method: "POST",
-  body: formData,
-  headers: {
-    authorization: `Bearer ${loginSession}`,
-  },
-});
-
-if (response.ok) {
-  alert("Image envoyée avec succès !");
-  localStorage.removeItem("storeCategories");
-  localStorage.removeItem("storeWorks");
-  toDisabledElement("submit-work-preview");
-} else {
-  alert("Erreur lors de l'envoi de l'image.");
-}
-} catch (error) {
-console.error(error);
-alert("Erreur lors de l'envoi de l'image.");
-}
-
-}
-});
-
-}
-});
-
-}
-
-async function visibilityRemoveElementChilds(identifiantElement) {
-  while (identifiantElement.hasChildNodes()) {
-    identifiantElement.removeChild(identifiantElement.firstChild);
-    identifiantElement.setAttribute("class", "invisible");
-  }
-}
-async function visibilityElementChilds(identifiantElement) {
-    identifiantElement.setAttribute("class", "invisible");
-}
-
-async function toDisabledElement(identifiant) {
-  document.getElementById(`${identifiant}`).disabled = true;
-}
-
-
-async function toSetSelectedAttribute(variableIdentifiant, valeurValue) {
-
-    for (let i = 0; i< variableIdentifiant.options.length; i++) { 
-      if (variableIdentifiant.options[i].value == valeurValue) {
-    
-      variableIdentifiant.options[i].selected = true;
-      break;
+      if (!theGetInputImage || !theGetInputTitle || !theGetInputCategory) {
+        alert("Veuillez sélectionner une image, un titre et une catégorie.");
+        return;
+      } else {
+        const theFilePreviewDiv = document.getElementById("file-preview");
+        theFilePreviewDiv.setAttribute("class", "file-preview invisible");
+        const theImagePreviewDiv = document.getElementById("image-preview");
+        theImagePreviewDiv.setAttribute("class", "image-preview visible");
+        const theSubmit = document.getElementById("submit-to-preview");
+        theSubmit.setAttribute("id", "submit-work-preview");
+        theSubmit.setAttribute("class", "submit-add-preview");
+        const theImagePreviewImg = document.getElementById("imagepreview");
+        theImagePreviewImg.setAttribute("src", `assets/images/${inputImageUrl}`);
       }
-    }
-    return;
-}
 
-if (!loginSession) {
+      const formData = new FormData();
+      formData.append("image", theGetInputImage);
+      formData.append("title", theGetInputTitle);
+      formData.append("category", theGetInputCategory);
+
+      window.addEventListener("click", async function(event) {
+        if (event.target.id == "submit-work-preview") {
+          try {
+            const response = await fetch( urlApiWorks, {
+              method: "POST",
+              body: formData,
+              headers: {
+              authorization: `Bearer ${loginSession}`,
+              },
+            });
+          if (response.ok) {
+            alert("Image envoyée avec succès !");
+            localStorage.removeItem("storeCategories");
+            localStorage.removeItem("storeWorks");
+            clearFormData()
+          } else {
+            alert("Erreur lors de l'envoi de l'image.");
+          }
+          } catch (error) {
+            console.error(error);
+            alert("Erreur lors de l'envoi de l'image.");
+          }
+        }
+      });
+    }
+  });
+} else {
+  showCategories();
+  showWorks();
   selectDivModif.setAttribute("class", "modification-invisible");
 }
+

@@ -28,9 +28,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-/* body {
-	line-height: 1;
-} */
+figcaption {
+	color: #3D3D3D;
+}
 ol, ul {
 	list-style: none;
 }
@@ -122,9 +122,6 @@ li:hover {
 #introduction img {
 	width: 474px;
 	height: 355px;
-/* 	display: block;
-	margin: auto;
-	width: 80%; */
 }
 
 #introduction article {
@@ -134,7 +131,6 @@ li:hover {
 	flex-direction: column;
 	justify-content: center;
 	column-gap: 20px;
-	
 }
 #introduction h2 {
 	margin-bottom: 1em;
@@ -142,6 +138,7 @@ li:hover {
 
 #introduction p {
 	margin-bottom: 0.5em;
+	color: #3D3D3D;
 }
 #portfolio {
 	display: flex;
@@ -157,20 +154,8 @@ li:hover {
 	flex-wrap: wrap;
 	row-gap: 20px;
 	column-gap: 20px;
-
-
-
-
-/* 	
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px; */
 }
-
 .gallery img {
-	/* width: 100%; */
 	width: 305px;
 	height: 407px;
 }
@@ -218,31 +203,30 @@ li:hover {
 	border-radius: 60px ;
 }
 
-
-
 /* CATEGORIES */
 .categories {
     display: flex;
     justify-content: center;
     align-items: center;
-	column-gap: 20px;
+	column-gap: 10px;
 	margin-bottom: 30px;
 }
-
-/* Boutons */
 .cat  {
 	display: flex;
     justify-content: center;
     align-items: center;
-	color:#1D6154;
-    background-color: white;
 	font-size: 14px;
 	font-weight: bold;
 	height: 36px;
-    padding: 19px;
+    padding: 18px 30px;
     border-radius: 60px;
+	border: solid 1px #1D6154;
 }
-.cat-focused {
+.nofocused {
+	color: #1D6154;
+    background-color: white;
+}
+.focused {
 	color: white;
     background-color: #1D6154;
 }
@@ -254,38 +238,13 @@ button {
     padding: 19px;
     border-radius: 60px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
 
-
-
 /* Log In */
-
 .login-main {
 	height: 864px;
 }
@@ -293,7 +252,6 @@ footer nav ul {
 	display: flex;
 	flex-direction: column;
 	row-gap: 20px;
-	/* width: 50%; */
 	width: 379px;
 	margin: auto;
 }
@@ -357,50 +315,7 @@ input[type="email"] {
 	box-sizing: border-box;
   }
 
-  
-/* Style for error messages */
-.email-err {
-	width: 100%;
-	padding: 0;
-	font-size: 80%;
-	color: white;
-	background-color: #900;
-	border-radius: 0 0 5px 5px;
-	box-sizing: border-box;
-}
-.email-err.active {
-	padding: 0.3em;
-}
-.email-val {
-	width: 100%;
-	padding: 0;
-	font-size: 80%;
-	color: white;
-	background-color: #032411;
-	border-radius: 0 0 5px 5px;
-	box-sizing: border-box;
-}
-.email-val .active {
-	padding: 0.3em;
-}
-/* The message box is shown when the user clicks on the password field */
-/* #message {
-	display: flex;
-	flex-direction: column;
-	row-gap: 10px;
-	display:none;
-	background: #f1f1f1;
-	color: #000;
-}
-  
-#message p {
-	padding: 10px 35px;
-	font-size: 14px;
-  }
-#message h3 {
-	font-size: 16px;
-} */
-  /* Add a green text color and a checkmark when the requirements are right */
+
 .valid {
 	color: green;
   }
@@ -408,8 +323,6 @@ input[type="email"] {
 	content: "✔";
   }
   
-
-
   /* BOUTON EDITION ET MODIFICATION */
 .edition-visible {
 	display: flex;
@@ -458,11 +371,6 @@ input[type="email"] {
 	display: flex;
 	color: #1D6154;
 }
-/* .mes-projets div {
-	display: flex;
-} */
-
-
 
 /* MODALES */
 .invisible {
@@ -489,9 +397,7 @@ input[type="email"] {
 	height: 688px;
 	background-color: white;
 	opacity: 1;
-	/* box-sizing: border-box; */
 	border-radius: 10px;
-	/* z-index: 1; */
 }
 /* MODALE GALLERY */
 #modale-gallery {
@@ -501,7 +407,6 @@ input[type="email"] {
 	width: 630px;
 	min-height: 688px;
 	opacity: 1;
-
   }
 .gallery-title {
 	font-size: 26px;
@@ -517,16 +422,6 @@ input[type="email"] {
 	align-content: baseline;
 	box-sizing: border-box;
   }
-/* .gallery-works figure {
-	width: 76px;
-	height: 104px;
-	display: flex;
-}
-.gallery-works img {
-	position: absolute;
-	width: 76px;
-	height: 104px;
-} */
 .gallery-add {
     display: flex;
     justify-content: center;
@@ -598,7 +493,6 @@ input[type="email"] {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 .file-preview {
-	/* display: flex; */
 	width: 420px;
 	height: 169px;
 	flex-direction: column;
@@ -625,7 +519,7 @@ input[type="email"] {
 	justify-content: center;
 	align-items: center;
 	background-color: #E8F1F6;
-	border-radius: 60px;
+	border-radius: 10px;
 }
 .file-preview img {
 	width: 76px;
@@ -736,7 +630,6 @@ input[type="email"] {
 	height: 1px;
 	background-color: #B3B3B3;
 }
-
 
 /* FIN Les Modales */
 
