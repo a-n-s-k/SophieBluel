@@ -6,9 +6,6 @@ window.location.href = "login.html";
 });  
 
 
-
-
-
 const loginSession = sessionStorage.getItem("tokenKey");
 
 
@@ -220,12 +217,10 @@ function clearFormData() {
   const categorySelected = document.getElementById("select-category");
   categorySelected.value = "";
 
-  const submiButton = document.getElementById("submit-work-preview");
-  submiButton.setAttribute("id", "submit-to-preview");
-  submiButton.setAttribute("class", "submit-add");
+  const submiButton = document.getElementById("to-submit");
+  //submiButton.setAttribute("id", "to-submit");
+  submiButton.setAttribute("class", "tosubmit preview");
 }
-
-
 
 
 if (loginSession) {
@@ -405,8 +400,8 @@ async function createModaleAddWork (works) {
 
     const createDivSubmitWork = document.createElement("div");
     const createButtonSubmitWork = document.createElement("button");
-    createButtonSubmitWork.setAttribute("id", "submit-to-preview");
-    createButtonSubmitWork.setAttribute("class", "submit-add");
+    createButtonSubmitWork.setAttribute("id", "to-submit");
+    createButtonSubmitWork.setAttribute("class", "tosubmit preview");
     createButtonSubmitWork.textContent = "Valider";
     createDivSubmitWork.append(createButtonSubmitWork);
 
@@ -521,83 +516,130 @@ function removeWork(identifiant) {
 }
 
 let getInputImage;
-window.addEventListener("click", function(event) {
+window.addEventListener("input", function(event) {
   if (event.target.id === "image-file") {
     getInputImage = document.getElementById("image-file");
+    const theGetInputImage = getInputImage.files[0];
+    console.log(theGetInputImage);
+    const inputImageUrl = theGetInputImage.name;
+    const theImagePreviewImg = document.getElementById("imagepreview");
+    theImagePreviewImg.setAttribute("src", `assets/images/${inputImageUrl}`);
+    const theFilePreviewDiv = document.getElementById("file-preview");
+    theFilePreviewDiv.setAttribute("class", "file-preview invisible");
+    const theImagePreviewDiv = document.getElementById("image-preview");
+    theImagePreviewDiv.setAttribute("class", "image-preview visible");
    } 
  });
 
+
  let getInputTitle;
- window.addEventListener("click", function(event) {
+ window.addEventListener("input", function(event) {
    if (event.target.id === "image-title") {
     getInputTitle = document.getElementById("image-title");
     } 
   });
 
   let getInputCategory;
-  window.addEventListener("click", function(event) {
+  window.addEventListener("change", function(event) {
     if (event.target.id === "select-category") {
       getInputCategory = document.getElementById("select-category");
      } 
   });
 
-  window.addEventListener("click", async function(event) {
-      if (event.target.id == "submit-to-preview") {
 
-      const theGetInputImage = getInputImage.files[0];
-      const inputImageUrl = theGetInputImage.name;
-      const theGetInputTitle = getInputTitle.value;
-      const theGetInputCategory = getInputCategory.value;
 
-      if (!theGetInputImage || !theGetInputTitle || !theGetInputCategory) {
-        alert("Veuillez sélectionner une image, un titre et une catégorie.");
-        return;
+
+
+/*         if (!getInputImage || !getInputTitle || !getInputCategory) {
+          alert("Veuillez sélectionner une image, un titre et une catégorie.");
       } else {
-        const theFilePreviewDiv = document.getElementById("file-preview");
-        theFilePreviewDiv.setAttribute("class", "file-preview invisible");
-        const theImagePreviewDiv = document.getElementById("image-preview");
-        theImagePreviewDiv.setAttribute("class", "image-preview visible");
-        const theSubmit = document.getElementById("submit-to-preview");
-        theSubmit.setAttribute("id", "submit-work-preview");
-        theSubmit.setAttribute("class", "submit-add-preview");
-        const theImagePreviewImg = document.getElementById("imagepreview");
-        theImagePreviewImg.setAttribute("src", `assets/images/${inputImageUrl}`);
+        document.getElementById("to-submit").style.color = "red";
+        //toSubmitButton.setAttribute("class", "tosubmit towork");
       }
 
-      const formData = new FormData();
-      formData.append("image", theGetInputImage);
-      formData.append("title", theGetInputTitle);
-      formData.append("category", theGetInputCategory);
+        const formData = new FormData();
+        formData.append("image", getInputImage.files[0]);
+        formData.append("title", getInputTitle.value);
+        formData.append("category", getInputCategory.value);
+  
+        window.addEventListener("click", async function(event) {
+          if (event.target.className === "tosubmit") {
+            try {
+              const response = await fetch( urlApiWorks, {
+                method: "POST",
+                body: formData,
+                headers: {
+                authorization: `Bearer ${loginSession}`,
+                },
+              });
+            if (response.ok) {
+              alert("Image envoyée avec succès !");
+              localStorage.removeItem("storeCategories");
+              localStorage.removeItem("storeWorks");
+              clearFormData()
+            } else {
+              alert("Erreur lors de l'envoi de l'image.");
+            }
+            } catch (error) {
+              console.error(error);
+              alert("Erreur lors de l'envoi de l'image.");
+            }
+          }
+        }); */
 
-      window.addEventListener("click", async function(event) {
-        if (event.target.id == "submit-work-preview") {
-          try {
-            const response = await fetch( urlApiWorks, {
-              method: "POST",
-              body: formData,
-              headers: {
-              authorization: `Bearer ${loginSession}`,
-              },
-            });
-          if (response.ok) {
-            alert("Image envoyée avec succès !");
-            localStorage.removeItem("storeCategories");
-            localStorage.removeItem("storeWorks");
-            clearFormData()
-          } else {
-            alert("Erreur lors de l'envoi de l'image.");
-          }
-          } catch (error) {
-            console.error(error);
-            alert("Erreur lors de l'envoi de l'image.");
-          }
-        }
-      });
+/////////////////////////////////////////////////
+
+
+window.addEventListener("mouseover", async function(event) {
+  if (event.target.className === "tosubmit preview") {
+
+    if (!getInputImage || !getInputTitle || !getInputCategory) {
+      alert("Veuillez sélectionner une image, un titre et une catégorie.");
+      return;
+    } else {
+      const toSubmit = document.getElementById("to-submit");
+      toSubmit.setAttribute("class", "tosubmit work");
+    }
+  
+
+  const formData = new FormData();
+  formData.append("image", getInputImage.files[0]);
+  formData.append("title", getInputTitle.value);
+  formData.append("category", getInputCategory.value);
+
+  window.addEventListener("click", async function(event) {
+    if (event.target.className == "tosubmit work") {
+      try {
+        const response = await fetch( urlApiWorks, {
+          method: "POST",
+          body: formData,
+          headers: {
+          authorization: `Bearer ${loginSession}`,
+          },
+        });
+      if (response.ok) {
+        alert("Image envoyée avec succès !");
+        //localStorage.removeItem("storeCategories");
+        //localStorage.removeItem("storeWorks");
+        clearFormData()
+      } else {
+        alert("Erreur lors de l'envoi de l'image.");
+      }
+      } catch (error) {
+        console.error(error);
+        alert("Erreur lors de l'envoi de l'image.");
+      }
     }
   });
-} else {
+}
+});
+    } else {
   showCategories();
   showWorks();
   selectDivModif.setAttribute("class", "modification-invisible");
 }
+
+
+
+
 

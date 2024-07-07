@@ -68,18 +68,14 @@ selectButtonConnexion.addEventListener("submit", function(event) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === "error") {
-            messageErreur.textContent = data.message;
+        if (data.userId === 1) {
+			 // Connexion réussie, enregistrez le token de session
+			 const loginSessionToken = data.token;
+			 sessionStorage.setItem("tokenKey", loginSessionToken);
+			 // Redirigez vers la page d"accueil ou autre
+			 window.location.href = "index.html";			
         } else {
-            // Connexion réussie, enregistrez le token de session
-            const loginSessionToken = data.token;
-			sessionStorage.setItem("tokenKey", loginSessionToken);
-            // Redirigez vers la page d"accueil ou autre
-            window.location.href = "index.html";
+		   alert("Votre email ou mot de passe est incorrect.");			
         }
-    })
-    .catch(error => {
-        console.error("Erreur lors de la connexion:", error);
-        messageErreur.textContent = "Une erreur est survenue. Veuillez réessayer.";
-    });
+    }); 
 });
