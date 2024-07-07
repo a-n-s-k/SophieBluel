@@ -5,9 +5,7 @@ selectButtonConnexion.addEventListener("click", function(event) {
 window.location.href = "login.html";
 });  
 
-
 const loginSession = sessionStorage.getItem("tokenKey");
-
 
 const selectButtonLogin = document.getElementById("connexion");
 
@@ -20,7 +18,6 @@ const selectIdModaleForm = document.getElementById("modale-form");
 // Select EDITION and MODIFICATION Id
 const selectDivEdit = document.getElementById("edition");
 const selectDivModif = document.getElementById("modification");
-
 
   if (loginSession) { 
     
@@ -43,7 +40,6 @@ const selectDivModif = document.getElementById("modification");
   selectDivModif.setAttribute("class", "modification-invisible");
 }
 
-
 const urlApiWorks = "http://localhost:5678/api/works";
 const urlApiCategories = "http://localhost:5678/api/categories";
 
@@ -52,7 +48,6 @@ let works = localStorage.getItem("storeWorks");
 
 async function worksLocalStorage () {
   // Récupération des works depuis l'API s'il n'y rien dans le localStorage
-  if (works === null) {  
     // Appel à l'API et récupération de la réponse pour works
     const reponse = await fetch(urlApiWorks);
     // Transformation de la réponse pour works en JSON
@@ -61,13 +56,14 @@ async function worksLocalStorage () {
     const valeurWorks = JSON.stringify(works); 
     // Stockage des works dans le localStorage
     window.localStorage.setItem("storeWorks", valeurWorks); 
+}
+
+  if (works === null) {  
+    worksLocalStorage ();
   } else {
     // On parse ici le localStorage de works récupéré 
     works = JSON.parse(localStorage.getItem("storeWorks"));
   }
-}
-worksLocalStorage ();
-
 
 // Récupération des catégories eventuellement stockés dans le localStorage
 let categories = localStorage.getItem("storeCategories");
@@ -85,7 +81,6 @@ if (categories === null) {
   // On parse ici le localStorage de categories récupéré
   categories = JSON.parse(localStorage.getItem("storeCategories"));
 }
-
 
 
 // FONCTION QUI CREEE LES ELEMENTS DE WORKS
@@ -117,7 +112,6 @@ async function categoriesElements(categorie) {
   selectDivCategorie.appendChild(buttonElement);
 }
 
-
 // FONCTION QUI AFFICHE LES CATEGORIES
 async function showCategories() {
   const buttonElementAll = document.createElement("button");
@@ -139,7 +133,6 @@ async function showWorks() {
     await worksElements(work);
   }
 }
-
 
 // FITRES CATEGORIES
 selectDivCategorie.addEventListener("click", (event) => {
@@ -204,24 +197,19 @@ async function visibilityElement(identifiantElement) {
   const idVar = document.getElementById("identifiantElement");
   idVar.setAttribute("class", "invisible");
 }
-
 // POUR REMETTRE A ZERO LE FORMULAIRE
-function clearFormData() {
+async function clearFormData() {
   const idImagePreview = document.getElementById("image-preview");
   idImagePreview.setAttribute("class", "image-preview invisible");
   const idFilePreview = document.getElementById("file-preview");
   idFilePreview.setAttribute("class", "file-preview visible");
-
-  const titleInput = document.getElementById("image-title");
-  titleInput.value = "";
-  const categorySelected = document.getElementById("select-category");
-  categorySelected.value = "";
-
-  const submiButton = document.getElementById("to-submit");
-  //submiButton.setAttribute("id", "to-submit");
-  submiButton.setAttribute("class", "tosubmit preview");
+  const submiButton = document.querySelector(".towork");
+  submiButton.setAttribute("class", "topreview");
 }
 
+function clearInput() {
+  document.getElementById("work-form").reset();
+}
 
 if (loginSession) {
 // AFFICHAGE CATEGORIES EDITION ET MODIFICATION
@@ -230,7 +218,6 @@ if (loginSession) {
   modifElements();
 // DEBUT CREATE MODALE GALLERY
 async function createModale (works) {
-
   selectIdModaleGallery.setAttribute("class", "visible");
 
   const createDivGalleryHead = document.createElement("div");
@@ -256,7 +243,6 @@ async function createModale (works) {
       createFigureWorks.id = work.id;
       createFigureWorks.setAttribute("class", "modale-work");
 
-
       const createImageWorks = document.createElement("img");
       createImageWorks.src = work.imageUrl;
       createImageWorks.alt = work.title;
@@ -265,7 +251,6 @@ async function createModale (works) {
       const createIconRemoveWork = document.createElement("i");
       createIconRemoveWork.setAttribute("class", "fa-solid fa-trash-can");
       createIconRemoveWork.setAttribute("id", `rem-${work.id}`);
-      
       
       const createButtonRemoveWork = document.createElement("button");
       createButtonRemoveWork.setAttribute("class", "button-work-remove");
@@ -280,7 +265,6 @@ async function createModale (works) {
 
   const createDivGallerySeparator = document.createElement("div");
   createDivGallerySeparator.setAttribute("class", "modale-separator");
-  //createDivGallerySeparator.textContent = "------------------------------";
 
   const createDivAddWork = document.createElement("div");
   const createButtonAddWork = document.createElement("button");
@@ -288,7 +272,6 @@ async function createModale (works) {
   createButtonAddWork.setAttribute("class", "gallery-add");
   createButtonAddWork.textContent = "Ajouter une photo";
   createDivAddWork.append(createButtonAddWork);
-
 
   selectIdModaleGallery.append(
     createDivGalleryHead,
@@ -303,7 +286,6 @@ async function createModale (works) {
 
 // DEBUT CREATE MODALE ADD WORK
 async function createModaleAddWork (works) {
-
   selectIdModaleForm.setAttribute("class", "visible");
 
   const createDivFormHead = document.createElement("div");
@@ -355,7 +337,6 @@ async function createModaleAddWork (works) {
  
   divLabelImageElement.append(imgLabelImageElement, inputImageElement, labelImageElement, divInputImageElement);
 
-
   const divImagePreview = document.createElement("div");
   divImagePreview.setAttribute("id", "image-preview");
   divImagePreview.setAttribute("class", "image-preview invisible");
@@ -363,7 +344,6 @@ async function createModaleAddWork (works) {
   const imgPreview = document.createElement("img");
   imgPreview.setAttribute("id", "imagepreview");
   divImagePreview.append(imgPreview);
-
 
   const divImageTitleElement = document.createElement("div");
   divImageTitleElement.setAttribute("class", "file-title");
@@ -401,7 +381,7 @@ async function createModaleAddWork (works) {
     const createDivSubmitWork = document.createElement("div");
     const createButtonSubmitWork = document.createElement("button");
     createButtonSubmitWork.setAttribute("id", "to-submit");
-    createButtonSubmitWork.setAttribute("class", "tosubmit preview");
+    createButtonSubmitWork.setAttribute("class", "topreview");
     createButtonSubmitWork.textContent = "Valider";
     createDivSubmitWork.append(createButtonSubmitWork);
 
@@ -439,8 +419,6 @@ async function generateCategoryOption (categories, selectcategories) {
   window.addEventListener("click", function(event) {
       if (event.target.className === "fa-solid fa-xmark") {
       selectIdModale.setAttribute("class", "invisible");
-      //visibilityRemoveElementChilds(selectIdModaleGallery);
-      //visibilityRemoveElementChilds(selectIdModaleForm);
       location.reload();
     }
   });
@@ -449,8 +427,6 @@ async function generateCategoryOption (categories, selectcategories) {
   window.addEventListener("click", function(event) {
     if (event.target == selectIdModale) {
       selectIdModale.setAttribute("class", "invisible");
-      //visibilityRemoveElementChilds(selectIdModaleGallery);
-      //visibilityRemoveElementChilds(selectIdModaleForm);
       location.reload();
     }
   });
@@ -459,24 +435,23 @@ async function generateCategoryOption (categories, selectcategories) {
 window.addEventListener("click", function(event) {
   if (event.target.id === "previous-to-gallery") {
     visibilityRemoveElementChilds(selectIdModaleForm);
-    //visibilityElement(selectIdModaleForm);
-    //visibilityRemoveElementChilds(identifiantElement)
+    localStorage.removeItem("storeWorks");
+    worksLocalStorage ();
     selectIdModaleGallery.setAttribute("class", "visible");
     createModale (works);
 }
 });
 // END PREVIOUS BUTTON
 
-// Add Work
+// ADD WORK
   window.addEventListener("click", function(event) {
     if (event.target.id == "add-work") {
-      //selectIdModaleGallery.setAttribute("class", "invisible");
       visibilityRemoveElementChilds(selectIdModaleGallery);
       createModaleAddWork(works);
       generateCategoryOption (categories, "select-category");
-      
     }
   });
+
 // Création et Affichage de la Modale en cliquant sur le bouton Modifier
   selectDivModif.addEventListener("click", async function() {
     selectIdModale.setAttribute("class", "visible");
@@ -508,7 +483,7 @@ function removeWork(identifiant) {
     if (response.ok) {
       const element = document.getElementById(`${identifiant}`);
       element.remove();
-    localStorage.removeItem("storeWorks"); 
+      localStorage.removeItem("storeWorks");
     } else {
       alert("Erreur : " + response.status);
     }
@@ -516,26 +491,24 @@ function removeWork(identifiant) {
 }
 
 let getInputImage;
-window.addEventListener("input", function(event) {
-  if (event.target.id === "image-file") {
-    getInputImage = document.getElementById("image-file");
-    const theGetInputImage = getInputImage.files[0];
-    console.log(theGetInputImage);
-    const inputImageUrl = theGetInputImage.name;
-    const theImagePreviewImg = document.getElementById("imagepreview");
-    theImagePreviewImg.setAttribute("src", `assets/images/${inputImageUrl}`);
-    const theFilePreviewDiv = document.getElementById("file-preview");
-    theFilePreviewDiv.setAttribute("class", "file-preview invisible");
-    const theImagePreviewDiv = document.getElementById("image-preview");
-    theImagePreviewDiv.setAttribute("class", "image-preview visible");
-   } 
- });
+  window.addEventListener("input", function(event) {
+    if (event.target.id === "image-file") {
+      getInputImage = document.getElementById("image-file");
+      const theGetInputImage = getInputImage.files[0];
+      const inputImageUrl = theGetInputImage.name;
+      const theImagePreviewImg = document.getElementById("imagepreview");
+      theImagePreviewImg.setAttribute("src", `assets/images/${inputImageUrl}`);
+      const theFilePreviewDiv = document.getElementById("file-preview");
+      theFilePreviewDiv.setAttribute("class", "file-preview invisible");
+      const theImagePreviewDiv = document.getElementById("image-preview");
+      theImagePreviewDiv.setAttribute("class", "image-preview visible");
+    } 
+  });
 
-
- let getInputTitle;
- window.addEventListener("input", function(event) {
+  let getInputTitle;
+  window.addEventListener("input", function(event) {
    if (event.target.id === "image-title") {
-    getInputTitle = document.getElementById("image-title");
+      getInputTitle = document.getElementById("image-title");
     } 
   });
 
@@ -543,27 +516,20 @@ window.addEventListener("input", function(event) {
   window.addEventListener("change", function(event) {
     if (event.target.id === "select-category") {
       getInputCategory = document.getElementById("select-category");
-     } 
+    } 
   });
 
-
-
-
-
-/*         if (!getInputImage || !getInputTitle || !getInputCategory) {
-          alert("Veuillez sélectionner une image, un titre et une catégorie.");
-      } else {
-        document.getElementById("to-submit").style.color = "red";
-        //toSubmitButton.setAttribute("class", "tosubmit towork");
-      }
-
+  window.addEventListener("mouseover", async function(event) {
+    if (event.target.className === "topreview") {
+      if ((getInputImage) && (getInputTitle) && (getInputCategory)) {
+        const toSubmitPreview = document.getElementById("to-submit");
+        toSubmitPreview.setAttribute("class", "towork"); 
         const formData = new FormData();
         formData.append("image", getInputImage.files[0]);
         formData.append("title", getInputTitle.value);
         formData.append("category", getInputCategory.value);
-  
         window.addEventListener("click", async function(event) {
-          if (event.target.className === "tosubmit") {
+          if (event.target.className === "towork") {
             try {
               const response = await fetch( urlApiWorks, {
                 method: "POST",
@@ -572,68 +538,29 @@ window.addEventListener("input", function(event) {
                 authorization: `Bearer ${loginSession}`,
                 },
               });
-            if (response.ok) {
-              alert("Image envoyée avec succès !");
-              localStorage.removeItem("storeCategories");
-              localStorage.removeItem("storeWorks");
-              clearFormData()
-            } else {
-              alert("Erreur lors de l'envoi de l'image.");
-            }
+              if (response.ok) {
+                alert("Image envoyée avec succès !");
+                clearFormData();
+                formData.set("image", "");
+                formData.set("title", "");
+                formData.set("category", "");
+                getInputImage.files[0].value = [];
+                getInputTitle.value = "";
+                getInputCategory.value = "";
+                worksLocalStorage ();
+              } else {
+                alert("Erreur lors de l'envoi de l'image.");
+              }
             } catch (error) {
               console.error(error);
               alert("Erreur lors de l'envoi de l'image.");
             }
           }
-        }); */
-
-/////////////////////////////////////////////////
-
-
-window.addEventListener("mouseover", async function(event) {
-  if (event.target.className === "tosubmit preview") {
-
-    if (!getInputImage || !getInputTitle || !getInputCategory) {
-      alert("Veuillez sélectionner une image, un titre et une catégorie.");
-      return;
-    } else {
-      const toSubmit = document.getElementById("to-submit");
-      toSubmit.setAttribute("class", "tosubmit work");
-    }
-  
-
-  const formData = new FormData();
-  formData.append("image", getInputImage.files[0]);
-  formData.append("title", getInputTitle.value);
-  formData.append("category", getInputCategory.value);
-
-  window.addEventListener("click", async function(event) {
-    if (event.target.className == "tosubmit work") {
-      try {
-        const response = await fetch( urlApiWorks, {
-          method: "POST",
-          body: formData,
-          headers: {
-          authorization: `Bearer ${loginSession}`,
-          },
         });
-      if (response.ok) {
-        alert("Image envoyée avec succès !");
-        //localStorage.removeItem("storeCategories");
-        //localStorage.removeItem("storeWorks");
-        clearFormData()
-      } else {
-        alert("Erreur lors de l'envoi de l'image.");
-      }
-      } catch (error) {
-        console.error(error);
-        alert("Erreur lors de l'envoi de l'image.");
-      }
+      } 
     }
   });
-}
-});
-    } else {
+} else {
   showCategories();
   showWorks();
   selectDivModif.setAttribute("class", "modification-invisible");

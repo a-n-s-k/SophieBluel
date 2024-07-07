@@ -542,7 +542,6 @@ input[type="email"] {
     border-radius: 18px;
 }
 
-
 .image-preview input {
 	width: 173px;
 	height: 36px;
@@ -557,7 +556,7 @@ input[type="email"] {
     font-size: 10px;
 	color: #444444;
 }
-.tosubmit {
+#to-submit {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -567,12 +566,12 @@ input[type="email"] {
     font-weight: bold;
     padding: 19px;
 }
-.preview {
+.topreview {
 	color: white;
     background-color: #A7A7A7;
     border-radius: 60px;
 }
-.work {
+.towork {
 	color: white;
     background-color: #1D6154;
     border-radius: 60px;
