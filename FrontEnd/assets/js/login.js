@@ -1,74 +1,64 @@
+/* DEBUT - Création formulaire de connexion à l"administration du site */
+const selectSectionLogin = document.getElementById("login");
+async function loginElements() {
+	const formElement = document.createElement("form");
+	formElement.setAttribute("id", "id-login");
+	formElement.setAttribute("method", "post");
 
-/* DEBUT - Création formulaire de connexion à l'administration du site */
-function createLoginForm() {
-	// Création des Eléments HTML pour la connexion
-	  const loginElement = document.getElementById('login');
-	  const formElement = document.createElement("form");
-	
-	  const labelEmailElement = document.createElement("label");
-	  const labelPasswordElement = document.createElement("label");
-	
-	  const inputEmailElement = document.createElement("input");
-	  const inputPasswordElement = document.createElement("input");
-	
-	  const buttonElement = document.createElement("button");
+	const labelEmailElement = document.createElement("label");
+	labelEmailElement.setAttribute("for", "id-email");
+	labelEmailElement.setAttribute("value", "E-mail");
+	labelEmailElement.textContent = "E-mail";
 
-	  formElement.setAttribute('id', 'id-login');
-	  formElement.setAttribute('method', 'post');
+	const inputEmailElement = document.createElement("input");
+	inputEmailElement.setAttribute("type", "email");
+	inputEmailElement.setAttribute("name", "name-email");
+	inputEmailElement.setAttribute("id", "id-email");
+
+	const labelPasswordElement = document.createElement("label");
+	labelPasswordElement.setAttribute("value", "Mot de passe");
+	labelPasswordElement.textContent = "Mot de passe";
+	labelPasswordElement.setAttribute("for", "id-password");
+
+	const inputPasswordElement = document.createElement("input");
+	inputPasswordElement.setAttribute("type", "password");
+	inputPasswordElement.setAttribute("name", "name-password");
+	inputPasswordElement.setAttribute("id", "id-password");
+	  
+	const buttonElement = document.createElement("button");
+	buttonElement.setAttribute("type", "submit");
+	buttonElement.setAttribute("id", "id-connexion");
+	buttonElement.setAttribute("value", "connexion");
 	
-	  labelEmailElement.setAttribute('for', 'id-email');
-	  inputEmailElement.setAttribute('type', 'email');
-	  inputEmailElement.setAttribute('name', 'name-email');
-	  inputEmailElement.setAttribute('id', 'id-email');
-	 
-	  labelPasswordElement.setAttribute('for', 'id-password');
-	  inputPasswordElement.setAttribute('type', 'password');
-	  inputPasswordElement.setAttribute('name', 'name-password');
-	  inputPasswordElement.setAttribute('id', 'id-password');
-	
-	  buttonElement.setAttribute('type', 'submit');
-	  buttonElement.setAttribute('id', 'id-connexion');
-	  buttonElement.setAttribute('value', 'connexion');
-	
-	  const buttonElementContent = document.createTextNode("Se connecter");
-	  buttonElement.appendChild(buttonElementContent);
-	
-	  formElement.append(
+	const buttonElementContent = document.createTextNode("Se connecter");
+	buttonElement.appendChild(buttonElementContent);
+
+	const motDePasseOublie = document.createElement("a");
+	motDePasseOublie.setAttribute("href", "#");
+	motDePasseOublie.textContent = "Mot de passe oublié";
+	formElement.append(
 		labelEmailElement,
 		inputEmailElement,
 		labelPasswordElement,
 		inputPasswordElement,
-		buttonElement
-	  );
-	  loginElement.appendChild(formElement);
-    return loginElement;
-	}
-	createLoginForm()
-/* FIN - Création formulaire de connexion à l'administration du site */
+		buttonElement,
+		motDePasseOublie
+	);
+	selectSectionLogin.appendChild(formElement);
+}
+loginElements();
+/* FIN - Création formulaire de connexion à l"administration du site */
 
-
-/* DEBUT - Recupération des boutons de Connexion et de Déconnexion */
-const boutonDeConnexion = document.getElementById('connexion');
-/* FIN - Recupération des boutons de Connexion et de Déconnexion */
-
-
-/* DEBUT - Action sur bouton de connexion */
-const formulaireConnexion = document.getElementById('id-login');
-const boutonDeconnexion = document.getElementById('boutonDeconnexion');
-const messageErreur = document.getElementById('messageErreur');
-
-
-formulaireConnexion.addEventListener('submit', function(event) {
+const selectButtonConnexion = document.getElementById("id-login");
+selectButtonConnexion.addEventListener("submit", function(event) {
     event.preventDefault();
-
     const loginEmail = document.getElementById("id-email").value;
     const loginPassword = document.getElementById("id-password").value;
-
-    // Envoyez les informations d'identification à l'API distante
-    fetch('http://localhost:5678/api/users/login', {
+    // Envoyez les informations d"identification à l"API distante
+    fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: {
-            'Accept': 'application/json',
+            "Accept": "application/json",
             "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify({
@@ -78,47 +68,14 @@ formulaireConnexion.addEventListener('submit', function(event) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === 'error') {
-            messageErreur.textContent = data.message;
+        if (data.userId === 1) {
+			 // Connexion réussie, enregistrez le token de session
+			 const loginSessionToken = data.token;
+			 sessionStorage.setItem("tokenKey", loginSessionToken);
+			 // Redirigez vers la page d"accueil ou autre
+			 window.location.href = "index.html";			
         } else {
-            // Connexion réussie, enregistrez le token de session
-            const loginSessionToken = data.token;
-			sessionStorage.setItem('tokenKey', loginSessionToken);
-            // Redirigez vers la page d'accueil ou autre
-            window.location.href = 'index.html';
+		   alert("Votre email ou mot de passe est incorrect.");			
         }
-    })
-    .catch(error => {
-        console.error('Erreur lors de la connexion:', error);
-        messageErreur.textContent = 'Une erreur est survenue. Veuillez réessayer.';
-    });
+    }); 
 });
-	boutonDeconnexion.addEventListener('click', function() {
-		// Déconnectez-vous en détruisant le jeton de session
-		sessionStorage.removeItem(tokenKey);
-		// Redirigez vers la page de connexion ou autre
-		window.location.href = 'index.html';
-	});
-
-/* FIN - Action sur bouton de déconnexion */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
