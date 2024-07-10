@@ -47,6 +47,9 @@ const urlApiCategories = "http://localhost:5678/api/categories";
 let works = localStorage.getItem("storeWorks");
 
 async function worksLocalStorage () {
+  if (localStorage.getItem("storeWorks")) {
+      localStorage.removeItem("storeWorks");
+   }
   // Récupération des works depuis l'API s'il n'y rien dans le localStorage
     // Appel à l'API et récupération de la réponse pour works
     const reponse = await fetch(urlApiWorks);
@@ -199,17 +202,15 @@ async function visibilityElement(identifiantElement) {
 }
 // POUR REMETTRE A ZERO LE FORMULAIRE
 async function clearFormData() {
+  document.getElementById("work-form").reset();
   const idImagePreview = document.getElementById("image-preview");
   idImagePreview.setAttribute("class", "image-preview invisible");
   const idFilePreview = document.getElementById("file-preview");
   idFilePreview.setAttribute("class", "file-preview visible");
-  const submiButton = document.querySelector(".towork");
+  const submiButton = document.getElementById("to-submit")
   submiButton.setAttribute("class", "topreview");
 }
 
-function clearInput() {
-  document.getElementById("work-form").reset();
-}
 
 if (loginSession) {
 // AFFICHAGE CATEGORIES EDITION ET MODIFICATION
@@ -435,7 +436,6 @@ async function generateCategoryOption (categories, selectcategories) {
 window.addEventListener("click", function(event) {
   if (event.target.id === "previous-to-gallery") {
     visibilityRemoveElementChilds(selectIdModaleForm);
-    localStorage.removeItem("storeWorks");
     worksLocalStorage ();
     selectIdModaleGallery.setAttribute("class", "visible");
     createModale (works);
@@ -483,7 +483,7 @@ function removeWork(identifiant) {
     if (response.ok) {
       const element = document.getElementById(`${identifiant}`);
       element.remove();
-      localStorage.removeItem("storeWorks");
+      worksLocalStorage ();
     } else {
       alert("Erreur : " + response.status);
     }
@@ -519,47 +519,44 @@ let getInputImage;
     } 
   });
 
-  window.addEventListener("mouseover", async function(event) {
+window.addEventListener("mouseover", async function(event) {
+  event.preventDefault();
+  if ((getInputImage) && (getInputTitle) && (getInputCategory)) {
     if (event.target.className === "topreview") {
-      if ((getInputImage) && (getInputTitle) && (getInputCategory)) {
-        const toSubmitPreview = document.getElementById("to-submit");
-        toSubmitPreview.setAttribute("class", "towork"); 
-        const formData = new FormData();
-        formData.append("image", getInputImage.files[0]);
-        formData.append("title", getInputTitle.value);
-        formData.append("category", getInputCategory.value);
-        window.addEventListener("click", async function(event) {
-          if (event.target.className === "towork") {
-            try {
-              const response = await fetch( urlApiWorks, {
-                method: "POST",
-                body: formData,
-                headers: {
-                authorization: `Bearer ${loginSession}`,
-                },
-              });
-              if (response.ok) {
-                alert("Image envoyée avec succès !");
-                clearFormData();
-                formData.set("image", "");
-                formData.set("title", "");
-                formData.set("category", "");
-                getInputImage.files[0].value = [];
-                getInputTitle.value = "";
-                getInputCategory.value = "";
-                worksLocalStorage ();
-              } else {
-                alert("Erreur lors de l'envoi de l'image.");
-              }
-            } catch (error) {
-              console.error(error);
-              alert("Erreur lors de l'envoi de l'image.");
-            }
-          }
-        });
-      } 
+      document.querySelector(".topreview").setAttribute("class", "towork");
     }
-  });
+  }
+});
+
+window.addEventListener("click", async function(e) {
+  if (e.target.className === "towork") {
+    try {
+      const formData = new FormData();
+      formData.append("image", getInputImage.files[0]);
+      formData.append("title", getInputTitle.value);
+      formData.append("category", getInputCategory.value);
+
+      const response = await fetch( urlApiWorks, {
+        method: "POST",
+        body: formData,
+          headers: {
+            authorization: `Bearer ${loginSession}`,
+          },
+        });
+        if (response.ok) {
+          worksLocalStorage ();
+          clearFormData();
+          formData.set("image", "");
+          formData.set("title", "");
+          formData.set("category", "");
+            alert("Image envoyée avec succès !");
+        }
+      } catch (error) {
+          console.error(error);
+            alert("Erreur lors de l'envoi de l'image.");
+          }
+      }
+ });
 } else {
   showCategories();
   showWorks();
